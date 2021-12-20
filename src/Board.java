@@ -13,10 +13,11 @@ public class Board {
 
     public static LinkedList<Piece> pieces = new LinkedList<>();
     public static Piece selectedPiece = null;
+    public static boolean whiteTurn = true;
 
     public static void main(String[] args) throws IOException {
         BufferedImage all = ImageIO.read(new File("D:\\chess.png"));
-        Image images[] = new Image[12];
+        Image[] images = new Image[12];
         int index = 0;
         for (int y = 0; y < 2; y++) {
             for (int x = 0; x < 6; x++) {
@@ -131,6 +132,7 @@ public class Board {
             public void mouseReleased(MouseEvent e) {
                 selectedPiece.move(e.getX() / 64 * 10 + e.getY() / 64);
                 frame.repaint();
+// change only if moving was successful                changeTurn();
             }
 
             @Override
@@ -156,5 +158,14 @@ public class Board {
                 return piece;
         }
         return null;
+    }
+
+    public static void changeTurn() {
+        if (!isCheckmate())
+            whiteTurn = !whiteTurn;
+    }
+
+    public static boolean isCheckmate() {
+        return false;
     }
 }
