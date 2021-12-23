@@ -8,25 +8,11 @@ public class Bishop extends Piece {
 
     @Override
     public void move(int coordinate) {
-        if ((coordinate - this.coordinate % 9 == 0 || coordinate - this.coordinate % 11 == 0) && // TODO: only allow movement if there are no pieces inbetween)
+        if ((coordinate - this.coordinate % 9 == 0 || coordinate - this.coordinate % 11 == 0) && ) { // TODO: only allow movement if there are no pieces inbetween)
             if (Board.getPiece(coordinate / 10 * 64, coordinate % 10 * 64) != null) {
                 if (Board.getPiece(coordinate / 10 * 64, coordinate % 10 * 64).isWhite != isWhite)
                     Board.getPiece(coordinate / 10 * 64, coordinate % 10 * 64).capture();
+            }
         }
     }
-
-//    public void move (int coordinate) {
-//        if (Board.getPiece(coordinate / 10 * 64, coordinate % 10 * 64) != null) {
-//            if (Board.getPiece(coordinate / 10 * 64, coordinate % 10 * 64).isWhite != isWhite)
-//                Board.getPiece(coordinate / 10 * 64, coordinate % 10 * 64).capture();
-//            else {
-//                xPixel = this.coordinate / 10 * 64;
-//                yPixel = this.coordinate % 10 * 64;
-//                return;
-//            }
-//        }
-//        this.coordinate = coordinate;
-//        xPixel = coordinate / 10 * 64;
-//        yPixel = coordinate % 10 * 64;
-//    }
 }
