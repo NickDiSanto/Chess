@@ -2,20 +2,42 @@ import java.util.LinkedList;
 
 public class Pawn extends Piece {
 
-    public Pawn(int coordinate, boolean isWhite, char pieceType, LinkedList<Piece> pieces) {
-        super(coordinate, isWhite, pieceType, pieces);
+    public Pawn(int coordinate, boolean isWhite, boolean hasMoved, char pieceType, LinkedList<Piece> pieces) {
+        super(coordinate, isWhite, hasMoved, pieceType, pieces);
     }
 
     @Override
     public void move(int coordinate) {
-        if (coordinate - this.coordinate == 1 || (coordinate - this.coordinate == 2 && this.hasntMoved())) { // TODO: only allow movement if there are no pieces inbetween)
-            if (Board.getPiece(coordinate / 10 * 64, coordinate % 10 * 64) == null) {
-                this.coordinate = coordinate;
-                xPixel = coordinate / 10 * 64;
-                yPixel = coordinate % 10 * 64;
-            }
+        int movementDirection = 1;
+        if (isWhite)
+            movementDirection = -1;
+
+        if ((coordinate - this.coordinate == movementDirection &&
+                Board.getPiece(coordinate / 10 * 64, coordinate % 10 * 64) == null) ||
+                (coordinate - this.coordinate == (2 * movementDirection) && !this.hasMoved && !this.piecesBetween() &&
+                Board.getPiece(coordinate / 10 * 64, coordinate % 10 * 64) == null)) {
+            this.coordinate = coordinate;
+            moveSuccessful();
         }
-        else if (coordinate - this.coordinate == 11 || coordinate - this.coordinate == 9)
+        else if ((coordinate - this.coordinate == (11 * movementDirection) || coordinate - this.coordinate ==
+                (-9 * movementDirection)) && Board.getPiece(coordinate / 10 * 64, coordinate % 10 * 64) != null
+                && Board.getPiece(coordinate / 10 * 64, coordinate % 10 * 64).isWhite != isWhite) {
             Board.getPiece(coordinate / 10 * 64, coordinate % 10 * 64).capture();
+            this.coordinate = coordinate;
+            moveSuccessful();
+        }
+        else
+            moveFailed();
+    }
+
+    private void enPassant() {
+        // TODO: Capture En Passant
+        //  - PRIORITY: LOW
+    }
+
+    private boolean piecesBetween() {
+        if (isWhite)
+            return Board.getPiece((this.coordinate) / 10 * 64, (this.coordinate - 1) % 10 * 64) != null;
+        return Board.getPiece((this.coordinate) / 10 * 64, (this.coordinate + 1) % 10 * 64) != null;
     }
 }

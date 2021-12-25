@@ -5,14 +5,16 @@ public class Piece {
     int yPixel;
     int coordinate;
     boolean isWhite;
+    boolean hasMoved;
     LinkedList<Piece> pieces;
     char pieceType;
 
-    public Piece(int coordinate, boolean isWhite, char pieceType, LinkedList<Piece> pieces) {
+    public Piece(int coordinate, boolean isWhite, boolean hasMoved, char pieceType, LinkedList<Piece> pieces) {
         this.coordinate = coordinate;
         xPixel = coordinate / 10 * 64;
         yPixel = coordinate % 10 * 64;
         this.isWhite = isWhite;
+        this.hasMoved = hasMoved;
         this.pieceType = pieceType;
         this.pieces = pieces;
         pieces.add(this);
@@ -23,17 +25,26 @@ public class Piece {
             if (Board.getPiece(coordinate / 10 * 64, coordinate % 10 * 64).isWhite != isWhite)
                 Board.getPiece(coordinate / 10 * 64, coordinate % 10 * 64).capture();
             else {
-                xPixel = this.coordinate / 10 * 64;
-                yPixel = this.coordinate % 10 * 64;
+                moveFailed();
                 return;
             }
         }
         this.coordinate = coordinate;
-        xPixel = coordinate / 10 * 64;
-        yPixel = coordinate % 10 * 64;
+        moveSuccessful();
     }
 
     public void capture() {
         pieces.remove(this);
+    }
+
+    public void moveSuccessful() {
+        xPixel = coordinate / 10 * 64;
+        yPixel = coordinate % 10 * 64;
+        hasMoved = true;
+    }
+
+    public void moveFailed() {
+        xPixel = this.coordinate / 10 * 64;
+        yPixel = this.coordinate % 10 * 64;
     }
 }

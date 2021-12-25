@@ -27,39 +27,39 @@ public class Board {
             }
         }
 
-        Piece blackRook1 = new Piece(0, false, 'R', pieces);
-        Piece blackKnight1 = new Knight(10, false, 'N', pieces);
-        Piece blackBishop1 = new Piece(20, false, 'B', pieces);
-        Piece blackQueen = new Piece(30, false, 'Q', pieces);
-        Piece blackKing = new King(40, false, 'K', pieces);
-        Piece blackBishop2 = new Piece(50, false, 'B', pieces);
-        Piece blackKnight2 = new Knight(60, false, 'N', pieces);
-        Piece blackRook2 = new Piece(70, false, 'R', pieces);
-        Piece blackPawn1 = new Piece(1, false, 'P', pieces);
-        Piece blackPawn2 = new Piece(11, false, 'P', pieces);
-        Piece blackPawn3 = new Piece(21, false, 'P', pieces);
-        Piece blackPawn4 = new Piece(31, false, 'P', pieces);
-        Piece blackPawn5 = new Piece(41, false, 'P', pieces);
-        Piece blackPawn6 = new Piece(51, false, 'P', pieces);
-        Piece blackPawn7 = new Piece(61, false, 'P', pieces);
-        Piece blackPawn8 = new Piece(71, false, 'P', pieces);
+        Piece blackRook1 = new Piece(0, false, false, 'R', pieces);
+        Piece blackKnight1 = new Knight(10, false, false, 'N', pieces);
+        Piece blackBishop1 = new Piece(20, false, false, 'B', pieces);
+        Piece blackQueen = new Piece(30, false, false, 'Q', pieces);
+        Piece blackKing = new King(40, false, false, 'K', pieces);
+        Piece blackBishop2 = new Piece(50, false, false, 'B', pieces);
+        Piece blackKnight2 = new Knight(60, false, false, 'N', pieces);
+        Piece blackRook2 = new Piece(70, false, false, 'R', pieces);
+        Piece blackPawn1 = new Pawn(1, false, false, 'P', pieces);
+        Piece blackPawn2 = new Pawn(11, false, false, 'P', pieces);
+        Piece blackPawn3 = new Pawn(21, false, false, 'P', pieces);
+        Piece blackPawn4 = new Pawn(31, false, false, 'P', pieces);
+        Piece blackPawn5 = new Pawn(41, false, false, 'P', pieces);
+        Piece blackPawn6 = new Pawn(51, false, false, 'P', pieces);
+        Piece blackPawn7 = new Pawn(61, false, false, 'P', pieces);
+        Piece blackPawn8 = new Pawn(71, false, false, 'P', pieces);
 
-        Piece whiteRook1 = new Piece(7, true, 'R', pieces);
-        Piece whiteKnight1 = new Knight(17, true, 'N', pieces);
-        Piece whiteBishop1 = new Piece(27, true, 'B', pieces);
-        Piece whiteQueen = new Piece(37, true, 'Q', pieces);
-        Piece whiteKing = new King(47, true, 'K', pieces);
-        Piece whiteBishop2 = new Piece(57, true, 'B', pieces);
-        Piece whiteKnight2 = new Knight(67, true, 'N', pieces);
-        Piece whiteRook2 = new Piece(77, true, 'R', pieces);
-        Piece whitePawn1 = new Piece(6, true, 'P', pieces);
-        Piece whitePawn2 = new Piece(16, true, 'P', pieces);
-        Piece whitePawn3 = new Piece(26, true, 'P', pieces);
-        Piece whitePawn4 = new Piece(36, true, 'P', pieces);
-        Piece whitePawn5 = new Piece(46, true, 'P', pieces);
-        Piece whitePawn6 = new Piece(56, true, 'P', pieces);
-        Piece whitePawn7 = new Piece(66, true, 'P', pieces);
-        Piece whitePawn8 = new Piece(76, true, 'P', pieces);
+        Piece whiteRook1 = new Piece(7, true, false, 'R', pieces);
+        Piece whiteKnight1 = new Knight(17, true, false, 'N', pieces);
+        Piece whiteBishop1 = new Piece(27, true, false, 'B', pieces);
+        Piece whiteQueen = new Piece(37, true, false, 'Q', pieces);
+        Piece whiteKing = new King(47, true, false, 'K', pieces);
+        Piece whiteBishop2 = new Piece(57, true, false, 'B', pieces);
+        Piece whiteKnight2 = new Knight(67, true, false, 'N', pieces);
+        Piece whiteRook2 = new Piece(77, true, false, 'R', pieces);
+        Piece whitePawn1 = new Pawn(6, true, false, 'P', pieces);
+        Piece whitePawn2 = new Pawn(16, true, false, 'P', pieces);
+        Piece whitePawn3 = new Pawn(26, true, false, 'P', pieces);
+        Piece whitePawn4 = new Pawn(36, true, false, 'P', pieces);
+        Piece whitePawn5 = new Pawn(46, true, false, 'P', pieces);
+        Piece whitePawn6 = new Pawn(56, true, false, 'P', pieces);
+        Piece whitePawn7 = new Pawn(66, true, false, 'P', pieces);
+        Piece whitePawn8 = new Pawn(76, true, false, 'P', pieces);
 
 
         JFrame frame = new JFrame();
@@ -73,7 +73,7 @@ public class Board {
                 for (int y = 0; y < 8; y++) {
                     for (int x = 0; x < 8; x++) {
                         if (isWhite) {
-                            g.setColor(new Color(235, 235, 190));
+                            g.setColor(new Color(240, 225, 190));
                         } else {
                             g.setColor(new Color(180, 140, 100));
                         }
@@ -134,6 +134,7 @@ public class Board {
                 // TODO: Change turn after selectedPiece coordinate has changed
                 //  if (selectedPiece.coordinate != selectedPiece.PREVIOUS_COORDINATE)
                 //     changeTurn();
+                //  Have moveSuccessful indicate when a turn took place
                 //  - PRIORITY: HIGH
 
             }
@@ -168,17 +169,6 @@ public class Board {
 
     public static boolean canCastle() {
         // TODO: Implement canCastle
-        //  - PRIORITY: MEDIUM
-        return false;
-    }
-
-    public static void captureEnPassant() {
-        // TODO: Implement captureEnPassant
-        //  - PRIORITY: LOW
-    }
-
-    public static boolean hasMoved(Piece piece) {
-        // TODO: Implement hasMoved
         //  - PRIORITY: MEDIUM
         return false;
     }
