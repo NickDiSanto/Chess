@@ -64,28 +64,66 @@ public class Bishop extends Piece {
         this.coordinate = coordinate;
         moveSuccessful();
         this.squaresAttacked = squaresAttacking();
+
+
+        System.out.println(this.squaresAttacked);
     }
 
     @Override
     public LinkedList<Integer> squaresAttacking() {
         LinkedList<Integer> squares = new LinkedList<>();
-        squares.add(this.coordinate + 8);
-        squares.add(this.coordinate + 12);
-        squares.add(this.coordinate + 19);
-        squares.add(this.coordinate + 21);
-        squares.add(this.coordinate - 8);
-        squares.add(this.coordinate - 12);
-        squares.add(this.coordinate - 19);
-        squares.add(this.coordinate - 21);
 
-        // TODO: THIS
+        int offset;
+        if (this.coordinate / 10 > this.coordinate % 10)
+            offset = this.coordinate / 10;
+        else
+            offset = this.coordinate % 10;
 
-        for (int i = squares.size() - 1; i >= 0; i--) {
-            if (Board.getPiece(squares.get(i) / 10 * 64, squares.get(i) % 10 * 64) != null)
-                if (Board.getPiece(squares.get(i) / 10 * 64, squares.get(i) % 10 * 64).isWhite == isWhite)
-                    squares.remove(i);
+
+        for (int i = 1; i < 8 - offset / 11; i++) {
+            if (Board.getPiece((this.coordinate + 10 * i) / 10 * 64, (this.coordinate + i) % 10 * 64) == null)
+                squares.add(this.coordinate + 11 * i);
+            else {
+                if (Board.getPiece((this.coordinate + 10 * i) / 10 * 64, (this.coordinate + i) % 10 * 64).isWhite != isWhite)
+                    squares.add(this.coordinate + 11 * i);
+                break;
+            }
+        }
+        for (int i = 1; i < 8 - offset / 11; i++) {
+            if (Board.getPiece((this.coordinate - 10 * i) / 10 * 64, (this.coordinate + i) % 10 * 64) == null)
+                squares.add(this.coordinate - 9 * i);
+            else {
+                if (Board.getPiece((this.coordinate - 10 * i) / 10 * 64, (this.coordinate + i) % 10 * 64).isWhite != isWhite)
+                    squares.add(this.coordinate - 9 * i);
+                break;
+            }
+        }
+
+        if (this.coordinate / 10 < this.coordinate % 10)
+            offset = this.coordinate / 10;
+        else
+            offset = this.coordinate % 10;
+
+        for (int i = 1; i <= offset / 11; i++) {
+            if (Board.getPiece((this.coordinate - 10 * i) / 10 * 64, (this.coordinate - i) % 10 * 64) == null)
+                squares.add(this.coordinate - 11 * i);
+            else {
+                if (Board.getPiece((this.coordinate - 10 * i) / 10 * 64, (this.coordinate - i) % 10 * 64).isWhite != isWhite)
+                    squares.add(this.coordinate - 11 * i);
+                break;
+            }
+        }
+        for (int i = 1; i <= offset / 11; i++) {
+            if (Board.getPiece((this.coordinate + 10 * i) / 10 * 64, (this.coordinate - i) % 10 * 64) == null)
+                squares.add(this.coordinate + 9 * i);
+            else {
+                if (Board.getPiece((this.coordinate + 10 * i) / 10 * 64, (this.coordinate - i) % 10 * 64).isWhite != isWhite)
+                    squares.add(this.coordinate + 9 * i);
+                break;
+            }
         }
 
         return squares;
     }
+
 }

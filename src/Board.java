@@ -31,7 +31,7 @@ public class Board {
         Piece blackRook1 = new Rook(0, false, false, 'R', squaresAttacked, pieces);
         Piece blackKnight1 = new Knight(10, false, false, 'N', squaresAttacked, pieces);
         Piece blackBishop1 = new Bishop(20, false, false, 'B', squaresAttacked, pieces);
-        Piece blackQueen = new Piece(30, false, false, 'Q', squaresAttacked, pieces);
+        Piece blackQueen = new Queen(30, false, false, 'Q', squaresAttacked, pieces);
         Piece blackKing = new King(40, false, false, 'K', squaresAttacked, pieces);
         Piece blackBishop2 = new Bishop(50, false, false, 'B', squaresAttacked, pieces);
         Piece blackKnight2 = new Knight(60, false, false, 'N', squaresAttacked, pieces);
@@ -48,7 +48,7 @@ public class Board {
         Piece whiteRook1 = new Rook(7, true, false, 'R', squaresAttacked, pieces);
         Piece whiteKnight1 = new Knight(17, true, false, 'N', squaresAttacked, pieces);
         Piece whiteBishop1 = new Bishop(27, true, false, 'B', squaresAttacked, pieces);
-        Piece whiteQueen = new Piece(37, true, false, 'Q', squaresAttacked, pieces);
+        Piece whiteQueen = new Queen(37, true, false, 'Q', squaresAttacked, pieces);
         Piece whiteKing = new King(47, true, false, 'K', squaresAttacked, pieces);
         Piece whiteBishop2 = new Bishop(57, true, false, 'B', squaresAttacked, pieces);
         Piece whiteKnight2 = new Knight(67, true, false, 'N', squaresAttacked, pieces);
@@ -126,11 +126,13 @@ public class Board {
             }
 
             @Override
-            public void mouseReleased(MouseEvent e) {
-                selectedPiece.move(e.getX() / 64 * 10 + e.getY() / 64);
-                frame.repaint();
-                // FIXME: Don't let piece be dragged off the screen
-                //  - PRIORITY: MEDIUM
+            public void mouseReleased(MouseEvent e) throws IllegalArgumentException {
+                if (selectedPiece == null)
+                    throw new IllegalArgumentException("No piece selected");
+                else {
+                    selectedPiece.move(e.getX() / 64 * 10 + e.getY() / 64);
+                    frame.repaint();
+                }
 
                 // TODO: Change turn after selectedPiece coordinate has changed
                 //  if (selectedPiece.coordinate != selectedPiece.PREVIOUS_COORDINATE)
