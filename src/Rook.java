@@ -78,6 +78,8 @@ public class Rook extends Piece {
         squares.add(this.coordinate - 19);
         squares.add(this.coordinate - 21);
 
+        // TODO: THIS
+
         for (int i = squares.size() - 1; i >= 0; i--) {
             if (Board.getPiece(squares.get(i) / 10 * 64, squares.get(i) % 10 * 64) != null)
                 if (Board.getPiece(squares.get(i) / 10 * 64, squares.get(i) % 10 * 64).isWhite == isWhite)
