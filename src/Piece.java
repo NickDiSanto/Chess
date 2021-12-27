@@ -6,16 +6,19 @@ public class Piece {
     int coordinate;
     boolean isWhite;
     boolean hasMoved;
-    LinkedList<Piece> pieces;
     char pieceType;
+    LinkedList<Integer> squaresAttacked;
+    LinkedList<Piece> pieces;
 
-    public Piece(int coordinate, boolean isWhite, boolean hasMoved, char pieceType, LinkedList<Piece> pieces) {
+    public Piece(int coordinate, boolean isWhite, boolean hasMoved, char pieceType,
+                 LinkedList<Integer> squaresAttacked, LinkedList<Piece> pieces) {
         this.coordinate = coordinate;
         xPixel = coordinate / 10 * 64;
         yPixel = coordinate % 10 * 64;
         this.isWhite = isWhite;
         this.hasMoved = hasMoved;
         this.pieceType = pieceType;
+        this.squaresAttacked = squaresAttacked;
         this.pieces = pieces;
         pieces.add(this);
     }
@@ -35,6 +38,10 @@ public class Piece {
 
     public void capture() {
         pieces.remove(this);
+    }
+
+    public LinkedList<Integer> squaresAttacking() {
+        return null;
     }
 
     public void moveSuccessful() {

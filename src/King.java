@@ -2,8 +2,9 @@ import java.util.LinkedList;
 
 public class King extends Piece {
 
-    public King(int coordinate, boolean isWhite, boolean hasMoved, char pieceType, LinkedList<Piece> pieces) {
-        super(coordinate, isWhite, hasMoved, pieceType, pieces);
+    public King(int coordinate, boolean isWhite, boolean hasMoved, char pieceType,
+                LinkedList<Integer> squaresAttacked, LinkedList<Piece> pieces) {
+        super(coordinate, isWhite, hasMoved, pieceType, squaresAttacked, pieces);
     }
 
     @Override
@@ -26,5 +27,27 @@ public class King extends Piece {
         }
         this.coordinate = coordinate;
         moveSuccessful();
+        this.squaresAttacked = squaresAttacking();
+    }
+
+    @Override
+    public LinkedList<Integer> squaresAttacking() {
+        LinkedList<Integer> squares = new LinkedList<>();
+        squares.add(this.coordinate + 1);
+        squares.add(this.coordinate + 11);
+        squares.add(this.coordinate + 10);
+        squares.add(this.coordinate + 9);
+        squares.add(this.coordinate - 1);
+        squares.add(this.coordinate - 11);
+        squares.add(this.coordinate - 10);
+        squares.add(this.coordinate - 9);
+
+        for (int i = squares.size() - 1; i >= 0; i--) {
+            if (Board.getPiece(squares.get(i) / 10 * 64, squares.get(i) % 10 * 64) != null)
+                if (Board.getPiece(squares.get(i) / 10 * 64, squares.get(i) % 10 * 64).isWhite == isWhite)
+                    squares.remove(i);
+        }
+
+        return squares;
     }
 }

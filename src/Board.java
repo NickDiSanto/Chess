@@ -12,6 +12,7 @@ import java.util.LinkedList;
 public class Board {
 
     public static LinkedList<Piece> pieces = new LinkedList<>();
+    public static LinkedList<Integer> squaresAttacked = new LinkedList<>();
     public static Piece selectedPiece = null;
     public static boolean whiteTurn = true;
 
@@ -27,39 +28,39 @@ public class Board {
             }
         }
 
-        Piece blackRook1 = new Piece(0, false, false, 'R', pieces);
-        Piece blackKnight1 = new Knight(10, false, false, 'N', pieces);
-        Piece blackBishop1 = new Piece(20, false, false, 'B', pieces);
-        Piece blackQueen = new Piece(30, false, false, 'Q', pieces);
-        Piece blackKing = new King(40, false, false, 'K', pieces);
-        Piece blackBishop2 = new Piece(50, false, false, 'B', pieces);
-        Piece blackKnight2 = new Knight(60, false, false, 'N', pieces);
-        Piece blackRook2 = new Piece(70, false, false, 'R', pieces);
-        Piece blackPawn1 = new Pawn(1, false, false, 'P', pieces);
-        Piece blackPawn2 = new Pawn(11, false, false, 'P', pieces);
-        Piece blackPawn3 = new Pawn(21, false, false, 'P', pieces);
-        Piece blackPawn4 = new Pawn(31, false, false, 'P', pieces);
-        Piece blackPawn5 = new Pawn(41, false, false, 'P', pieces);
-        Piece blackPawn6 = new Pawn(51, false, false, 'P', pieces);
-        Piece blackPawn7 = new Pawn(61, false, false, 'P', pieces);
-        Piece blackPawn8 = new Pawn(71, false, false, 'P', pieces);
+        Piece blackRook1 = new Rook(0, false, false, 'R', squaresAttacked, pieces);
+        Piece blackKnight1 = new Knight(10, false, false, 'N', squaresAttacked, pieces);
+        Piece blackBishop1 = new Piece(20, false, false, 'B', squaresAttacked, pieces);
+        Piece blackQueen = new Piece(30, false, false, 'Q', squaresAttacked, pieces);
+        Piece blackKing = new King(40, false, false, 'K', squaresAttacked, pieces);
+        Piece blackBishop2 = new Piece(50, false, false, 'B', squaresAttacked, pieces);
+        Piece blackKnight2 = new Knight(60, false, false, 'N', squaresAttacked, pieces);
+        Piece blackRook2 = new Rook(70, false, false, 'R', squaresAttacked, pieces);
+        Piece blackPawn1 = new Pawn(1, false, false, 'P', squaresAttacked, pieces);
+        Piece blackPawn2 = new Pawn(11, false, false, 'P', squaresAttacked, pieces);
+        Piece blackPawn3 = new Pawn(21, false, false, 'P', squaresAttacked, pieces);
+        Piece blackPawn4 = new Pawn(31, false, false, 'P', squaresAttacked, pieces);
+        Piece blackPawn5 = new Pawn(41, false, false, 'P', squaresAttacked, pieces);
+        Piece blackPawn6 = new Pawn(51, false, false, 'P', squaresAttacked, pieces);
+        Piece blackPawn7 = new Pawn(61, false, false, 'P', squaresAttacked, pieces);
+        Piece blackPawn8 = new Pawn(71, false, false, 'P', squaresAttacked, pieces);
 
-        Piece whiteRook1 = new Piece(7, true, false, 'R', pieces);
-        Piece whiteKnight1 = new Knight(17, true, false, 'N', pieces);
-        Piece whiteBishop1 = new Piece(27, true, false, 'B', pieces);
-        Piece whiteQueen = new Piece(37, true, false, 'Q', pieces);
-        Piece whiteKing = new King(47, true, false, 'K', pieces);
-        Piece whiteBishop2 = new Piece(57, true, false, 'B', pieces);
-        Piece whiteKnight2 = new Knight(67, true, false, 'N', pieces);
-        Piece whiteRook2 = new Piece(77, true, false, 'R', pieces);
-        Piece whitePawn1 = new Pawn(6, true, false, 'P', pieces);
-        Piece whitePawn2 = new Pawn(16, true, false, 'P', pieces);
-        Piece whitePawn3 = new Pawn(26, true, false, 'P', pieces);
-        Piece whitePawn4 = new Pawn(36, true, false, 'P', pieces);
-        Piece whitePawn5 = new Pawn(46, true, false, 'P', pieces);
-        Piece whitePawn6 = new Pawn(56, true, false, 'P', pieces);
-        Piece whitePawn7 = new Pawn(66, true, false, 'P', pieces);
-        Piece whitePawn8 = new Pawn(76, true, false, 'P', pieces);
+        Piece whiteRook1 = new Rook(7, true, false, 'R', squaresAttacked, pieces);
+        Piece whiteKnight1 = new Knight(17, true, false, 'N', squaresAttacked, pieces);
+        Piece whiteBishop1 = new Piece(27, true, false, 'B', squaresAttacked, pieces);
+        Piece whiteQueen = new Piece(37, true, false, 'Q', squaresAttacked, pieces);
+        Piece whiteKing = new King(47, true, false, 'K', squaresAttacked, pieces);
+        Piece whiteBishop2 = new Piece(57, true, false, 'B', squaresAttacked, pieces);
+        Piece whiteKnight2 = new Knight(67, true, false, 'N', squaresAttacked, pieces);
+        Piece whiteRook2 = new Rook(77, true, false, 'R', squaresAttacked, pieces);
+        Piece whitePawn1 = new Pawn(6, true, false, 'P', squaresAttacked, pieces);
+        Piece whitePawn2 = new Pawn(16, true, false, 'P', squaresAttacked, pieces);
+        Piece whitePawn3 = new Pawn(26, true, false, 'P', squaresAttacked, pieces);
+        Piece whitePawn4 = new Pawn(36, true, false, 'P', squaresAttacked, pieces);
+        Piece whitePawn5 = new Pawn(46, true, false, 'P', squaresAttacked, pieces);
+        Piece whitePawn6 = new Pawn(56, true, false, 'P', squaresAttacked, pieces);
+        Piece whitePawn7 = new Pawn(66, true, false, 'P', squaresAttacked, pieces);
+        Piece whitePawn8 = new Pawn(76, true, false, 'P', squaresAttacked, pieces);
 
 
         JFrame frame = new JFrame();
