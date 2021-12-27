@@ -170,9 +170,25 @@ public class Board {
         return null;
     }
 
-    public static boolean canCastle() {
-        // TODO: Implement canCastle
-        //  - PRIORITY: MEDIUM
+    public static boolean canCastleShort() {
+        // OPTIMIZE: Only cycle through opponent's pieces
+        if (selectedPiece.pieceType == 'K' && !selectedPiece.hasMoved && // TODO: Rook hasnt moved
+                !isCheck() && Board.getPiece((selectedPiece.coordinate + 10) / 10 * 64,
+                (selectedPiece.coordinate + 10) % 10 * 64) == null &&
+                Board.getPiece((selectedPiece.coordinate + 20) / 10 * 64,
+                        (selectedPiece.coordinate + 20) % 10 * 64) == null) {
+            for (int i = 0; i < pieces.size(); i++) {
+                if (pieces.get(i).isWhite != selectedPiece.isWhite) {
+                    if (!pieces.get(i).squaresAttacked.contains(selectedPiece.coordinate + 10) &&
+                            !pieces.get(i).squaresAttacked.contains(selectedPiece.coordinate + 20))
+                        return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public static boolean canCastleLong() {
         return false;
     }
 
@@ -182,8 +198,10 @@ public class Board {
     }
 
     public static boolean isCheck() {
-        // TODO: Implement isCheck
-        //  - PRIORITY: MEDIUM
+        for (int i = 0; i < pieces.size(); i++) {
+            if (pieces.get(i).checksKing())
+                return true;
+        }
         return false;
     }
 
