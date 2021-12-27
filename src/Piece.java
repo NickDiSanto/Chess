@@ -44,6 +44,17 @@ public class Piece {
         return null;
     }
 
+    public boolean checksKing() {
+        for (int i = 0; i < this.squaresAttacked.size(); i++) {
+            if (Board.getPiece(this.squaresAttacked.get(i) / 10 * 64, this.squaresAttacked.get(i) % 10 * 64) != null) {
+                if (Board.getPiece(this.squaresAttacked.get(i) / 10 * 64, this.squaresAttacked.get(i) % 10
+                        * 64).pieceType == 'K')
+                    return true;
+            }
+        }
+        return false;
+    }
+
     public void moveSuccessful() {
         xPixel = coordinate / 10 * 64;
         yPixel = coordinate % 10 * 64;

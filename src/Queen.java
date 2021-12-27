@@ -122,21 +122,88 @@ public class Queen extends Piece {
     @Override
     public LinkedList<Integer> squaresAttacking() {
         LinkedList<Integer> squares = new LinkedList<>();
-        squares.add(this.coordinate + 8);
-        squares.add(this.coordinate + 12);
-        squares.add(this.coordinate + 19);
-        squares.add(this.coordinate + 21);
-        squares.add(this.coordinate - 8);
-        squares.add(this.coordinate - 12);
-        squares.add(this.coordinate - 19);
-        squares.add(this.coordinate - 21);
 
-        // TODO: THIS
+        for (int i = 1; i < 8 - this.coordinate / 10; i++) {
+            if (Board.getPiece((this.coordinate + 10 * i) / 10 * 64, (this.coordinate) % 10 * 64) == null)
+                squares.add(this.coordinate + 10 * i);
+            else {
+                if (Board.getPiece((this.coordinate + 10 * i) / 10 * 64, (this.coordinate) % 10 * 64).isWhite != isWhite)
+                    squares.add(this.coordinate + 10 * i);
+                break;
+            }
+        }
+        for (int i = 1; i <= this.coordinate / 10; i++) {
+            if (Board.getPiece((this.coordinate - 10 * i) / 10 * 64, (this.coordinate) % 10 * 64) == null)
+                squares.add(this.coordinate - 10 * i);
+            else {
+                if (Board.getPiece((this.coordinate - 10 * i) / 10 * 64, (this.coordinate) % 10 * 64).isWhite != isWhite)
+                    squares.add(this.coordinate - 10 * i);
+                break;
+            }
+        }
+        for (int i = 1; i < 8 - this.coordinate % 10; i++) {
+            if (Board.getPiece((this.coordinate) / 10 * 64, (this.coordinate + i) % 10 * 64) == null)
+                squares.add(this.coordinate + i);
+            else {
+                if (Board.getPiece((this.coordinate) / 10 * 64, (this.coordinate + i) % 10 * 64).isWhite != isWhite)
+                    squares.add(this.coordinate + i);
+                break;
+            }
+        }
+        for (int i = 1; i <= this.coordinate % 10; i++) {
+            if (Board.getPiece((this.coordinate) / 10 * 64, (this.coordinate - i) % 10 * 64) == null)
+                squares.add(this.coordinate - i);
+            else {
+                if (Board.getPiece((this.coordinate) / 10 * 64, (this.coordinate - i) % 10 * 64).isWhite != isWhite)
+                    squares.add(this.coordinate - i);
+                break;
+            }
+        }
+
+        // OPTIMIZE: This probably doesn't have to cycle through all 7 other squares
+        //  - PRIORITY: LOW
+        for (int i = 1; i < 8; i++) {
+            if (Board.getPiece((this.coordinate + 10 * i) / 10 * 64, (this.coordinate + i) % 10 * 64) == null)
+                squares.add(this.coordinate + 11 * i);
+            else {
+                if (Board.getPiece((this.coordinate + 10 * i) / 10 * 64, (this.coordinate + i) % 10 * 64).isWhite != isWhite)
+                    squares.add(this.coordinate + 11 * i);
+                break;
+            }
+        }
+        for (int i = 1; i < 8; i++) {
+            if (Board.getPiece((this.coordinate - 10 * i) / 10 * 64, (this.coordinate + i) % 10 * 64) == null)
+                squares.add(this.coordinate - 9 * i);
+            else {
+                if (Board.getPiece((this.coordinate - 10 * i) / 10 * 64, (this.coordinate + i) % 10 * 64).isWhite != isWhite)
+                    squares.add(this.coordinate - 9 * i);
+                break;
+            }
+        }
+        for (int i = 1; i < 8; i++) {
+            if (Board.getPiece((this.coordinate - 10 * i) / 10 * 64, (this.coordinate - i) % 10 * 64) == null)
+                squares.add(this.coordinate - 11 * i);
+            else {
+                if (Board.getPiece((this.coordinate - 10 * i) / 10 * 64, (this.coordinate - i) % 10 * 64).isWhite != isWhite)
+                    squares.add(this.coordinate - 11 * i);
+                break;
+            }
+        }
+        for (int i = 1; i < 8; i++) {
+            if (Board.getPiece((this.coordinate + 10 * i) / 10 * 64, (this.coordinate - i) % 10 * 64) == null)
+                squares.add(this.coordinate + 9 * i);
+            else {
+                if (Board.getPiece((this.coordinate + 10 * i) / 10 * 64, (this.coordinate - i) % 10 * 64).isWhite != isWhite)
+                    squares.add(this.coordinate + 9 * i);
+                break;
+            }
+        }
 
         for (int i = squares.size() - 1; i >= 0; i--) {
-            if (Board.getPiece(squares.get(i) / 10 * 64, squares.get(i) % 10 * 64) != null)
-                if (Board.getPiece(squares.get(i) / 10 * 64, squares.get(i) % 10 * 64).isWhite == isWhite)
-                    squares.remove(i);
+            if (squares.get(i) > 77 || squares.get(i) < 0 || squares.get(i) % 10 > 7 ||
+                    (squares.get(i) == 0 && ((this.coordinate == 27) || (this.coordinate == 36) ||
+                            (this.coordinate == 45) || (this.coordinate == 54) || (this.coordinate == 63))))
+                squares.remove(i);
         }
 
         return squares;
