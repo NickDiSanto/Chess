@@ -131,10 +131,8 @@ public class Board {
                     throw new IllegalArgumentException("No piece selected");
                 else {
                     selectedPiece.move(e.getX() / 64 * 10 + e.getY() / 64);
-                    for (int i = 0; i < pieces.size(); i++) // FIXME: needs to refresh ALL squaresAttacking after every turn
-                        pieces.get(i).squaresAttacked = pieces.get(i).squaresAttacking();
-                    System.out.println(canCastleShort());
-                    System.out.println(canCastleLong());
+                    for (Piece piece : pieces) // FIXME: needs to refresh ALL squaresAttacking after every turn
+                        piece.squaresAttacked = piece.squaresAttacking();
                     frame.repaint();
                 }
 
@@ -176,13 +174,14 @@ public class Board {
 
     public static boolean canCastleShort() {
         // OPTIMIZE: Only cycle through opponent's pieces
+        // FIXME: Doesn't process isCheck() until turn has changed
         if (whiteTurn) {
             if (Board.getPiece(256, 448) != null && Board.getPiece(448, 448) != null) {
                 if (!isCheck() && !Board.getPiece(256, 448).hasMoved && !Board.getPiece(448, 448).hasMoved
                         && Board.getPiece(320, 448) == null && Board.getPiece(384, 448) == null) {
-                    for (int i = 0; i < pieces.size(); i++) {
-                        if (!pieces.get(i).isWhite) {
-                            if (!pieces.get(i).squaresAttacked.contains(57) && !pieces.get(i).squaresAttacked.contains(67))
+                    for (Piece piece : pieces) {
+                        if (!piece.isWhite) {
+                            if (!piece.squaresAttacked.contains(57) && !piece.squaresAttacked.contains(67))
                                 return true;
                         }
                     }
@@ -193,9 +192,9 @@ public class Board {
             if (Board.getPiece(256, 0) != null && Board.getPiece(448, 0) != null) {
                 if (!isCheck() && !Board.getPiece(256, 0).hasMoved && !Board.getPiece(448, 0).hasMoved
                         && Board.getPiece(320, 0) == null && Board.getPiece(384, 0) == null) {
-                    for (int i = 0; i < pieces.size(); i++) {
-                        if (pieces.get(i).isWhite) {
-                            if (!pieces.get(i).squaresAttacked.contains(50) && !pieces.get(i).squaresAttacked.contains(60))
+                    for (Piece piece : pieces) {
+                        if (piece.isWhite) {
+                            if (!piece.squaresAttacked.contains(50) && !piece.squaresAttacked.contains(60))
                                 return true;
                         }
                     }
@@ -207,16 +206,16 @@ public class Board {
 
     public static boolean canCastleLong() {
         // OPTIMIZE: Only cycle through opponent's pieces
-        // FIXME: Doesn't process isCheck() correctly
+        // FIXME: Doesn't process isCheck() until turn has changed
         if (whiteTurn) {
             if (Board.getPiece(256, 448) != null && Board.getPiece(0, 448) != null) {
                 if (!isCheck() && !Board.getPiece(256, 448).hasMoved && !Board.getPiece(0, 448).hasMoved
                         && Board.getPiece(192, 448) == null && Board.getPiece(128, 448) == null
                         && Board.getPiece(64, 448) == null) {
-                    for (int i = 0; i < pieces.size(); i++) {
-                        if (!pieces.get(i).isWhite) {
-                            if (!pieces.get(i).squaresAttacked.contains(37) && !pieces.get(i).squaresAttacked.contains(27)
-                                    && !pieces.get(i).squaresAttacked.contains(17))
+                    for (Piece piece : pieces) {
+                        if (!piece.isWhite) {
+                            if (!piece.squaresAttacked.contains(37) && !piece.squaresAttacked.contains(27)
+                                    && !piece.squaresAttacked.contains(17))
                                 return true;
                         }
                     }
@@ -228,10 +227,10 @@ public class Board {
                 if (!isCheck() && !Board.getPiece(256, 0).hasMoved && !Board.getPiece(0, 0).hasMoved
                         && Board.getPiece(192, 0) == null && Board.getPiece(128, 0) == null &&
                         Board.getPiece(64, 0) == null) {
-                    for (int i = 0; i < pieces.size(); i++) {
-                        if (pieces.get(i).isWhite) {
-                            if (!pieces.get(i).squaresAttacked.contains(30) && !pieces.get(i).squaresAttacked.contains(20)
-                                    && !pieces.get(i).squaresAttacked.contains(10))
+                    for (Piece piece : pieces) {
+                        if (piece.isWhite) {
+                            if (!piece.squaresAttacked.contains(30) && !piece.squaresAttacked.contains(20)
+                                    && !piece.squaresAttacked.contains(10))
                                 return true;
                         }
                     }
@@ -247,8 +246,8 @@ public class Board {
     }
 
     public static boolean isCheck() {
-        for (int i = 0; i < pieces.size(); i++) {
-            if (pieces.get(i).checksKing())
+        for (Piece piece : pieces) {
+            if (piece.checksKing())
                 return true;
         }
         return false;
