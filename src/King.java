@@ -33,6 +33,7 @@ public class King extends Piece {
     @Override
     public LinkedList<Integer> squaresAttacking() {
         LinkedList<Integer> squares = new LinkedList<>();
+
         squares.add(this.coordinate + 1);
         squares.add(this.coordinate + 11);
         squares.add(this.coordinate + 10);
@@ -43,9 +44,14 @@ public class King extends Piece {
         squares.add(this.coordinate - 9);
 
         for (int i = squares.size() - 1; i >= 0; i--) {
-            if (Board.getPiece(squares.get(i) / 10 * 64, squares.get(i) % 10 * 64) != null)
+            if (Board.getPiece(squares.get(i) / 10 * 64, squares.get(i) % 10 * 64) != null) {
                 if (Board.getPiece(squares.get(i) / 10 * 64, squares.get(i) % 10 * 64).isWhite == isWhite)
                     squares.remove(i);
+            }
+        }
+        for (int i = squares.size() - 1; i >= 0; i--) {
+            if (squares.get(i) > 77 || squares.get(i) < 0 || squares.get(i) % 10 > 7)
+                squares.remove(i);
         }
 
         return squares;

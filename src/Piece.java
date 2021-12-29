@@ -20,6 +20,7 @@ public class Piece {
         this.pieceType = pieceType;
         this.squaresAttacked = squaresAttacked;
         this.pieces = pieces;
+
         pieces.add(this);
     }
 
@@ -45,6 +46,7 @@ public class Piece {
     }
 
     public boolean checksKing() {
+//        this.squaresAttacked = this.squaresAttacking(); FIXME: needs to refresh all squaresAttacked after every move
         for (int square : this.squaresAttacked) {
             if (Board.getPiece(square / 10 * 64, square % 10 * 64) != null) {
                 if (Board.getPiece(square / 10 * 64, square % 10

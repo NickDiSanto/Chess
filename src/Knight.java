@@ -32,6 +32,7 @@ public class Knight extends Piece {
     @Override
     public LinkedList<Integer> squaresAttacking() {
         LinkedList<Integer> squares = new LinkedList<>();
+
         squares.add(this.coordinate + 8);
         squares.add(this.coordinate + 12);
         squares.add(this.coordinate + 19);
@@ -42,10 +43,16 @@ public class Knight extends Piece {
         squares.add(this.coordinate - 21);
 
         for (int i = squares.size() - 1; i >= 0; i--) {
-            if (Board.getPiece(squares.get(i) / 10 * 64, squares.get(i) % 10 * 64) != null)
+            if (Board.getPiece(squares.get(i) / 10 * 64, squares.get(i) % 10 * 64) != null) {
                 if (Board.getPiece(squares.get(i) / 10 * 64, squares.get(i) % 10 * 64).isWhite == isWhite)
                     squares.remove(i);
+            }
         }
+        for (int i = squares.size() - 1; i >= 0; i--) {
+            if (squares.get(i) > 77 || squares.get(i) < 0 || squares.get(i) % 10 > 7)
+                squares.remove(i);
+        }
+
         return squares;
     }
 }

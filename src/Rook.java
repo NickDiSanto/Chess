@@ -107,6 +107,11 @@ public class Rook extends Piece {
             }
         }
 
+        for (int i = squares.size() - 1; i >= 0; i--) {
+            if (squares.get(i) > 77 || squares.get(i) < 0 || squares.get(i) % 10 > 7)
+                squares.remove(i);
+        }
+
         return squares;
     }
 }

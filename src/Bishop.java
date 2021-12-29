@@ -73,47 +73,48 @@ public class Bishop extends Piece {
         // OPTIMIZE: This probably doesn't have to cycle through all 7 other squares
         //  - PRIORITY: LOW
         for (int i = 1; i < 8; i++) {
-            if (Board.getPiece((this.coordinate + 10 * i) / 10 * 64, (this.coordinate + i) % 10 * 64) == null)
-                squares.add(this.coordinate + 11 * i);
-            else {
-                if (Board.getPiece((this.coordinate + 10 * i) / 10 * 64, (this.coordinate + i) % 10 * 64).isWhite != isWhite)
-                    squares.add(this.coordinate + 11 * i);
+            if (this.coordinate + 11 * i > 77 || this.coordinate + 11 * i < 0 || (this.coordinate + 11 * i) % 10 > 7)
                 break;
+            else {
+                if (Board.getPiece((this.coordinate + 10 * i) / 10 * 64, (this.coordinate + i) % 10 * 64) != null) {
+                    if (Board.getPiece((this.coordinate + 10 * i) / 10 * 64, (this.coordinate + i) % 10 * 64).isWhite == isWhite)
+                        break;
+                }
             }
+            squares.add(this.coordinate + 11 * i);
         }
         for (int i = 1; i < 8; i++) {
-            if (Board.getPiece((this.coordinate - 10 * i) / 10 * 64, (this.coordinate + i) % 10 * 64) == null)
-                squares.add(this.coordinate - 9 * i);
-            else {
-                if (Board.getPiece((this.coordinate - 10 * i) / 10 * 64, (this.coordinate + i) % 10 * 64).isWhite != isWhite)
-                    squares.add(this.coordinate - 9 * i);
+            if (this.coordinate - 9 * i > 77 || this.coordinate - 9 * i < 0 || (this.coordinate - 9 * i) % 10 > 7)
                 break;
+            else {
+                if (Board.getPiece((this.coordinate - 10 * i) / 10 * 64, (this.coordinate + i) % 10 * 64) != null) {
+                    if (Board.getPiece((this.coordinate - 10 * i) / 10 * 64, (this.coordinate + i) % 10 * 64).isWhite == isWhite)
+                        break;
+                }
             }
+            squares.add(this.coordinate - 9 * i);
         }
         for (int i = 1; i < 8; i++) {
-            if (Board.getPiece((this.coordinate - 10 * i) / 10 * 64, (this.coordinate - i) % 10 * 64) == null)
-                squares.add(this.coordinate - 11 * i);
-            else {
-                if (Board.getPiece((this.coordinate - 10 * i) / 10 * 64, (this.coordinate - i) % 10 * 64).isWhite != isWhite)
-                    squares.add(this.coordinate - 11 * i);
+            if (this.coordinate - 11 * i > 77 || this.coordinate - 11 * i < 0 || (this.coordinate - 11 * i) % 10 > 7)
                 break;
+            else {
+                if (Board.getPiece((this.coordinate - 10 * i) / 10 * 64, (this.coordinate - i) % 10 * 64) != null) {
+                    if (Board.getPiece((this.coordinate - 10 * i) / 10 * 64, (this.coordinate - i) % 10 * 64).isWhite == isWhite)
+                        break;
+                }
             }
+            squares.add(this.coordinate - 11 * i);
         }
         for (int i = 1; i < 8; i++) {
-            if (Board.getPiece((this.coordinate + 10 * i) / 10 * 64, (this.coordinate - i) % 10 * 64) == null)
-                squares.add(this.coordinate + 9 * i);
-            else {
-                if (Board.getPiece((this.coordinate + 10 * i) / 10 * 64, (this.coordinate - i) % 10 * 64).isWhite != isWhite)
-                    squares.add(this.coordinate + 9 * i);
+            if (this.coordinate + 9 * i > 77 || this.coordinate + 9 * i < 0 || (this.coordinate + 9 * i) % 10 > 7)
                 break;
+            else {
+                if (Board.getPiece((this.coordinate + 10 * i) / 10 * 64, (this.coordinate - i) % 10 * 64) != null) {
+                    if (Board.getPiece((this.coordinate + 10 * i) / 10 * 64, (this.coordinate - i) % 10 * 64).isWhite == isWhite)
+                        break;
+                }
             }
-        }
-
-        for (int i = squares.size() - 1; i >= 0; i--) {
-            if (squares.get(i) > 77 || squares.get(i) < 0 || squares.get(i) % 10 > 7 ||
-                    (squares.get(i) == 0 && ((this.coordinate == 27) || (this.coordinate == 36) ||
-                            (this.coordinate == 45) || (this.coordinate == 54) || (this.coordinate == 63))))
-                squares.remove(i);
+            squares.add(this.coordinate + 9 * i);
         }
 
         return squares;

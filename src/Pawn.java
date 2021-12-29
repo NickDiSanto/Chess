@@ -10,7 +10,7 @@ public class Pawn extends Piece {
     @Override
     public void move(int coordinate) {
         int movementDirection = 1;
-        if (this.isWhite)
+        if (isWhite)
             movementDirection = -1;
 
         if ((coordinate - this.coordinate == movementDirection &&
@@ -36,7 +36,7 @@ public class Pawn extends Piece {
     @Override
     public java.util.LinkedList<Integer> squaresAttacking() {
         int movementDirection = 1;
-        if (this.isWhite) // TODO: this.isWhite? Also on line 12
+        if (isWhite) // TODO: this.isWhite? Also on line 12
             movementDirection = -1;
 
         LinkedList<Integer> squares = new LinkedList<>();
@@ -45,9 +45,14 @@ public class Pawn extends Piece {
         squares.add(this.coordinate - 10 + movementDirection);
 
         for (int i = squares.size() - 1; i >= 0; i--) {
-            if (Board.getPiece(squares.get(i) / 10 * 64, squares.get(i) % 10 * 64) != null)
+            if (Board.getPiece(squares.get(i) / 10 * 64, squares.get(i) % 10 * 64) != null) {
                 if (Board.getPiece(squares.get(i) / 10 * 64, squares.get(i) % 10 * 64).isWhite == isWhite)
                     squares.remove(i);
+            }
+        }
+        for (int i = squares.size() - 1; i >= 0; i--) {
+            if (squares.get(i) > 77 || squares.get(i) < 0 || squares.get(i) % 10 > 7)
+                squares.remove(i);
         }
 
         return squares;

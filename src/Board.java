@@ -15,6 +15,7 @@ public class Board {
     public static LinkedList<Integer> squaresAttacked = new LinkedList<>();
     public static Piece selectedPiece = null;
     public static boolean whiteTurn = true;
+    public static int initialCoord;
 
     public static void main(String[] args) throws IOException {
         BufferedImage all = ImageIO.read(new File("D:\\chess.png"));
@@ -73,11 +74,10 @@ public class Board {
                 boolean isWhite = true;
                 for (int y = 0; y < 8; y++) {
                     for (int x = 0; x < 8; x++) {
-                        if (isWhite) {
+                        if (isWhite)
                             g.setColor(new Color(240, 225, 190));
-                        } else {
+                        else
                             g.setColor(new Color(180, 140, 100));
-                        }
                         g.fillRect(x * 64, y * 64, 64, 64);
                         isWhite = !isWhite;
                     }
@@ -107,6 +107,8 @@ public class Board {
             @Override
             public void mouseDragged(MouseEvent e) {
                 if (selectedPiece != null) {
+                    if (selectedPiece.isWhite != whiteTurn)
+                        return;
                     selectedPiece.xPixel = e.getX() - 32;
                     selectedPiece.yPixel = e.getY() - 32;
                     frame.repaint();
@@ -123,6 +125,9 @@ public class Board {
             @Override
             public void mousePressed(MouseEvent e) {
                 selectedPiece = getPiece(e.getX(), e.getY());
+                if (selectedPiece.isWhite != whiteTurn)
+                    return;
+                initialCoord = e.getX() / 64 * 10 + e.getY() / 64;
             }
 
             @Override
@@ -130,9 +135,14 @@ public class Board {
                 if (selectedPiece == null)
                     throw new IllegalArgumentException("No piece selected");
                 else {
+                    if (selectedPiece.isWhite != whiteTurn)
+                        return;
                     selectedPiece.move(e.getX() / 64 * 10 + e.getY() / 64);
-                    for (Piece piece : pieces) // FIXME: needs to refresh ALL squaresAttacking after every turn
-                        piece.squaresAttacked = piece.squaresAttacking();
+                    if (selectedPiece.coordinate != initialCoord) {
+                        for (Piece piece : pieces) // FIXME: needs to refresh ALL squaresAttacking after every turn
+                            piece.squaresAttacked = piece.squaresAttacking();
+                        whiteTurn = !whiteTurn;
+                    }
                     frame.repaint();
                 }
 
@@ -147,19 +157,6 @@ public class Board {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-
-        while (!isCheckmate()) {
-            if (whiteTurn) {
-                // TODO: Implement individual white turn
-                //  - PRIORITY: HIGH
-            }
-            else {
-                // TODO: Implement individual black turn
-                //  - PRIORITY: HIGH
-            }
-            whiteTurn = !whiteTurn;
-        }
-
     }
 
     public static Piece getPiece (int xPixel, int yPixel) {
@@ -241,7 +238,7 @@ public class Board {
     }
 
     public static void pawnPromotion() {
-        // TODO: Implement pawnPromotion (this method may be unnecessary?)
+        // TODO: Implement pawnPromotion (maybe should happen in pawn class?)
         //  - PRIORITY: LOW
     }
 
