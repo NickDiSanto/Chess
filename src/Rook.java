@@ -13,6 +13,7 @@ public class Rook extends Piece {
             int numSquaresBetween = Math.abs(coordinate - this.coordinate);
             boolean movingSideways = false;
             boolean movingBackwards = false;
+
             if (numSquaresBetween > 9) {
                 numSquaresBetween /= 10;
                 movingSideways = true;
@@ -63,7 +64,6 @@ public class Rook extends Piece {
         }
         this.coordinate = coordinate;
         moveSuccessful();
-        this.squaresAttacked = squaresAttacking();
     }
 
     @Override

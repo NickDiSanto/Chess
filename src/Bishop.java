@@ -13,6 +13,7 @@ public class Bishop extends Piece {
             int numSquaresBetween = Math.abs(coordinate - this.coordinate) / 11;
             boolean movingSideways = false;
             boolean movingBackwards = false;
+
             if (Math.abs(coordinate - this.coordinate) % 11 == 0)
                 movingSideways = true;
             else
@@ -63,15 +64,12 @@ public class Bishop extends Piece {
         }
         this.coordinate = coordinate;
         moveSuccessful();
-        this.squaresAttacked = squaresAttacking();
     }
 
     @Override
     public LinkedList<Integer> squaresAttacking() {
         LinkedList<Integer> squares = new LinkedList<>();
 
-        // OPTIMIZE: This probably doesn't have to cycle through all 7 other squares
-        //  - PRIORITY: LOW
         for (int i = 1; i < 8; i++) {
             if (this.coordinate + 11 * i > 77 || this.coordinate + 11 * i < 0 || (this.coordinate + 11 * i) % 10 > 7)
                 break;
@@ -79,6 +77,8 @@ public class Bishop extends Piece {
                 if (Board.getPiece((this.coordinate + 10 * i) / 10 * 64, (this.coordinate + i) % 10 * 64) != null) {
                     if (Board.getPiece((this.coordinate + 10 * i) / 10 * 64, (this.coordinate + i) % 10 * 64).isWhite == isWhite)
                         break;
+                    squares.add(this.coordinate + 11 * i);
+                    break;
                 }
             }
             squares.add(this.coordinate + 11 * i);
@@ -90,6 +90,8 @@ public class Bishop extends Piece {
                 if (Board.getPiece((this.coordinate - 10 * i) / 10 * 64, (this.coordinate + i) % 10 * 64) != null) {
                     if (Board.getPiece((this.coordinate - 10 * i) / 10 * 64, (this.coordinate + i) % 10 * 64).isWhite == isWhite)
                         break;
+                    squares.add(this.coordinate - 9 * i);
+                    break;
                 }
             }
             squares.add(this.coordinate - 9 * i);
@@ -101,6 +103,8 @@ public class Bishop extends Piece {
                 if (Board.getPiece((this.coordinate - 10 * i) / 10 * 64, (this.coordinate - i) % 10 * 64) != null) {
                     if (Board.getPiece((this.coordinate - 10 * i) / 10 * 64, (this.coordinate - i) % 10 * 64).isWhite == isWhite)
                         break;
+                    squares.add(this.coordinate - 11 * i);
+                    break;
                 }
             }
             squares.add(this.coordinate - 11 * i);
@@ -112,6 +116,8 @@ public class Bishop extends Piece {
                 if (Board.getPiece((this.coordinate + 10 * i) / 10 * 64, (this.coordinate - i) % 10 * 64) != null) {
                     if (Board.getPiece((this.coordinate + 10 * i) / 10 * 64, (this.coordinate - i) % 10 * 64).isWhite == isWhite)
                         break;
+                    squares.add(this.coordinate + 9 * i);
+                    break;
                 }
             }
             squares.add(this.coordinate + 9 * i);

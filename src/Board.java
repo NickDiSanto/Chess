@@ -63,7 +63,6 @@ public class Board {
         Piece whitePawn7 = new Pawn(66, true, false, 'P', squaresAttacked, pieces);
         Piece whitePawn8 = new Pawn(76, true, false, 'P', squaresAttacked, pieces);
 
-
         JFrame frame = new JFrame();
         frame.setBounds(10, 10, 512, 512);
         frame.setUndecorated(true);
@@ -117,8 +116,6 @@ public class Board {
 
             @Override
             public void mouseMoved(MouseEvent e) {
-                // OPTIMIZE: Get rid of this method somehow
-                //  - PRIORITY: LOW
             }
         });
         frame.addMouseListener(new MouseAdapter() {
@@ -127,31 +124,39 @@ public class Board {
                 selectedPiece = getPiece(e.getX(), e.getY());
                 if (selectedPiece.isWhite != whiteTurn)
                     return;
+
                 initialCoord = e.getX() / 64 * 10 + e.getY() / 64;
             }
 
             @Override
             public void mouseReleased(MouseEvent e) throws IllegalArgumentException {
-                if (selectedPiece == null)
-                    throw new IllegalArgumentException("No piece selected");
-                else {
-                    if (selectedPiece.isWhite != whiteTurn)
-                        return;
-                    selectedPiece.move(e.getX() / 64 * 10 + e.getY() / 64);
-                    if (selectedPiece.coordinate != initialCoord) {
-                        for (Piece piece : pieces) // FIXME: needs to refresh ALL squaresAttacking after every turn
+                if (!isCheckmate()) {
+                    if (selectedPiece == null)
+                        throw new IllegalArgumentException("No piece selected");
+                    else {
+                        if (selectedPiece.isWhite != whiteTurn)
+                            return;
+
+                        selectedPiece.move(e.getX() / 64 * 10 + e.getY() / 64);
+
+                        // TODO: replace taken piece when opening up a check
+                        for (Piece piece : pieces) {
                             piece.squaresAttacked = piece.squaresAttacking();
-                        whiteTurn = !whiteTurn;
+                            if (piece.checksKing() && piece.isWhite != whiteTurn) {
+                                selectedPiece.coordinate = initialCoord;
+                                selectedPiece.moveSuccessful();
+                            }
+                        }
+
+                        if (selectedPiece.coordinate != initialCoord) {
+                            whiteTurn = !whiteTurn;
+                        }
+                        frame.repaint();
                     }
-                    frame.repaint();
                 }
-
-                // TODO: Change turn after selectedPiece coordinate has changed
-                //  if (selectedPiece.coordinate != selectedPiece.PREVIOUS_COORDINATE)
-                //     changeTurn();
-                //  Have moveSuccessful indicate when a turn took place
-                //  - PRIORITY: HIGH
-
+                else {
+                    // TODO: END GAME
+                }
             }
         });
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -170,16 +175,14 @@ public class Board {
     }
 
     public static boolean canCastleShort() {
-        // OPTIMIZE: Only cycle through opponent's pieces
-        // FIXME: Doesn't process isCheck() until turn has changed
         if (whiteTurn) {
             if (Board.getPiece(256, 448) != null && Board.getPiece(448, 448) != null) {
                 if (!isCheck() && !Board.getPiece(256, 448).hasMoved && !Board.getPiece(448, 448).hasMoved
                         && Board.getPiece(320, 448) == null && Board.getPiece(384, 448) == null) {
                     for (Piece piece : pieces) {
                         if (!piece.isWhite) {
-                            if (!piece.squaresAttacked.contains(57) && !piece.squaresAttacked.contains(67))
-                                return true;
+                            if (piece.squaresAttacked.contains(57) || piece.squaresAttacked.contains(67))
+                                return false;
                         }
                     }
                 }
@@ -191,19 +194,17 @@ public class Board {
                         && Board.getPiece(320, 0) == null && Board.getPiece(384, 0) == null) {
                     for (Piece piece : pieces) {
                         if (piece.isWhite) {
-                            if (!piece.squaresAttacked.contains(50) && !piece.squaresAttacked.contains(60))
-                                return true;
+                            if (piece.squaresAttacked.contains(50) || piece.squaresAttacked.contains(60))
+                                return false;
                         }
                     }
                 }
             }
         }
-        return false;
+        return true;
     }
 
     public static boolean canCastleLong() {
-        // OPTIMIZE: Only cycle through opponent's pieces
-        // FIXME: Doesn't process isCheck() until turn has changed
         if (whiteTurn) {
             if (Board.getPiece(256, 448) != null && Board.getPiece(0, 448) != null) {
                 if (!isCheck() && !Board.getPiece(256, 448).hasMoved && !Board.getPiece(0, 448).hasMoved
@@ -211,9 +212,9 @@ public class Board {
                         && Board.getPiece(64, 448) == null) {
                     for (Piece piece : pieces) {
                         if (!piece.isWhite) {
-                            if (!piece.squaresAttacked.contains(37) && !piece.squaresAttacked.contains(27)
-                                    && !piece.squaresAttacked.contains(17))
-                                return true;
+                            if (piece.squaresAttacked.contains(37) || piece.squaresAttacked.contains(27)
+                                    || piece.squaresAttacked.contains(17))
+                                return false;
                         }
                     }
                 }
@@ -226,15 +227,15 @@ public class Board {
                         Board.getPiece(64, 0) == null) {
                     for (Piece piece : pieces) {
                         if (piece.isWhite) {
-                            if (!piece.squaresAttacked.contains(30) && !piece.squaresAttacked.contains(20)
-                                    && !piece.squaresAttacked.contains(10))
-                                return true;
+                            if (piece.squaresAttacked.contains(30) || piece.squaresAttacked.contains(20)
+                                    || piece.squaresAttacked.contains(10))
+                                return false;
                         }
                     }
                 }
             }
         }
-        return false;
+        return true;
     }
 
     public static void pawnPromotion() {
@@ -244,6 +245,7 @@ public class Board {
 
     public static boolean isCheck() {
         for (Piece piece : pieces) {
+            piece.squaresAttacked = piece.squaresAttacking();
             if (piece.checksKing())
                 return true;
         }

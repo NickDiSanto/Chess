@@ -26,7 +26,6 @@ public class Knight extends Piece {
         }
         this.coordinate = coordinate;
         moveSuccessful();
-        this.squaresAttacked = squaresAttacking();
     }
 
     @Override

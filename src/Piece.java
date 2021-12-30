@@ -46,11 +46,9 @@ public class Piece {
     }
 
     public boolean checksKing() {
-//        this.squaresAttacked = this.squaresAttacking(); FIXME: needs to refresh all squaresAttacked after every move
-        for (int square : this.squaresAttacked) {
+        for (int square : squaresAttacked) {
             if (Board.getPiece(square / 10 * 64, square % 10 * 64) != null) {
-                if (Board.getPiece(square / 10 * 64, square % 10
-                        * 64).pieceType == 'K')
+                if (Board.getPiece(square / 10 * 64, square % 10 * 64).pieceType == 'K')
                     return true;
             }
         }
@@ -61,6 +59,7 @@ public class Piece {
         xPixel = coordinate / 10 * 64;
         yPixel = coordinate % 10 * 64;
         hasMoved = true;
+        squaresAttacked = squaresAttacking();
     }
 
     public void moveFailed() {

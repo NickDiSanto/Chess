@@ -15,11 +15,10 @@ public class Pawn extends Piece {
 
         if ((coordinate - this.coordinate == movementDirection &&
                 Board.getPiece(coordinate / 10 * 64, coordinate % 10 * 64) == null) ||
-                (coordinate - this.coordinate == (2 * movementDirection) && !this.hasMoved && !this.piecesBetween() &&
+                (coordinate - this.coordinate == (2 * movementDirection) && !hasMoved && !piecesBetween() &&
                 Board.getPiece(coordinate / 10 * 64, coordinate % 10 * 64) == null)) {
             this.coordinate = coordinate;
             moveSuccessful();
-            this.squaresAttacked = squaresAttacking();
         }
         else if ((coordinate - this.coordinate == (11 * movementDirection) || coordinate - this.coordinate ==
                 (-9 * movementDirection)) && Board.getPiece(coordinate / 10 * 64, coordinate % 10 * 64)
@@ -27,7 +26,6 @@ public class Pawn extends Piece {
             Board.getPiece(coordinate / 10 * 64, coordinate % 10 * 64).capture();
             this.coordinate = coordinate;
             moveSuccessful();
-            this.squaresAttacked = squaresAttacking();
         }
         else
             moveFailed();
@@ -36,7 +34,7 @@ public class Pawn extends Piece {
     @Override
     public java.util.LinkedList<Integer> squaresAttacking() {
         int movementDirection = 1;
-        if (isWhite) // TODO: this.isWhite? Also on line 12
+        if (isWhite)
             movementDirection = -1;
 
         LinkedList<Integer> squares = new LinkedList<>();
