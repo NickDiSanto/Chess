@@ -40,8 +40,9 @@ public class King extends Piece {
             }
         }
 
-        if (Math.abs(coordinate - this.coordinate) == 10 || Math.abs(coordinate - this.coordinate) == 1 ||
-                Math.abs(coordinate - this.coordinate) == 9 || Math.abs(coordinate - this.coordinate) == 11) {
+        if ((Math.abs(coordinate - this.coordinate) == 10 || Math.abs(coordinate - this.coordinate) == 1 ||
+                Math.abs(coordinate - this.coordinate) == 9 || Math.abs(coordinate - this.coordinate) == 11) &&
+                coordinate >= 0 && coordinate <= 77 && coordinate % 10 <= 7) {
             if (Board.getPiece(coordinate / 10 * 64, coordinate % 10 * 64) != null) {
                 if (Board.getPiece(coordinate / 10 * 64, coordinate % 10 * 64).isWhite != isWhite)
                     Board.getPiece(coordinate / 10 * 64, coordinate % 10 * 64).capture();

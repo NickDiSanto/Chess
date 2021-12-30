@@ -9,7 +9,8 @@ public class Rook extends Piece {
 
     @Override
     public void move(int coordinate) {
-        if (Math.abs(coordinate - this.coordinate) % 10 == 0 || Math.abs(coordinate - this.coordinate) < 8) {
+        if ((Math.abs(coordinate - this.coordinate) % 10 == 0 || Math.abs(coordinate - this.coordinate) < 8) &&
+                coordinate >= 0 && coordinate <= 77 && coordinate % 10 <= 7) {
             int numSquaresBetween = Math.abs(coordinate - this.coordinate);
             boolean movingSideways = false;
             boolean movingBackwards = false;

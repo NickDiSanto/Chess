@@ -142,6 +142,10 @@ public class Board {
                         // TODO: replace taken piece when opening up a check
                         for (Piece piece : pieces) {
                             piece.squaresAttacked = piece.squaresAttacking();
+
+                            System.out.print(piece + " ");
+                            System.out.println(piece.squaresAttacked);
+
                             if (piece.checksKing() && piece.isWhite != whiteTurn) {
                                 selectedPiece.coordinate = initialCoord;
                                 selectedPiece.moveSuccessful();
