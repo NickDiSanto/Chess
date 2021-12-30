@@ -29,39 +29,39 @@ public class Board {
             }
         }
 
-        Piece blackRook1 = new Rook(0, false, false, 'R', squaresAttacked, pieces);
-        Piece blackKnight1 = new Knight(10, false, false, 'N', squaresAttacked, pieces);
-        Piece blackBishop1 = new Bishop(20, false, false, 'B', squaresAttacked, pieces);
-        Piece blackQueen = new Queen(30, false, false, 'Q', squaresAttacked, pieces);
-        Piece blackKing = new King(40, false, false, 'K', squaresAttacked, pieces);
-        Piece blackBishop2 = new Bishop(50, false, false, 'B', squaresAttacked, pieces);
-        Piece blackKnight2 = new Knight(60, false, false, 'N', squaresAttacked, pieces);
-        Piece blackRook2 = new Rook(70, false, false, 'R', squaresAttacked, pieces);
-        Piece blackPawn1 = new Pawn(1, false, false, 'P', squaresAttacked, pieces);
-        Piece blackPawn2 = new Pawn(11, false, false, 'P', squaresAttacked, pieces);
-        Piece blackPawn3 = new Pawn(21, false, false, 'P', squaresAttacked, pieces);
-        Piece blackPawn4 = new Pawn(31, false, false, 'P', squaresAttacked, pieces);
-        Piece blackPawn5 = new Pawn(41, false, false, 'P', squaresAttacked, pieces);
-        Piece blackPawn6 = new Pawn(51, false, false, 'P', squaresAttacked, pieces);
-        Piece blackPawn7 = new Pawn(61, false, false, 'P', squaresAttacked, pieces);
-        Piece blackPawn8 = new Pawn(71, false, false, 'P', squaresAttacked, pieces);
+        Piece blackRook1 = new Rook(0, false, false, false, 'R', squaresAttacked, pieces);
+        Piece blackKnight1 = new Knight(10, false, false, false, 'N', squaresAttacked, pieces);
+        Piece blackBishop1 = new Bishop(20, false, false, false, 'B', squaresAttacked, pieces);
+        Piece blackQueen = new Queen(30, false, false, false, 'Q', squaresAttacked, pieces);
+        Piece blackKing = new King(40, false, false, false, 'K', squaresAttacked, pieces);
+        Piece blackBishop2 = new Bishop(50, false, false, false, 'B', squaresAttacked, pieces);
+        Piece blackKnight2 = new Knight(60, false, false, false, 'N', squaresAttacked, pieces);
+        Piece blackRook2 = new Rook(70, false, false, false, 'R', squaresAttacked, pieces);
+        Piece blackPawn1 = new Pawn(1, false, false, false, 'P', squaresAttacked, pieces);
+        Piece blackPawn2 = new Pawn(11, false, false, false, 'P', squaresAttacked, pieces);
+        Piece blackPawn3 = new Pawn(21, false, false, false, 'P', squaresAttacked, pieces);
+        Piece blackPawn4 = new Pawn(31, false, false, false, 'P', squaresAttacked, pieces);
+        Piece blackPawn5 = new Pawn(41, false, false, false, 'P', squaresAttacked, pieces);
+        Piece blackPawn6 = new Pawn(51, false, false, false, 'P', squaresAttacked, pieces);
+        Piece blackPawn7 = new Pawn(61, false, false, false, 'P', squaresAttacked, pieces);
+        Piece blackPawn8 = new Pawn(71, false, false, false, 'P', squaresAttacked, pieces);
 
-        Piece whiteRook1 = new Rook(7, true, false, 'R', squaresAttacked, pieces);
-        Piece whiteKnight1 = new Knight(17, true, false, 'N', squaresAttacked, pieces);
-        Piece whiteBishop1 = new Bishop(27, true, false, 'B', squaresAttacked, pieces);
-        Piece whiteQueen = new Queen(37, true, false, 'Q', squaresAttacked, pieces);
-        Piece whiteKing = new King(47, true, false, 'K', squaresAttacked, pieces);
-        Piece whiteBishop2 = new Bishop(57, true, false, 'B', squaresAttacked, pieces);
-        Piece whiteKnight2 = new Knight(67, true, false, 'N', squaresAttacked, pieces);
-        Piece whiteRook2 = new Rook(77, true, false, 'R', squaresAttacked, pieces);
-        Piece whitePawn1 = new Pawn(6, true, false, 'P', squaresAttacked, pieces);
-        Piece whitePawn2 = new Pawn(16, true, false, 'P', squaresAttacked, pieces);
-        Piece whitePawn3 = new Pawn(26, true, false, 'P', squaresAttacked, pieces);
-        Piece whitePawn4 = new Pawn(36, true, false, 'P', squaresAttacked, pieces);
-        Piece whitePawn5 = new Pawn(46, true, false, 'P', squaresAttacked, pieces);
-        Piece whitePawn6 = new Pawn(56, true, false, 'P', squaresAttacked, pieces);
-        Piece whitePawn7 = new Pawn(66, true, false, 'P', squaresAttacked, pieces);
-        Piece whitePawn8 = new Pawn(76, true, false, 'P', squaresAttacked, pieces);
+        Piece whiteRook1 = new Rook(7, true, false, false, 'R', squaresAttacked, pieces);
+        Piece whiteKnight1 = new Knight(17, true, false, false, 'N', squaresAttacked, pieces);
+        Piece whiteBishop1 = new Bishop(27, true, false, false, 'B', squaresAttacked, pieces);
+        Piece whiteQueen = new Queen(37, true, false, false, 'Q', squaresAttacked, pieces);
+        Piece whiteKing = new King(47, true, false, false, 'K', squaresAttacked, pieces);
+        Piece whiteBishop2 = new Bishop(57, true, false, false, 'B', squaresAttacked, pieces);
+        Piece whiteKnight2 = new Knight(67, true, false, false, 'N', squaresAttacked, pieces);
+        Piece whiteRook2 = new Rook(77, true, false, false, 'R', squaresAttacked, pieces);
+        Piece whitePawn1 = new Pawn(6, true, false, false, 'P', squaresAttacked, pieces);
+        Piece whitePawn2 = new Pawn(16, true, false, false, 'P', squaresAttacked, pieces);
+        Piece whitePawn3 = new Pawn(26, true, false, false, 'P', squaresAttacked, pieces);
+        Piece whitePawn4 = new Pawn(36, true, false, false, 'P', squaresAttacked, pieces);
+        Piece whitePawn5 = new Pawn(46, true, false, false, 'P', squaresAttacked, pieces);
+        Piece whitePawn6 = new Pawn(56, true, false, false, 'P', squaresAttacked, pieces);
+        Piece whitePawn7 = new Pawn(66, true, false, false, 'P', squaresAttacked, pieces);
+        Piece whitePawn8 = new Pawn(76, true, false, false, 'P', squaresAttacked, pieces);
 
         JFrame frame = new JFrame();
         frame.setBounds(10, 10, 512, 512);
@@ -142,10 +142,6 @@ public class Board {
                         // TODO: replace taken piece when opening up a check
                         for (Piece piece : pieces) {
                             piece.squaresAttacked = piece.squaresAttacking();
-
-                            System.out.print(piece + " ");
-                            System.out.println(piece.squaresAttacked);
-
                             if (piece.checksKing() && piece.isWhite != whiteTurn) {
                                 selectedPiece.coordinate = initialCoord;
                                 selectedPiece.moveSuccessful();
@@ -180,9 +176,13 @@ public class Board {
 
     public static boolean canCastleShort() {
         if (whiteTurn) {
-            if (Board.getPiece(256, 448) != null && Board.getPiece(448, 448) != null) {
-                if (!isCheck() && !Board.getPiece(256, 448).hasMoved && !Board.getPiece(448, 448).hasMoved
-                        && Board.getPiece(320, 448) == null && Board.getPiece(384, 448) == null) {
+            if (Board.getPiece(256, 448) == null || Board.getPiece(448, 448) == null)
+                return false;
+            else {
+                if (isCheck() || Board.getPiece(256, 448).hasMoved || Board.getPiece(448, 448).hasMoved
+                        || Board.getPiece(320, 448) != null || Board.getPiece(384, 448) != null)
+                    return false;
+                else {
                     for (Piece piece : pieces) {
                         if (!piece.isWhite) {
                             if (piece.squaresAttacked.contains(57) || piece.squaresAttacked.contains(67))
@@ -193,9 +193,13 @@ public class Board {
             }
         }
         else {
-            if (Board.getPiece(256, 0) != null && Board.getPiece(448, 0) != null) {
-                if (!isCheck() && !Board.getPiece(256, 0).hasMoved && !Board.getPiece(448, 0).hasMoved
-                        && Board.getPiece(320, 0) == null && Board.getPiece(384, 0) == null) {
+            if (Board.getPiece(256, 0) == null || Board.getPiece(448, 0) == null)
+                return false;
+            else {
+                if (isCheck() || Board.getPiece(256, 0).hasMoved || Board.getPiece(448, 0).hasMoved
+                        || Board.getPiece(320, 0) != null || Board.getPiece(384, 0) != null)
+                    return false;
+                else {
                     for (Piece piece : pieces) {
                         if (piece.isWhite) {
                             if (piece.squaresAttacked.contains(50) || piece.squaresAttacked.contains(60))
@@ -210,10 +214,14 @@ public class Board {
 
     public static boolean canCastleLong() {
         if (whiteTurn) {
-            if (Board.getPiece(256, 448) != null && Board.getPiece(0, 448) != null) {
-                if (!isCheck() && !Board.getPiece(256, 448).hasMoved && !Board.getPiece(0, 448).hasMoved
-                        && Board.getPiece(192, 448) == null && Board.getPiece(128, 448) == null
-                        && Board.getPiece(64, 448) == null) {
+            if (Board.getPiece(256, 448) == null || Board.getPiece(0, 448) == null)
+                return false;
+            else {
+                if (isCheck() || Board.getPiece(256, 448).hasMoved || Board.getPiece(0, 448).hasMoved
+                        || Board.getPiece(192, 448) != null || Board.getPiece(128, 448) != null
+                        || Board.getPiece(64, 448) != null)
+                    return false;
+                else {
                     for (Piece piece : pieces) {
                         if (!piece.isWhite) {
                             if (piece.squaresAttacked.contains(37) || piece.squaresAttacked.contains(27)
@@ -225,10 +233,14 @@ public class Board {
             }
         }
         else {
-            if (Board.getPiece(256, 0) != null && Board.getPiece(0, 0) != null) {
-                if (!isCheck() && !Board.getPiece(256, 0).hasMoved && !Board.getPiece(0, 0).hasMoved
-                        && Board.getPiece(192, 0) == null && Board.getPiece(128, 0) == null &&
-                        Board.getPiece(64, 0) == null) {
+            if (Board.getPiece(256, 0) == null || Board.getPiece(0, 0) == null)
+                return false;
+            else {
+                if (isCheck() || Board.getPiece(256, 0).hasMoved || Board.getPiece(0, 0).hasMoved
+                        || Board.getPiece(192, 0) != null || Board.getPiece(128, 0) != null ||
+                        Board.getPiece(64, 0) != null)
+                    return false;
+                else {
                     for (Piece piece : pieces) {
                         if (piece.isWhite) {
                             if (piece.squaresAttacked.contains(30) || piece.squaresAttacked.contains(20)

@@ -5,18 +5,20 @@ public class Piece {
     int yPixel;
     int coordinate;
     boolean isWhite;
+    boolean canBeEnPassant;
     boolean hasMoved;
     char pieceType;
     LinkedList<Integer> squaresAttacked;
     LinkedList<Piece> pieces;
 
-    public Piece(int coordinate, boolean isWhite, boolean hasMoved, char pieceType,
+    public Piece(int coordinate, boolean isWhite, boolean hasMoved, boolean canBeEnPassant, char pieceType,
                  LinkedList<Integer> squaresAttacked, LinkedList<Piece> pieces) {
         this.coordinate = coordinate;
         xPixel = coordinate / 10 * 64;
         yPixel = coordinate % 10 * 64;
         this.isWhite = isWhite;
         this.hasMoved = hasMoved;
+        this.canBeEnPassant = canBeEnPassant;
         this.pieceType = pieceType;
         this.squaresAttacked = squaresAttacked;
         this.pieces = pieces;
@@ -65,5 +67,10 @@ public class Piece {
     public void moveFailed() {
         xPixel = this.coordinate / 10 * 64;
         yPixel = this.coordinate % 10 * 64;
+    }
+
+    public void takeAwayEnPassant() {
+        for (Piece piece : pieces)
+            piece.canBeEnPassant = false;
     }
 }

@@ -2,9 +2,9 @@ import java.util.LinkedList;
 
 public class Knight extends Piece {
 
-    public Knight(int coordinate, boolean isWhite, boolean hasMoved, char pieceType,
+    public Knight(int coordinate, boolean isWhite, boolean hasMoved, boolean canBeEnPassant, char pieceType,
                   LinkedList<Integer> squaresAttacked, LinkedList<Piece> pieces) {
-        super(coordinate, isWhite, hasMoved, pieceType, squaresAttacked, pieces);
+        super(coordinate, isWhite, hasMoved, canBeEnPassant, pieceType, squaresAttacked, pieces);
     }
 
     @Override
@@ -27,6 +27,7 @@ public class Knight extends Piece {
         }
         this.coordinate = coordinate;
         moveSuccessful();
+        takeAwayEnPassant();
     }
 
     @Override

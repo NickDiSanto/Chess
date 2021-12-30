@@ -2,9 +2,9 @@ import java.util.LinkedList;
 
 public class Pawn extends Piece {
 
-    public Pawn(int coordinate, boolean isWhite, boolean hasMoved, char pieceType,
+    public Pawn(int coordinate, boolean isWhite, boolean hasMoved, boolean canBeEnPassant, char pieceType,
                 LinkedList<Integer> squaresAttacked, LinkedList<Piece> pieces) {
-        super(coordinate, isWhite, hasMoved, pieceType, squaresAttacked, pieces);
+        super(coordinate, isWhite, hasMoved, canBeEnPassant, pieceType, squaresAttacked, pieces);
     }
 
     @Override
@@ -13,23 +13,49 @@ public class Pawn extends Piece {
         if (isWhite)
             movementDirection = -1;
 
-        if ((coordinate - this.coordinate == movementDirection && Board.getPiece(coordinate / 10 * 64,
+        if (((coordinate - this.coordinate == movementDirection && Board.getPiece(coordinate / 10 * 64,
                 coordinate % 10 * 64) == null) || (coordinate - this.coordinate == (2 * movementDirection) &&
                 !hasMoved && !piecesBetween() && Board.getPiece(coordinate / 10 * 64, coordinate % 10 * 64)
-                == null) && coordinate >= 0 && coordinate <= 77 && coordinate % 10 <= 7) {
+                == null)) && coordinate >= 0 && coordinate <= 77 && coordinate % 10 <= 7) {
+            canBeEnPassant = Math.abs(coordinate - this.coordinate) == 2;
             this.coordinate = coordinate;
             moveSuccessful();
+            return;
         }
-        else if ((coordinate - this.coordinate == 11 * movementDirection || coordinate - this.coordinate ==
-                (-9 * movementDirection)) && Board.getPiece(coordinate / 10 * 64, coordinate % 10 * 64)
-                != null && Board.getPiece(coordinate / 10 * 64, coordinate % 10 * 64).isWhite != isWhite &&
+        else if ((coordinate - this.coordinate == 11 * movementDirection || coordinate - this.coordinate == (-9 *
+                movementDirection)) && Board.getPiece(coordinate / 10 * 64, coordinate % 10 * 64) != null &&
+                Board.getPiece(coordinate / 10 * 64, coordinate % 10 * 64).isWhite != isWhite &&
                 coordinate >= 0 && coordinate <= 77 && coordinate % 10 <= 7) {
             Board.getPiece(coordinate / 10 * 64, coordinate % 10 * 64).capture();
             this.coordinate = coordinate;
             moveSuccessful();
+            takeAwayEnPassant();
+            return;
         }
-        else
-            moveFailed();
+        else if ((coordinate - this.coordinate == 11 * movementDirection || coordinate - this.coordinate == (-9 *
+                movementDirection)) && (Board.getPiece((this.coordinate + 10) / 10 * 64, this.coordinate
+                % 10 * 64) != null || Board.getPiece((this.coordinate - 10) / 10 * 64, this.coordinate
+                % 10 * 64) != null)) {
+            if (Board.getPiece((this.coordinate + 10) / 10 * 64, this.coordinate % 10 * 64) != null) {
+                if (Board.getPiece((this.coordinate + 10) / 10 * 64, this.coordinate % 10 * 64).canBeEnPassant) {
+                    Board.getPiece((this.coordinate + 10) / 10 * 64, this.coordinate % 10 * 64).capture();
+                    this.coordinate = coordinate;
+                    moveSuccessful();
+                    takeAwayEnPassant();
+                    return;
+                }
+            }
+            if (Board.getPiece((this.coordinate - 10) / 10 * 64, this.coordinate % 10 * 64) != null) {
+                if (Board.getPiece((this.coordinate - 10) / 10 * 64, this.coordinate % 10 * 64).canBeEnPassant) {
+                    Board.getPiece((this.coordinate - 10) / 10 * 64, this.coordinate % 10 * 64).capture();
+                    this.coordinate = coordinate;
+                    moveSuccessful();
+                    takeAwayEnPassant();
+                    return;
+                }
+            }
+        }
+        moveFailed();
     }
 
     @Override
@@ -55,11 +81,6 @@ public class Pawn extends Piece {
         }
 
         return squares;
-    }
-
-    private void enPassant() {
-        // TODO: Capture En Passant
-        //  - PRIORITY: LOW
     }
 
     private boolean piecesBetween() {

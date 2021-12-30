@@ -2,17 +2,14 @@ import java.util.LinkedList;
 
 public class King extends Piece {
 
-    public King(int coordinate, boolean isWhite, boolean hasMoved, char pieceType,
+    public King(int coordinate, boolean isWhite, boolean hasMoved, boolean canBeEnPassant, char pieceType,
                 LinkedList<Integer> squaresAttacked, LinkedList<Piece> pieces) {
-        super(coordinate, isWhite, hasMoved, pieceType, squaresAttacked, pieces);
+        super(coordinate, isWhite, hasMoved, canBeEnPassant, pieceType, squaresAttacked, pieces);
     }
 
     @Override
     public void move(int coordinate) {
         if (Board.canCastleShort() && coordinate - this.coordinate == 20) {
-            this.coordinate = coordinate;
-            moveSuccessful();
-
             for (Piece piece : pieces) {
                 if (piece.coordinate == 77 && isWhite) {
                     piece.coordinate = 57;
@@ -24,10 +21,7 @@ public class King extends Piece {
                 }
             }
         }
-        if (Board.canCastleLong() && this.coordinate - coordinate == 20) {
-            this.coordinate = coordinate;
-            moveSuccessful();
-
+        else if (Board.canCastleLong() && this.coordinate - coordinate == 20) {
             for (Piece piece : pieces) {
                 if (piece.coordinate == 7 && isWhite) {
                     piece.coordinate = 37;
@@ -40,7 +34,7 @@ public class King extends Piece {
             }
         }
 
-        if ((Math.abs(coordinate - this.coordinate) == 10 || Math.abs(coordinate - this.coordinate) == 1 ||
+        else if ((Math.abs(coordinate - this.coordinate) == 10 || Math.abs(coordinate - this.coordinate) == 1 ||
                 Math.abs(coordinate - this.coordinate) == 9 || Math.abs(coordinate - this.coordinate) == 11) &&
                 coordinate >= 0 && coordinate <= 77 && coordinate % 10 <= 7) {
             if (Board.getPiece(coordinate / 10 * 64, coordinate % 10 * 64) != null) {
@@ -58,6 +52,7 @@ public class King extends Piece {
         }
         this.coordinate = coordinate;
         moveSuccessful();
+        takeAwayEnPassant();
     }
 
     @Override
