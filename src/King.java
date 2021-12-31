@@ -33,7 +33,6 @@ public class King extends Piece {
                 }
             }
         }
-
         else if ((Math.abs(coordinate - this.coordinate) == 10 || Math.abs(coordinate - this.coordinate) == 1 ||
                 Math.abs(coordinate - this.coordinate) == 9 || Math.abs(coordinate - this.coordinate) == 11) &&
                 coordinate >= 0 && coordinate <= 77 && coordinate % 10 <= 7) {
