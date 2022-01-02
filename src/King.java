@@ -8,8 +8,8 @@ public class King extends Piece {
     }
 
     @Override
-    public void move(int coordinate) {
-        if (Board.canCastleShort() && coordinate - this.coordinate == 20) {
+    public void move(int coord) {
+        if (Board.canCastleShort() && coord - coordinate == 20) {
             for (Piece piece : pieces) {
                 if (piece.coordinate == 77 && isWhite) {
                     piece.coordinate = 57;
@@ -21,7 +21,7 @@ public class King extends Piece {
                 }
             }
         }
-        else if (Board.canCastleLong() && this.coordinate - coordinate == 20) {
+        else if (Board.canCastleLong() && coordinate - coord == 20) {
             for (Piece piece : pieces) {
                 if (piece.coordinate == 7 && isWhite) {
                     piece.coordinate = 37;
@@ -33,12 +33,11 @@ public class King extends Piece {
                 }
             }
         }
-        else if ((Math.abs(coordinate - this.coordinate) == 10 || Math.abs(coordinate - this.coordinate) == 1 ||
-                Math.abs(coordinate - this.coordinate) == 9 || Math.abs(coordinate - this.coordinate) == 11) &&
-                coordinate >= 0 && coordinate <= 77 && coordinate % 10 <= 7) {
-            if (Board.getPiece(coordinate / 10 * 64, coordinate % 10 * 64) != null) {
-                if (Board.getPiece(coordinate / 10 * 64, coordinate % 10 * 64).isWhite != isWhite)
-                    Board.getPiece(coordinate / 10 * 64, coordinate % 10 * 64).capture();
+        else if ((Math.abs(coord - coordinate) == 10 || Math.abs(coord - coordinate) == 1 || Math.abs(coord - coordinate)
+                == 9 || Math.abs(coord - coordinate) == 11) && coord >= 0 && coord <= 77 && coord % 10 <= 7) {
+            if (Board.getPiece(coord / 10 * 64, coord % 10 * 64) != null) {
+                if (Board.getPiece(coord / 10 * 64, coord % 10 * 64).isWhite != isWhite)
+                    Board.getPiece(coord / 10 * 64, coord % 10 * 64).capture();
                 else {
                     moveFailed();
                     return;
@@ -49,7 +48,7 @@ public class King extends Piece {
             moveFailed();
             return;
         }
-        this.coordinate = coordinate;
+        coordinate = coord;
         moveSuccessful();
         takeAwayEnPassant();
     }
@@ -58,14 +57,14 @@ public class King extends Piece {
     public LinkedList<Integer> squaresAttacking() {
         LinkedList<Integer> squares = new LinkedList<>();
 
-        squares.add(this.coordinate + 1);
-        squares.add(this.coordinate + 11);
-        squares.add(this.coordinate + 10);
-        squares.add(this.coordinate + 9);
-        squares.add(this.coordinate - 1);
-        squares.add(this.coordinate - 11);
-        squares.add(this.coordinate - 10);
-        squares.add(this.coordinate - 9);
+        squares.add(coordinate + 1);
+        squares.add(coordinate + 11);
+        squares.add(coordinate + 10);
+        squares.add(coordinate + 9);
+        squares.add(coordinate - 1);
+        squares.add(coordinate - 11);
+        squares.add(coordinate - 10);
+        squares.add(coordinate - 9);
 
         for (int i = squares.size() - 1; i >= 0; i--) {
             if (Board.getPiece(squares.get(i) / 10 * 64, squares.get(i) % 10 * 64) != null) {

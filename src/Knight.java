@@ -8,13 +8,12 @@ public class Knight extends Piece {
     }
 
     @Override
-    public void move(int coordinate) {
-        if ((Math.abs(coordinate - this.coordinate) == 8 || Math.abs(coordinate - this.coordinate) == 12 ||
-                Math.abs(coordinate - this.coordinate) == 19 || Math.abs(coordinate - this.coordinate) == 21) &&
-                coordinate >= 0 && coordinate <= 77 && coordinate % 10 <= 7) {
-            if (Board.getPiece(coordinate / 10 * 64, coordinate % 10 * 64) != null) {
-                if (Board.getPiece(coordinate / 10 * 64, coordinate % 10 * 64).isWhite != isWhite)
-                    Board.getPiece(coordinate / 10 * 64, coordinate % 10 * 64).capture();
+    public void move(int coord) {
+        if ((Math.abs(coord - coordinate) == 8 || Math.abs(coord - coordinate) == 12 || Math.abs(coord - coordinate)
+                == 19 || Math.abs(coord - coordinate) == 21) && coord >= 0 && coord <= 77 && coord % 10 <= 7) {
+            if (Board.getPiece(coord / 10 * 64, coord % 10 * 64) != null) {
+                if (Board.getPiece(coord / 10 * 64, coord % 10 * 64).isWhite != isWhite)
+                    Board.getPiece(coord / 10 * 64, coord % 10 * 64).capture();
                 else {
                     moveFailed();
                     return;
@@ -25,7 +24,7 @@ public class Knight extends Piece {
             moveFailed();
             return;
         }
-        this.coordinate = coordinate;
+        coordinate = coord;
         moveSuccessful();
         takeAwayEnPassant();
     }
@@ -34,14 +33,14 @@ public class Knight extends Piece {
     public LinkedList<Integer> squaresAttacking() {
         LinkedList<Integer> squares = new LinkedList<>();
 
-        squares.add(this.coordinate + 8);
-        squares.add(this.coordinate + 12);
-        squares.add(this.coordinate + 19);
-        squares.add(this.coordinate + 21);
-        squares.add(this.coordinate - 8);
-        squares.add(this.coordinate - 12);
-        squares.add(this.coordinate - 19);
-        squares.add(this.coordinate - 21);
+        squares.add(coordinate + 8);
+        squares.add(coordinate + 12);
+        squares.add(coordinate + 19);
+        squares.add(coordinate + 21);
+        squares.add(coordinate - 8);
+        squares.add(coordinate - 12);
+        squares.add(coordinate - 19);
+        squares.add(coordinate - 21);
 
         for (int i = squares.size() - 1; i >= 0; i--) {
             if (Board.getPiece(squares.get(i) / 10 * 64, squares.get(i) % 10 * 64) != null) {

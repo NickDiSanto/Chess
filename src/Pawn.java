@@ -8,49 +8,50 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public void move(int coordinate) {
+    public void move(int coord) {
         int movementDirection = 1;
         if (isWhite)
             movementDirection = -1;
 
-        if (((coordinate - this.coordinate == movementDirection || (coordinate - this.coordinate == 2 * movementDirection &&
-                !hasMoved && !piecesBetween())) && Board.getPiece(coordinate / 10 * 64, coordinate % 10 * 64) == null)
-                && coordinate >= 0 && coordinate <= 77 && coordinate % 10 <= 7) {
+        if (((coord - coordinate == movementDirection || (coord - coordinate == 2 * movementDirection && !hasMoved
+                && !piecesBetween())) && Board.getPiece(coord / 10 * 64, coord % 10 * 64) == null)
+                && coord >= 0 && coord <= 77 && coord % 10 <= 7) {
             takeAwayEnPassant();
-            canBeEnPassant = Math.abs(coordinate - this.coordinate) == 2;
-            this.coordinate = coordinate;
+            canBeEnPassant = Math.abs(coord - coordinate) == 2;
+            coordinate = coord;
             moveSuccessful();
             return;
         }
-        else if ((coordinate - this.coordinate == 11 * movementDirection || coordinate - this.coordinate == -9 *
-                movementDirection) && Board.getPiece(coordinate / 10 * 64, coordinate % 10 * 64) != null &&
-                Board.getPiece(coordinate / 10 * 64, coordinate % 10 * 64).isWhite != isWhite &&
-                coordinate >= 0 && coordinate <= 77 && coordinate % 10 <= 7) {
-            Board.getPiece(coordinate / 10 * 64, coordinate % 10 * 64).capture();
-            this.coordinate = coordinate;
-            moveSuccessful();
-            takeAwayEnPassant();
-            return;
-        }
-        else if ((coordinate - this.coordinate == 11 * movementDirection || coordinate - this.coordinate == -9 * movementDirection)
-                && (Board.getPiece((this.coordinate + 10) / 10 * 64, this.coordinate % 10 * 64) != null ||
-                Board.getPiece((this.coordinate - 10) / 10 * 64, this.coordinate % 10 * 64) != null)) {
-            if (Board.getPiece((this.coordinate + 10) / 10 * 64, this.coordinate % 10 * 64) != null) {
-                if (Board.getPiece((this.coordinate + 10) / 10 * 64, this.coordinate % 10 * 64).canBeEnPassant) {
-                    Board.getPiece((this.coordinate + 10) / 10 * 64, this.coordinate % 10 * 64).capture();
-                    this.coordinate = coordinate;
+        else if (coord - coordinate == 11 * movementDirection || coord - coordinate == -9 * movementDirection) {
+            if (Board.getPiece(coord / 10 * 64, coord % 10 * 64) != null) {
+                if (Board.getPiece(coord / 10 * 64, coord % 10 * 64).isWhite != isWhite) {
+                    Board.getPiece(coord / 10 * 64, coord % 10 * 64).capture();
+                    coordinate = coord;
                     moveSuccessful();
                     takeAwayEnPassant();
                     return;
                 }
             }
-            if (Board.getPiece((this.coordinate - 10) / 10 * 64, this.coordinate % 10 * 64) != null) {
-                if (Board.getPiece((this.coordinate - 10) / 10 * 64, this.coordinate % 10 * 64).canBeEnPassant) {
-                    Board.getPiece((this.coordinate - 10) / 10 * 64, this.coordinate % 10 * 64).capture();
-                    this.coordinate = coordinate;
-                    moveSuccessful();
-                    takeAwayEnPassant();
-                    return;
+            else if (coord - coordinate == -9 * movementDirection) {
+                if (Board.getPiece((coordinate - (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64) != null) {
+                    if (Board.getPiece((coordinate - (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64).canBeEnPassant) {
+                        Board.getPiece((coordinate - (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64).capture();
+                        coordinate = coord;
+                        moveSuccessful();
+                        takeAwayEnPassant();
+                        return;
+                    }
+                }
+            }
+            else if (coord - coordinate == 11 * movementDirection) {
+                if (Board.getPiece((coordinate + (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64) != null) {
+                    if (Board.getPiece((coordinate + (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64).canBeEnPassant) {
+                        Board.getPiece((coordinate + (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64).capture();
+                        coordinate = coord;
+                        moveSuccessful();
+                        takeAwayEnPassant();
+                        return;
+                    }
                 }
             }
         }
@@ -65,8 +66,8 @@ public class Pawn extends Piece {
 
         LinkedList<Integer> squares = new LinkedList<>();
 
-        squares.add(this.coordinate + 10 + movementDirection);
-        squares.add(this.coordinate - 10 + movementDirection);
+        squares.add(coordinate + 10 + movementDirection);
+        squares.add(coordinate - 10 + movementDirection);
 
         for (int i = squares.size() - 1; i >= 0; i--) {
             if (Board.getPiece(squares.get(i) / 10 * 64, squares.get(i) % 10 * 64) != null) {
@@ -84,7 +85,7 @@ public class Pawn extends Piece {
 
     private boolean piecesBetween() {
         if (isWhite)
-            return Board.getPiece((this.coordinate) / 10 * 64, (this.coordinate - 1) % 10 * 64) != null;
-        return Board.getPiece((this.coordinate) / 10 * 64, (this.coordinate + 1) % 10 * 64) != null;
+            return Board.getPiece((coordinate) / 10 * 64, (coordinate - 1) % 10 * 64) != null;
+        return Board.getPiece((coordinate) / 10 * 64, (coordinate + 1) % 10 * 64) != null;
     }
 }

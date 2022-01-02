@@ -23,8 +23,7 @@ public class Board {
         int index = 0;
         for (int y = 0; y < 2; y++) {
             for (int x = 0; x < 6; x++) {
-                images[index] = all.getSubimage(x * 200, y * 200, 200, 200).getScaledInstance(
-                        64, 64, BufferedImage.SCALE_SMOOTH);
+                images[index] = all.getSubimage(x * 200, y * 200, 200, 200).getScaledInstance(64, 64, BufferedImage.SCALE_SMOOTH);
                 index++;
             }
         }
@@ -115,8 +114,7 @@ public class Board {
             }
 
             @Override
-            public void mouseMoved(MouseEvent e) {
-            }
+            public void mouseMoved(MouseEvent e) {}
         });
         frame.addMouseListener(new MouseAdapter() {
             @Override
@@ -224,8 +222,7 @@ public class Board {
                 else {
                     for (Piece piece : pieces) {
                         if (!piece.isWhite) {
-                            if (piece.squaresAttacked.contains(37) || piece.squaresAttacked.contains(27)
-                                    || piece.squaresAttacked.contains(17))
+                            if (piece.squaresAttacked.contains(37) || piece.squaresAttacked.contains(27) || piece.squaresAttacked.contains(17))
                                 return false;
                         }
                     }
@@ -243,8 +240,7 @@ public class Board {
                 else {
                     for (Piece piece : pieces) {
                         if (piece.isWhite) {
-                            if (piece.squaresAttacked.contains(30) || piece.squaresAttacked.contains(20)
-                                    || piece.squaresAttacked.contains(10))
+                            if (piece.squaresAttacked.contains(30) || piece.squaresAttacked.contains(20) || piece.squaresAttacked.contains(10))
                                 return false;
                         }
                     }

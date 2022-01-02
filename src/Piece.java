@@ -26,16 +26,16 @@ public class Piece {
         pieces.add(this);
     }
 
-    public void move (int coordinate) {
-        if (Board.getPiece(coordinate / 10 * 64, coordinate % 10 * 64) != null) {
-            if (Board.getPiece(coordinate / 10 * 64, coordinate % 10 * 64).isWhite != isWhite)
-                Board.getPiece(coordinate / 10 * 64, coordinate % 10 * 64).capture();
+    public void move (int coord) {
+        if (Board.getPiece(coord / 10 * 64, coord % 10 * 64) != null) {
+            if (Board.getPiece(coord / 10 * 64, coord % 10 * 64).isWhite != isWhite)
+                Board.getPiece(coord / 10 * 64, coord % 10 * 64).capture();
             else {
                 moveFailed();
                 return;
             }
         }
-        this.coordinate = coordinate;
+        coordinate = coord;
         moveSuccessful();
     }
 
@@ -65,8 +65,8 @@ public class Piece {
     }
 
     public void moveFailed() {
-        xPixel = this.coordinate / 10 * 64;
-        yPixel = this.coordinate % 10 * 64;
+        xPixel = coordinate / 10 * 64;
+        yPixel = coordinate % 10 * 64;
     }
 
     public void takeAwayEnPassant() {
