@@ -13,7 +13,6 @@ public class Board {
 
     public static LinkedList<Piece> pieces = new LinkedList<>();
     public static LinkedList<Integer> squaresAttacked = new LinkedList<>();
-    public static LinkedList<Piece> friendlyProtected = new LinkedList<>();
     public static Piece selectedPiece = null;
     public static boolean whiteTurn = true;
     public static int initialCoord;
@@ -140,24 +139,27 @@ public class Board {
 
                     // TODO: replace taken piece when opening up a check
                     if (selectedPiece.coordinate != initialCoord) {
+                        selectedPiece.moveSuccessful();
                         for (Piece piece : pieces) {
-                            piece.squaresAttacked = piece.getSquaresAttacked();
                             if (piece.checksKing() && piece.isWhite != whiteTurn) {
                                 selectedPiece.coordinate = initialCoord;
                                 selectedPiece.moveSuccessful();
                             }
-                            else {
-                                whiteTurn = !whiteTurn;
+                        }
+                        for (Piece piece : pieces)
+                            piece.squaresAttacked = piece.getSquaresAttacked();
 
-                                if (isCheckmate()) {
-                                    System.out.print("Checkmate! ");
-                                    if (whiteTurn)
-                                        System.out.println("Black wins!");
-                                    else
-                                        System.out.println("White wins!");
+                        if (selectedPiece.coordinate != initialCoord) {
+                            whiteTurn = !whiteTurn;
 
-                                    // TODO: END GAME
-                                }
+                            if (isCheckmate()) {
+                                System.out.print("Checkmate! ");
+                                if (whiteTurn)
+                                    System.out.println("Black wins!");
+                                else
+                                    System.out.println("White wins!");
+
+                                // TODO: END GAME
                             }
                         }
                     }
@@ -271,22 +273,20 @@ public class Board {
 
     public static boolean isCheckmate() {
         if (isCheck()) {
-            for (Piece piece : pieces) {
-                if (piece.isWhite == whiteTurn) {
-                    for (int square : piece.squaresAttacked) {
-                        int initialCoord = selectedPiece.coordinate;
-                        selectedPiece.move(square);
-                        if (selectedPiece.coordinate != initialCoord) {
-                            boolean pieceChecks = false;
-                            for (Piece oppPiece : pieces) {
-                                oppPiece.squaresAttacked = oppPiece.getSquaresAttacked();       // FIXME: issues in here <--
-                                if (oppPiece.checksKing() && oppPiece.isWhite != whiteTurn)
-                                    pieceChecks = true;
-                            }
-                            selectedPiece.move(initialCoord); // TODO: restore potentially captured piece
-                            if (!pieceChecks)
-                                return false;
+            for (int i = 0; i < pieces.size(); i++) {
+                if (pieces.get(i).isWhite == whiteTurn) {
+                    for (Integer square : pieces.get(i).squaresAttacked) {
+                        int initialCoord = pieces.get(i).coordinate;
+                        pieces.get(i).move(square);
+                        boolean pieceChecks = false;
+                        for (Piece oppPiece : pieces) {
+                            oppPiece.squaresAttacked = oppPiece.getSquaresAttacked();
+                            if (oppPiece.checksKing() && oppPiece.isWhite != whiteTurn)
+                                pieceChecks = true;
                         }
+                        pieces.get(i).coordinate = initialCoord; // TODO: restore potentially captured piece, like in mouseReleased
+                        if (!pieceChecks)
+                            return false;
                     }
                 }
             }

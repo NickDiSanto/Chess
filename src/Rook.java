@@ -63,7 +63,6 @@ public class Rook extends Piece {
             return;
         }
         coordinate = coord;
-        moveSuccessful();
         takeAwayEnPassant();
     }
 

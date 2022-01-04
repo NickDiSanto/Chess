@@ -116,7 +116,6 @@ public class Queen extends Piece {
             return;
         }
         coordinate = coord;
-        moveSuccessful();
         takeAwayEnPassant();
     }
 

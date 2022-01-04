@@ -26,18 +26,7 @@ public class Piece {
         pieces.add(this);
     }
 
-    public void move (int coord) {
-        if (Board.getPiece(coord / 10 * 64, coord % 10 * 64) != null) {
-            if (Board.getPiece(coord / 10 * 64, coord % 10 * 64).isWhite != isWhite)
-                Board.getPiece(coord / 10 * 64, coord % 10 * 64).capture();
-            else {
-                moveFailed();
-                return;
-            }
-        }
-        coordinate = coord;
-        moveSuccessful();
-    }
+    public void move (int coord) {}
 
     public void capture() {
         pieces.remove(this);
@@ -48,7 +37,7 @@ public class Piece {
     }
 
     public boolean checksKing() {
-        for (int square : squaresAttacked) {
+        for (Integer square : squaresAttacked) {
             if (Board.getPiece(square / 10 * 64, square % 10 * 64) != null) {
                 if (Board.getPiece(square / 10 * 64, square % 10 * 64).pieceType == 'K')
                     return true;

@@ -11,26 +11,18 @@ public class King extends Piece {
     public void move(int coord) {
         if (Board.canCastleShort() && coord - coordinate == 20) {
             for (Piece piece : pieces) {
-                if (piece.coordinate == 77 && isWhite) {
+                if (piece.coordinate == 77 && isWhite)
                     piece.coordinate = 57;
-                    piece.moveSuccessful();
-                }
-                else if (piece.coordinate == 70 && !isWhite) {
+                else if (piece.coordinate == 70 && !isWhite)
                     piece.coordinate = 50;
-                    piece.moveSuccessful();
-                }
             }
         }
         else if (Board.canCastleLong() && coordinate - coord == 20) {
             for (Piece piece : pieces) {
-                if (piece.coordinate == 7 && isWhite) {
+                if (piece.coordinate == 7 && isWhite)
                     piece.coordinate = 37;
-                    piece.moveSuccessful();
-                }
-                else if (piece.coordinate == 0 && !isWhite) {
+                else if (piece.coordinate == 0 && !isWhite)
                     piece.coordinate = 30;
-                    piece.moveSuccessful();
-                }
             }
         }
         else if ((Math.abs(coord - coordinate) == 10 || Math.abs(coord - coordinate) == 1 || Math.abs(coord - coordinate)
@@ -49,7 +41,6 @@ public class King extends Piece {
             return;
         }
         coordinate = coord;
-        moveSuccessful();
         takeAwayEnPassant();
     }
 

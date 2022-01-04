@@ -19,7 +19,6 @@ public class Pawn extends Piece {
             takeAwayEnPassant();
             canBeEnPassant = Math.abs(coord - coordinate) == 2;
             coordinate = coord;
-            moveSuccessful();
             return;
         }
         else if (coord - coordinate == 11 * movementDirection || coord - coordinate == -9 * movementDirection) {
@@ -27,7 +26,6 @@ public class Pawn extends Piece {
                 if (Board.getPiece(coord / 10 * 64, coord % 10 * 64).isWhite != isWhite) {
                     Board.getPiece(coord / 10 * 64, coord % 10 * 64).capture();
                     coordinate = coord;
-                    moveSuccessful();
                     takeAwayEnPassant();
                     return;
                 }
@@ -37,7 +35,6 @@ public class Pawn extends Piece {
                     if (Board.getPiece((coordinate - (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64).canBeEnPassant) {
                         Board.getPiece((coordinate - (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64).capture();
                         coordinate = coord;
-                        moveSuccessful();
                         takeAwayEnPassant();
                         return;
                     }
@@ -48,7 +45,6 @@ public class Pawn extends Piece {
                     if (Board.getPiece((coordinate + (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64).canBeEnPassant) {
                         Board.getPiece((coordinate + (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64).capture();
                         coordinate = coord;
-                        moveSuccessful();
                         takeAwayEnPassant();
                         return;
                     }
@@ -69,7 +65,7 @@ public class Pawn extends Piece {
         squares.add(coordinate + 10 + movementDirection);
         squares.add(coordinate - 10 + movementDirection);
 
-        // OPTIMIZE: this could maybe be better, also in king and knight
+        // OPTIMIZE: this could maybe be better, also in king and knight. Maybe check this stuff first before adding, instead of editing after everything is added
         for (int i = squares.size() - 1; i >= 0; i--) {
             if (Board.getPiece(squares.get(i) / 10 * 64, squares.get(i) % 10 * 64) != null) {
                 if (Board.getPiece(squares.get(i) / 10 * 64, squares.get(i) % 10 * 64).isWhite == isWhite)

@@ -25,7 +25,6 @@ public class Knight extends Piece {
             return;
         }
         coordinate = coord;
-        moveSuccessful();
         takeAwayEnPassant();
     }
 

@@ -63,7 +63,6 @@ public class Bishop extends Piece {
             return;
         }
         coordinate = coord;
-        moveSuccessful();
         takeAwayEnPassant();
     }
 
