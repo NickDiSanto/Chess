@@ -29,39 +29,39 @@ public class Board {
             }
         }
 
-        Piece blackRook1 = new Rook(0, false, false, false, 'R', squaresAttacked, friendlyProtected, pieces);
-        Piece blackKnight1 = new Knight(10, false, false, false, 'N', squaresAttacked, friendlyProtected, pieces);
-        Piece blackBishop1 = new Bishop(20, false, false, false, 'B', squaresAttacked, friendlyProtected, pieces);
-        Piece blackQueen = new Queen(30, false, false, false, 'Q', squaresAttacked, friendlyProtected, pieces);
-        Piece blackKing = new King(40, false, false, false, 'K', squaresAttacked, friendlyProtected, pieces);
-        Piece blackBishop2 = new Bishop(50, false, false, false, 'B', squaresAttacked, friendlyProtected, pieces);
-        Piece blackKnight2 = new Knight(60, false, false, false, 'N', squaresAttacked, friendlyProtected, pieces);
-        Piece blackRook2 = new Rook(70, false, false, false, 'R', squaresAttacked, friendlyProtected, pieces);
-        Piece blackPawn1 = new Pawn(1, false, false, false, 'P', squaresAttacked, friendlyProtected, pieces);
-        Piece blackPawn2 = new Pawn(11, false, false, false, 'P', squaresAttacked, friendlyProtected, pieces);
-        Piece blackPawn3 = new Pawn(21, false, false, false, 'P', squaresAttacked, friendlyProtected, pieces);
-        Piece blackPawn4 = new Pawn(31, false, false, false, 'P', squaresAttacked, friendlyProtected, pieces);
-        Piece blackPawn5 = new Pawn(41, false, false, false, 'P', squaresAttacked, friendlyProtected, pieces);
-        Piece blackPawn6 = new Pawn(51, false, false, false, 'P', squaresAttacked, friendlyProtected, pieces);
-        Piece blackPawn7 = new Pawn(61, false, false, false, 'P', squaresAttacked, friendlyProtected, pieces);
-        Piece blackPawn8 = new Pawn(71, false, false, false, 'P', squaresAttacked, friendlyProtected, pieces);
+        Piece blackRook1 = new Rook(0, false, false, false, 'R', squaresAttacked, pieces);
+        Piece blackKnight1 = new Knight(10, false, false, false, 'N', squaresAttacked, pieces);
+        Piece blackBishop1 = new Bishop(20, false, false, false, 'B', squaresAttacked, pieces);
+        Piece blackQueen = new Queen(30, false, false, false, 'Q', squaresAttacked, pieces);
+        Piece blackKing = new King(40, false, false, false, 'K', squaresAttacked, pieces);
+        Piece blackBishop2 = new Bishop(50, false, false, false, 'B', squaresAttacked, pieces);
+        Piece blackKnight2 = new Knight(60, false, false, false, 'N', squaresAttacked, pieces);
+        Piece blackRook2 = new Rook(70, false, false, false, 'R', squaresAttacked, pieces);
+        Piece blackPawn1 = new Pawn(1, false, false, false, 'P', squaresAttacked, pieces);
+        Piece blackPawn2 = new Pawn(11, false, false, false, 'P', squaresAttacked, pieces);
+        Piece blackPawn3 = new Pawn(21, false, false, false, 'P', squaresAttacked, pieces);
+        Piece blackPawn4 = new Pawn(31, false, false, false, 'P', squaresAttacked, pieces);
+        Piece blackPawn5 = new Pawn(41, false, false, false, 'P', squaresAttacked, pieces);
+        Piece blackPawn6 = new Pawn(51, false, false, false, 'P', squaresAttacked, pieces);
+        Piece blackPawn7 = new Pawn(61, false, false, false, 'P', squaresAttacked, pieces);
+        Piece blackPawn8 = new Pawn(71, false, false, false, 'P', squaresAttacked, pieces);
 
-        Piece whiteRook1 = new Rook(7, true, false, false, 'R', squaresAttacked, friendlyProtected, pieces);
-        Piece whiteKnight1 = new Knight(17, true, false, false, 'N', squaresAttacked, friendlyProtected, pieces);
-        Piece whiteBishop1 = new Bishop(27, true, false, false, 'B', squaresAttacked, friendlyProtected, pieces);
-        Piece whiteQueen = new Queen(37, true, false, false, 'Q', squaresAttacked, friendlyProtected, pieces);
-        Piece whiteKing = new King(47, true, false, false, 'K', squaresAttacked, friendlyProtected, pieces);
-        Piece whiteBishop2 = new Bishop(57, true, false, false, 'B', squaresAttacked, friendlyProtected, pieces);
-        Piece whiteKnight2 = new Knight(67, true, false, false, 'N', squaresAttacked, friendlyProtected, pieces);
-        Piece whiteRook2 = new Rook(77, true, false, false, 'R', squaresAttacked, friendlyProtected, pieces);
-        Piece whitePawn1 = new Pawn(6, true, false, false, 'P', squaresAttacked, friendlyProtected, pieces);
-        Piece whitePawn2 = new Pawn(16, true, false, false, 'P', squaresAttacked, friendlyProtected, pieces);
-        Piece whitePawn3 = new Pawn(26, true, false, false, 'P', squaresAttacked, friendlyProtected, pieces);
-        Piece whitePawn4 = new Pawn(36, true, false, false, 'P', squaresAttacked, friendlyProtected, pieces);
-        Piece whitePawn5 = new Pawn(46, true, false, false, 'P', squaresAttacked, friendlyProtected, pieces);
-        Piece whitePawn6 = new Pawn(56, true, false, false, 'P', squaresAttacked, friendlyProtected, pieces);
-        Piece whitePawn7 = new Pawn(66, true, false, false, 'P', squaresAttacked, friendlyProtected, pieces);
-        Piece whitePawn8 = new Pawn(76, true, false, false, 'P', squaresAttacked, friendlyProtected, pieces);
+        Piece whiteRook1 = new Rook(7, true, false, false, 'R', squaresAttacked, pieces);
+        Piece whiteKnight1 = new Knight(17, true, false, false, 'N', squaresAttacked, pieces);
+        Piece whiteBishop1 = new Bishop(27, true, false, false, 'B', squaresAttacked, pieces);
+        Piece whiteQueen = new Queen(37, true, false, false, 'Q', squaresAttacked, pieces);
+        Piece whiteKing = new King(47, true, false, false, 'K', squaresAttacked, pieces);
+        Piece whiteBishop2 = new Bishop(57, true, false, false, 'B', squaresAttacked, pieces);
+        Piece whiteKnight2 = new Knight(67, true, false, false, 'N', squaresAttacked, pieces);
+        Piece whiteRook2 = new Rook(77, true, false, false, 'R', squaresAttacked, pieces);
+        Piece whitePawn1 = new Pawn(6, true, false, false, 'P', squaresAttacked, pieces);
+        Piece whitePawn2 = new Pawn(16, true, false, false, 'P', squaresAttacked, pieces);
+        Piece whitePawn3 = new Pawn(26, true, false, false, 'P', squaresAttacked, pieces);
+        Piece whitePawn4 = new Pawn(36, true, false, false, 'P', squaresAttacked, pieces);
+        Piece whitePawn5 = new Pawn(46, true, false, false, 'P', squaresAttacked, pieces);
+        Piece whitePawn6 = new Pawn(56, true, false, false, 'P', squaresAttacked, pieces);
+        Piece whitePawn7 = new Pawn(66, true, false, false, 'P', squaresAttacked, pieces);
+        Piece whitePawn8 = new Pawn(76, true, false, false, 'P', squaresAttacked, pieces);
 
         JFrame frame = new JFrame();
         frame.setBounds(10, 10, 512, 512);
@@ -115,7 +115,8 @@ public class Board {
             }
 
             @Override
-            public void mouseMoved(MouseEvent e) {}
+            public void mouseMoved(MouseEvent e) {
+            }
         });
         frame.addMouseListener(new MouseAdapter() {
             @Override
@@ -141,25 +142,26 @@ public class Board {
                     if (selectedPiece.coordinate != initialCoord) {
                         for (Piece piece : pieces) {
                             piece.squaresAttacked = piece.getSquaresAttacked();
-                            piece.friendlyProtected = piece.getFriendlyProtected();
                             if (piece.checksKing() && piece.isWhite != whiteTurn) {
                                 selectedPiece.coordinate = initialCoord;
                                 selectedPiece.moveSuccessful();
                             }
+                            else {
+                                whiteTurn = !whiteTurn;
+
+                                if (isCheckmate()) {
+                                    System.out.print("Checkmate! ");
+                                    if (whiteTurn)
+                                        System.out.println("Black wins!");
+                                    else
+                                        System.out.println("White wins!");
+
+                                    // TODO: END GAME
+                                }
+                            }
                         }
-                        whiteTurn = !whiteTurn;
                     }
                     frame.repaint();
-
-                    if (isCheckmate()) {
-                        System.out.print("Checkmate! ");
-                        if (whiteTurn)
-                            System.out.println("Black wins!");
-                        else
-                            System.out.println("White wins!");
-
-                        // TODO: END GAME
-                    }
                 }
             }
         });
@@ -168,7 +170,7 @@ public class Board {
         frame.setVisible(true);
     }
 
-    public static Piece getPiece (int xPixel, int yPixel) {
+    public static Piece getPiece(int xPixel, int yPixel) {
         int xCoord = xPixel / 64;
         int yCoord = yPixel / 64;
         for (Piece piece : pieces) {
@@ -195,8 +197,7 @@ public class Board {
                     }
                 }
             }
-        }
-        else {
+        } else {
             if (Board.getPiece(256, 0) == null || Board.getPiece(448, 0) == null)
                 return false;
             else {
@@ -234,8 +235,7 @@ public class Board {
                     }
                 }
             }
-        }
-        else {
+        } else {
             if (Board.getPiece(256, 0) == null || Board.getPiece(0, 0) == null)
                 return false;
             else {
@@ -272,29 +272,27 @@ public class Board {
     public static boolean isCheckmate() {
         if (isCheck()) {
             for (Piece piece : pieces) {
-                if (piece.isWhite == whiteTurn && piece.pieceType == 'K') {
+                if (piece.isWhite == whiteTurn) {
                     for (int square : piece.squaresAttacked) {
-                        boolean isSquareSafe = true;
-                        for (Piece oppPiece : pieces) {
-                            if (oppPiece.isWhite != whiteTurn) {
-                                for (Piece protector : pieces) {
-                                    if (protector.friendlyProtected.contains(oppPiece)) {
-                                        // FIXME: this isn't quite done
-                                        isSquareSafe = false;
-                                        break;
-                                    }
-                                }
+                        int initialCoord = selectedPiece.coordinate;
+                        selectedPiece.move(square);
+                        if (selectedPiece.coordinate != initialCoord) {
+                            boolean pieceChecks = false;
+                            for (Piece oppPiece : pieces) {
+                                oppPiece.squaresAttacked = oppPiece.getSquaresAttacked();       // FIXME: issues in here <--
+                                if (oppPiece.checksKing() && oppPiece.isWhite != whiteTurn)
+                                    pieceChecks = true;
                             }
+                            selectedPiece.move(initialCoord); // TODO: restore potentially captured piece
+                            if (!pieceChecks)
+                                return false;
                         }
-                        if (isSquareSafe)
-                            return false;
                     }
-                    break;
                 }
             }
+            return true;
         }
         else
             return false;
-        return true;
     }
 }

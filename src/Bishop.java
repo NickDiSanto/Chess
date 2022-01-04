@@ -3,8 +3,8 @@ import java.util.LinkedList;
 public class Bishop extends Piece {
 
     public Bishop(int coordinate, boolean isWhite, boolean hasMoved, boolean canBeEnPassant, char pieceType,
-                LinkedList<Integer> squaresAttacked, LinkedList<Piece> friendlyProtected, LinkedList<Piece> pieces) {
-        super(coordinate, isWhite, hasMoved, canBeEnPassant, pieceType, squaresAttacked, friendlyProtected, pieces);
+                LinkedList<Integer> squaresAttacked, LinkedList<Piece> pieces) {
+        super(coordinate, isWhite, hasMoved, canBeEnPassant, pieceType, squaresAttacked, pieces);
     }
 
     @Override
@@ -125,13 +125,5 @@ public class Bishop extends Piece {
         }
 
         return squares;
-    }
-
-    @Override
-    public LinkedList<Piece> getFriendlyProtected() {
-        LinkedList<Piece> protectedPieces = new LinkedList<>();
-
-        // TODO: Implement
-        return protectedPieces;
     }
 }

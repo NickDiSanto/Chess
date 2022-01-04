@@ -3,8 +3,8 @@ import java.util.LinkedList;
 public class Queen extends Piece {
 
     public Queen(int coordinate, boolean isWhite, boolean hasMoved, boolean canBeEnPassant, char pieceType,
-                LinkedList<Integer> squaresAttacked, LinkedList<Piece> friendlyProtected, LinkedList<Piece> pieces) {
-        super(coordinate, isWhite, hasMoved, canBeEnPassant, pieceType, squaresAttacked, friendlyProtected, pieces);
+                LinkedList<Integer> squaresAttacked, LinkedList<Piece> pieces) {
+        super(coordinate, isWhite, hasMoved, canBeEnPassant, pieceType, squaresAttacked, pieces);
     }
 
     @Override
@@ -125,37 +125,37 @@ public class Queen extends Piece {
         LinkedList<Integer> squares = new LinkedList<>();
 
         for (int i = 1; i < 8 - coordinate / 10; i++) {
-            if (Board.getPiece((coordinate + 10 * i) / 10 * 64, (coordinate) % 10 * 64) == null)
+            if (Board.getPiece((coordinate + 10 * i) / 10 * 64, coordinate % 10 * 64) == null)
                 squares.add(coordinate + 10 * i);
             else {
-                if (Board.getPiece((coordinate + 10 * i) / 10 * 64, (coordinate) % 10 * 64).isWhite != isWhite)
+                if (Board.getPiece((coordinate + 10 * i) / 10 * 64, coordinate % 10 * 64).isWhite != isWhite)
                     squares.add(coordinate + 10 * i);
                 break;
             }
         }
         for (int i = 1; i <= coordinate / 10; i++) {
-            if (Board.getPiece((coordinate - 10 * i) / 10 * 64, (coordinate) % 10 * 64) == null)
+            if (Board.getPiece((coordinate - 10 * i) / 10 * 64, coordinate % 10 * 64) == null)
                 squares.add(coordinate - 10 * i);
             else {
-                if (Board.getPiece((coordinate - 10 * i) / 10 * 64, (coordinate) % 10 * 64).isWhite != isWhite)
+                if (Board.getPiece((coordinate - 10 * i) / 10 * 64, coordinate % 10 * 64).isWhite != isWhite)
                     squares.add(coordinate - 10 * i);
                 break;
             }
         }
         for (int i = 1; i < 8 - coordinate % 10; i++) {
-            if (Board.getPiece((coordinate) / 10 * 64, (coordinate + i) % 10 * 64) == null)
+            if (Board.getPiece(coordinate / 10 * 64, (coordinate + i) % 10 * 64) == null)
                 squares.add(coordinate + i);
             else {
-                if (Board.getPiece((coordinate) / 10 * 64, (coordinate + i) % 10 * 64).isWhite != isWhite)
+                if (Board.getPiece(coordinate / 10 * 64, (coordinate + i) % 10 * 64).isWhite != isWhite)
                     squares.add(coordinate + i);
                 break;
             }
         }
         for (int i = 1; i <= coordinate % 10; i++) {
-            if (Board.getPiece((coordinate) / 10 * 64, (coordinate - i) % 10 * 64) == null)
+            if (Board.getPiece(coordinate / 10 * 64, (coordinate - i) % 10 * 64) == null)
                 squares.add(coordinate - i);
             else {
-                if (Board.getPiece((coordinate) / 10 * 64, (coordinate - i) % 10 * 64).isWhite != isWhite)
+                if (Board.getPiece(coordinate / 10 * 64, (coordinate - i) % 10 * 64).isWhite != isWhite)
                     squares.add(coordinate - i);
                 break;
             }
@@ -215,12 +215,5 @@ public class Queen extends Piece {
         }
 
         return squares;
-    }
-
-    @Override
-    public LinkedList<Piece> getFriendlyProtected() {
-        LinkedList<Piece> protectedPieces = new LinkedList<>();
-        // TODO: Implement
-        return protectedPieces;
     }
 }
