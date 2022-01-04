@@ -30,40 +30,44 @@ public class Knight extends Piece {
     }
 
     @Override
-    public void getSquaresAttacked() {
-        squaresAttacked.clear();
+    public LinkedList<Integer> getSquaresAttacked() {
+        LinkedList<Integer> squares = new LinkedList<>();
 
-        squaresAttacked.add(coordinate + 8);
-        squaresAttacked.add(coordinate + 12);
-        squaresAttacked.add(coordinate + 19);
-        squaresAttacked.add(coordinate + 21);
-        squaresAttacked.add(coordinate - 8);
-        squaresAttacked.add(coordinate - 12);
-        squaresAttacked.add(coordinate - 19);
-        squaresAttacked.add(coordinate - 21);
+        squares.add(coordinate + 8);
+        squares.add(coordinate + 12);
+        squares.add(coordinate + 19);
+        squares.add(coordinate + 21);
+        squares.add(coordinate - 8);
+        squares.add(coordinate - 12);
+        squares.add(coordinate - 19);
+        squares.add(coordinate - 21);
 
-        for (int i = squaresAttacked.size() - 1; i >= 0; i--) {
-            if (Board.getPiece(squaresAttacked.get(i) / 10 * 64, squaresAttacked.get(i) % 10 * 64) != null) {
-                if (Board.getPiece(squaresAttacked.get(i) / 10 * 64, squaresAttacked.get(i) % 10 * 64).isWhite == isWhite)
-                    squaresAttacked.remove(i);
+        for (int i = squares.size() - 1; i >= 0; i--) {
+            if (Board.getPiece(squares.get(i) / 10 * 64, squares.get(i) % 10 * 64) != null) {
+                if (Board.getPiece(squares.get(i) / 10 * 64, squares.get(i) % 10 * 64).isWhite == isWhite)
+                    squares.remove(i);
             }
         }
-        for (int i = squaresAttacked.size() - 1; i >= 0; i--) {
-            if (squaresAttacked.get(i) > 77 || squaresAttacked.get(i) < 0 || squaresAttacked.get(i) % 10 > 7)
-                squaresAttacked.remove(i);
+        for (int i = squares.size() - 1; i >= 0; i--) {
+            if (squares.get(i) > 77 || squares.get(i) < 0 || squares.get(i) % 10 > 7)
+                squares.remove(i);
         }
+
+        return squares;
     }
 
     @Override
-    public void getFriendlyProtected() {
-        friendlyProtected.clear();
+    public LinkedList<Piece> getFriendlyProtected() {
+        LinkedList<Piece> protectedPieces = new LinkedList<>();
 
         for (Piece piece : pieces) {
             if (piece.isWhite == isWhite) {
                 if (Math.abs(piece.coordinate - coordinate) == 8 || Math.abs(piece.coordinate - coordinate) == 12 ||
                         Math.abs(piece.coordinate - coordinate) == 19 || Math.abs(piece.coordinate - coordinate) == 21)
-                    friendlyProtected.add(piece);
+                    protectedPieces.add(piece);
             }
         }
+
+        return protectedPieces;
     }
 }

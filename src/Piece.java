@@ -45,10 +45,12 @@ public class Piece {
         pieces.remove(this);
     }
 
-    public void getSquaresAttacked() {
+    public LinkedList<Integer> getSquaresAttacked() {
+        return null;
     }
 
-    public void getFriendlyProtected() {
+    public LinkedList<Piece> getFriendlyProtected() {
+        return null;
     }
 
     public boolean checksKing() {

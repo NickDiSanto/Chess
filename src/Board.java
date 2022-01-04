@@ -140,7 +140,8 @@ public class Board {
                     // TODO: replace taken piece when opening up a check
                     if (selectedPiece.coordinate != initialCoord) {
                         for (Piece piece : pieces) {
-                            piece.getSquaresAttacked();
+                            piece.squaresAttacked = piece.getSquaresAttacked();
+                            piece.friendlyProtected = piece.getFriendlyProtected();
                             if (piece.checksKing() && piece.isWhite != whiteTurn) {
                                 selectedPiece.coordinate = initialCoord;
                                 selectedPiece.moveSuccessful();

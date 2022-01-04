@@ -68,54 +68,58 @@ public class Rook extends Piece {
     }
 
     @Override
-    public void getSquaresAttacked() {
-        squaresAttacked.clear();
+    public LinkedList<Integer> getSquaresAttacked() {
+        LinkedList<Integer> squares = new LinkedList<>();
 
         for (int i = 1; i < 8 - coordinate / 10; i++) {
             if (Board.getPiece((coordinate + 10 * i) / 10 * 64, (coordinate) % 10 * 64) == null)
-                squaresAttacked.add(coordinate + 10 * i);
+                squares.add(coordinate + 10 * i);
             else {
                 if (Board.getPiece((coordinate + 10 * i) / 10 * 64, (coordinate) % 10 * 64).isWhite != isWhite)
-                    squaresAttacked.add(coordinate + 10 * i);
+                    squares.add(coordinate + 10 * i);
                 break;
             }
         }
         for (int i = 1; i <= coordinate / 10; i++) {
             if (Board.getPiece((coordinate - 10 * i) / 10 * 64, (coordinate) % 10 * 64) == null)
-                squaresAttacked.add(coordinate - 10 * i);
+                squares.add(coordinate - 10 * i);
             else {
                 if (Board.getPiece((coordinate - 10 * i) / 10 * 64, (coordinate) % 10 * 64).isWhite != isWhite)
-                    squaresAttacked.add(coordinate - 10 * i);
+                    squares.add(coordinate - 10 * i);
                 break;
             }
         }
         for (int i = 1; i < 8 - coordinate % 10; i++) {
             if (Board.getPiece((coordinate) / 10 * 64, (coordinate + i) % 10 * 64) == null)
-                squaresAttacked.add(coordinate + i);
+                squares.add(coordinate + i);
             else {
                 if (Board.getPiece((coordinate) / 10 * 64, (coordinate + i) % 10 * 64).isWhite != isWhite)
-                    squaresAttacked.add(coordinate + i);
+                    squares.add(coordinate + i);
                 break;
             }
         }
         for (int i = 1; i <= coordinate % 10; i++) {
             if (Board.getPiece((coordinate) / 10 * 64, (coordinate - i) % 10 * 64) == null)
-                squaresAttacked.add(coordinate - i);
+                squares.add(coordinate - i);
             else {
                 if (Board.getPiece((coordinate) / 10 * 64, (coordinate - i) % 10 * 64).isWhite != isWhite)
-                    squaresAttacked.add(coordinate - i);
+                    squares.add(coordinate - i);
                 break;
             }
         }
 
-        for (int i = squaresAttacked.size() - 1; i >= 0; i--) {
-            if (squaresAttacked.get(i) > 77 || squaresAttacked.get(i) < 0 || squaresAttacked.get(i) % 10 > 7)
-                squaresAttacked.remove(i);
+        for (int i = squares.size() - 1; i >= 0; i--) {
+            if (squares.get(i) > 77 || squares.get(i) < 0 || squares.get(i) % 10 > 7)
+                squares.remove(i);
         }
+
+        return squares;
     }
 
     @Override
-    public void getFriendlyProtected() {
+    public LinkedList<Piece> getFriendlyProtected() {
+        LinkedList<Piece> protectedPieces = new LinkedList<>();
         // TODO: Implement
+        return protectedPieces;
     }
 }

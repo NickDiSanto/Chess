@@ -121,42 +121,42 @@ public class Queen extends Piece {
     }
 
     @Override
-    public void getSquaresAttacked() {
-        squaresAttacked.clear();
+    public LinkedList<Integer> getSquaresAttacked() {
+        LinkedList<Integer> squares = new LinkedList<>();
 
         for (int i = 1; i < 8 - coordinate / 10; i++) {
             if (Board.getPiece((coordinate + 10 * i) / 10 * 64, (coordinate) % 10 * 64) == null)
-                squaresAttacked.add(coordinate + 10 * i);
+                squares.add(coordinate + 10 * i);
             else {
                 if (Board.getPiece((coordinate + 10 * i) / 10 * 64, (coordinate) % 10 * 64).isWhite != isWhite)
-                    squaresAttacked.add(coordinate + 10 * i);
+                    squares.add(coordinate + 10 * i);
                 break;
             }
         }
         for (int i = 1; i <= coordinate / 10; i++) {
             if (Board.getPiece((coordinate - 10 * i) / 10 * 64, (coordinate) % 10 * 64) == null)
-                squaresAttacked.add(coordinate - 10 * i);
+                squares.add(coordinate - 10 * i);
             else {
                 if (Board.getPiece((coordinate - 10 * i) / 10 * 64, (coordinate) % 10 * 64).isWhite != isWhite)
-                    squaresAttacked.add(coordinate - 10 * i);
+                    squares.add(coordinate - 10 * i);
                 break;
             }
         }
         for (int i = 1; i < 8 - coordinate % 10; i++) {
             if (Board.getPiece((coordinate) / 10 * 64, (coordinate + i) % 10 * 64) == null)
-                squaresAttacked.add(coordinate + i);
+                squares.add(coordinate + i);
             else {
                 if (Board.getPiece((coordinate) / 10 * 64, (coordinate + i) % 10 * 64).isWhite != isWhite)
-                    squaresAttacked.add(coordinate + i);
+                    squares.add(coordinate + i);
                 break;
             }
         }
         for (int i = 1; i <= coordinate % 10; i++) {
             if (Board.getPiece((coordinate) / 10 * 64, (coordinate - i) % 10 * 64) == null)
-                squaresAttacked.add(coordinate - i);
+                squares.add(coordinate - i);
             else {
                 if (Board.getPiece((coordinate) / 10 * 64, (coordinate - i) % 10 * 64).isWhite != isWhite)
-                    squaresAttacked.add(coordinate - i);
+                    squares.add(coordinate - i);
                 break;
             }
         }
@@ -168,11 +168,11 @@ public class Queen extends Piece {
                 if (Board.getPiece((coordinate + 10 * i) / 10 * 64, (coordinate + i) % 10 * 64) != null) {
                     if (Board.getPiece((coordinate + 10 * i) / 10 * 64, (coordinate + i) % 10 * 64).isWhite == isWhite)
                         break;
-                    squaresAttacked.add(coordinate + 11 * i);
+                    squares.add(coordinate + 11 * i);
                     break;
                 }
             }
-            squaresAttacked.add(coordinate + 11 * i);
+            squares.add(coordinate + 11 * i);
         }
         for (int i = 1; i < 8; i++) {
             if (coordinate - 9 * i > 77 || coordinate - 9 * i < 0 || (coordinate - 9 * i) % 10 > 7)
@@ -181,11 +181,11 @@ public class Queen extends Piece {
                 if (Board.getPiece((coordinate - 10 * i) / 10 * 64, (coordinate + i) % 10 * 64) != null) {
                     if (Board.getPiece((coordinate - 10 * i) / 10 * 64, (coordinate + i) % 10 * 64).isWhite == isWhite)
                         break;
-                    squaresAttacked.add(coordinate - 9 * i);
+                    squares.add(coordinate - 9 * i);
                     break;
                 }
             }
-            squaresAttacked.add(coordinate - 9 * i);
+            squares.add(coordinate - 9 * i);
         }
         for (int i = 1; i < 8; i++) {
             if (coordinate - 11 * i > 77 || coordinate - 11 * i < 0 || (coordinate - 11 * i) % 10 > 7)
@@ -194,11 +194,11 @@ public class Queen extends Piece {
                 if (Board.getPiece((coordinate - 10 * i) / 10 * 64, (coordinate - i) % 10 * 64) != null) {
                     if (Board.getPiece((coordinate - 10 * i) / 10 * 64, (coordinate - i) % 10 * 64).isWhite == isWhite)
                         break;
-                    squaresAttacked.add(coordinate - 11 * i);
+                    squares.add(coordinate - 11 * i);
                     break;
                 }
             }
-            squaresAttacked.add(coordinate - 11 * i);
+            squares.add(coordinate - 11 * i);
         }
         for (int i = 1; i < 8; i++) {
             if (coordinate + 9 * i > 77 || coordinate + 9 * i < 0 || (coordinate + 9 * i) % 10 > 7)
@@ -207,16 +207,20 @@ public class Queen extends Piece {
                 if (Board.getPiece((coordinate + 10 * i) / 10 * 64, (coordinate - i) % 10 * 64) != null) {
                     if (Board.getPiece((coordinate + 10 * i) / 10 * 64, (coordinate - i) % 10 * 64).isWhite == isWhite)
                         break;
-                    squaresAttacked.add(coordinate + 9 * i);
+                    squares.add(coordinate + 9 * i);
                     break;
                 }
             }
-            squaresAttacked.add(coordinate + 9 * i);
+            squares.add(coordinate + 9 * i);
         }
+
+        return squares;
     }
 
     @Override
-    public void getFriendlyProtected() {
+    public LinkedList<Piece> getFriendlyProtected() {
+        LinkedList<Piece> protectedPieces = new LinkedList<>();
         // TODO: Implement
+        return protectedPieces;
     }
 }

@@ -59,32 +59,34 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public void getSquaresAttacked() {
-        squaresAttacked.clear();
+    public LinkedList<Integer> getSquaresAttacked() {
+        LinkedList<Integer> squares = new LinkedList<>();
 
         int movementDirection = 1;
         if (isWhite)
             movementDirection = -1;
 
-        squaresAttacked.add(coordinate + 10 + movementDirection);
-        squaresAttacked.add(coordinate - 10 + movementDirection);
+        squares.add(coordinate + 10 + movementDirection);
+        squares.add(coordinate - 10 + movementDirection);
 
         // OPTIMIZE: this could maybe be better, also in king and knight
-        for (int i = squaresAttacked.size() - 1; i >= 0; i--) {
-            if (Board.getPiece(squaresAttacked.get(i) / 10 * 64, squaresAttacked.get(i) % 10 * 64) != null) {
-                if (Board.getPiece(squaresAttacked.get(i) / 10 * 64, squaresAttacked.get(i) % 10 * 64).isWhite == isWhite)
-                    squaresAttacked.remove(i);
+        for (int i = squares.size() - 1; i >= 0; i--) {
+            if (Board.getPiece(squares.get(i) / 10 * 64, squares.get(i) % 10 * 64) != null) {
+                if (Board.getPiece(squares.get(i) / 10 * 64, squares.get(i) % 10 * 64).isWhite == isWhite)
+                    squares.remove(i);
             }
         }
-        for (int i = squaresAttacked.size() - 1; i >= 0; i--) {
-            if (squaresAttacked.get(i) > 77 || squaresAttacked.get(i) < 0 || squaresAttacked.get(i) % 10 > 7)
-                squaresAttacked.remove(i);
+        for (int i = squares.size() - 1; i >= 0; i--) {
+            if (squares.get(i) > 77 || squares.get(i) < 0 || squares.get(i) % 10 > 7)
+                squares.remove(i);
         }
+
+        return squares;
     }
 
     @Override
-    public void getFriendlyProtected() {
-        friendlyProtected.clear();
+    public LinkedList<Piece> getFriendlyProtected() {
+        LinkedList<Piece> protectedPieces = new LinkedList<>();
 
         int movementDirection = 1;
         if (isWhite)
@@ -93,9 +95,11 @@ public class Pawn extends Piece {
         for (Piece piece : pieces) {
             if (piece.isWhite == isWhite) {
                 if (piece.coordinate - coordinate == 11 * movementDirection || piece.coordinate - coordinate == -9 * movementDirection)
-                    friendlyProtected.add(piece);
+                    protectedPieces.add(piece);
             }
         }
+
+        return protectedPieces;
     }
 
     private boolean piecesBetween() {
