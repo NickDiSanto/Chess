@@ -3,8 +3,8 @@ import java.util.LinkedList;
 public class Bishop extends Piece {
 
     public Bishop(int coordinate, boolean isWhite, boolean hasMoved, boolean canBeEnPassant, char pieceType,
-                LinkedList<Integer> squaresAttacked, LinkedList<Piece> pieces) {
-        super(coordinate, isWhite, hasMoved, canBeEnPassant, pieceType, squaresAttacked, pieces);
+                LinkedList<Integer> squaresAttacked, LinkedList<Piece> friendlyProtected, LinkedList<Piece> pieces) {
+        super(coordinate, isWhite, hasMoved, canBeEnPassant, pieceType, squaresAttacked, friendlyProtected, pieces);
     }
 
     @Override
@@ -68,8 +68,8 @@ public class Bishop extends Piece {
     }
 
     @Override
-    public LinkedList<Integer> squaresAttacking() {
-        LinkedList<Integer> squares = new LinkedList<>();
+    public void getSquaresAttacked() {
+        squaresAttacked.clear();
 
         for (int i = 1; i < 8; i++) {
             if (coordinate + 11 * i > 77 || coordinate + 11 * i < 0 || (coordinate + 11 * i) % 10 > 7)
@@ -78,11 +78,11 @@ public class Bishop extends Piece {
                 if (Board.getPiece((coordinate + 10 * i) / 10 * 64, (coordinate + i) % 10 * 64) != null) {
                     if (Board.getPiece((coordinate + 10 * i) / 10 * 64, (coordinate + i) % 10 * 64).isWhite == isWhite)
                         break;
-                    squares.add(coordinate + 11 * i);
+                    squaresAttacked.add(coordinate + 11 * i);
                     break;
                 }
             }
-            squares.add(coordinate + 11 * i);
+            squaresAttacked.add(coordinate + 11 * i);
         }
         for (int i = 1; i < 8; i++) {
             if (coordinate - 9 * i > 77 || coordinate - 9 * i < 0 || (coordinate - 9 * i) % 10 > 7)
@@ -91,11 +91,11 @@ public class Bishop extends Piece {
                 if (Board.getPiece((coordinate - 10 * i) / 10 * 64, (coordinate + i) % 10 * 64) != null) {
                     if (Board.getPiece((coordinate - 10 * i) / 10 * 64, (coordinate + i) % 10 * 64).isWhite == isWhite)
                         break;
-                    squares.add(coordinate - 9 * i);
+                    squaresAttacked.add(coordinate - 9 * i);
                     break;
                 }
             }
-            squares.add(coordinate - 9 * i);
+            squaresAttacked.add(coordinate - 9 * i);
         }
         for (int i = 1; i < 8; i++) {
             if (coordinate - 11 * i > 77 || coordinate - 11 * i < 0 || (coordinate - 11 * i) % 10 > 7)
@@ -104,11 +104,11 @@ public class Bishop extends Piece {
                 if (Board.getPiece((coordinate - 10 * i) / 10 * 64, (coordinate - i) % 10 * 64) != null) {
                     if (Board.getPiece((coordinate - 10 * i) / 10 * 64, (coordinate - i) % 10 * 64).isWhite == isWhite)
                         break;
-                    squares.add(coordinate - 11 * i);
+                    squaresAttacked.add(coordinate - 11 * i);
                     break;
                 }
             }
-            squares.add(coordinate - 11 * i);
+            squaresAttacked.add(coordinate - 11 * i);
         }
         for (int i = 1; i < 8; i++) {
             if (coordinate + 9 * i > 77 || coordinate + 9 * i < 0 || (coordinate + 9 * i) % 10 > 7)
@@ -117,13 +117,16 @@ public class Bishop extends Piece {
                 if (Board.getPiece((coordinate + 10 * i) / 10 * 64, (coordinate - i) % 10 * 64) != null) {
                     if (Board.getPiece((coordinate + 10 * i) / 10 * 64, (coordinate - i) % 10 * 64).isWhite == isWhite)
                         break;
-                    squares.add(coordinate + 9 * i);
+                    squaresAttacked.add(coordinate + 9 * i);
                     break;
                 }
             }
-            squares.add(coordinate + 9 * i);
+            squaresAttacked.add(coordinate + 9 * i);
         }
+    }
 
-        return squares;
+    @Override
+    public void getFriendlyProtected() {
+        // TODO: Implement
     }
 }

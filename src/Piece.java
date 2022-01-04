@@ -9,10 +9,11 @@ public class Piece {
     boolean hasMoved;
     char pieceType;
     LinkedList<Integer> squaresAttacked;
+    LinkedList<Piece> friendlyProtected;
     LinkedList<Piece> pieces;
 
     public Piece(int coordinate, boolean isWhite, boolean hasMoved, boolean canBeEnPassant, char pieceType,
-                 LinkedList<Integer> squaresAttacked, LinkedList<Piece> pieces) {
+                 LinkedList<Integer> squaresAttacked, LinkedList<Piece> friendlyProtected, LinkedList<Piece> pieces) {
         this.coordinate = coordinate;
         xPixel = coordinate / 10 * 64;
         yPixel = coordinate % 10 * 64;
@@ -21,6 +22,7 @@ public class Piece {
         this.canBeEnPassant = canBeEnPassant;
         this.pieceType = pieceType;
         this.squaresAttacked = squaresAttacked;
+        this.friendlyProtected = friendlyProtected;
         this.pieces = pieces;
 
         pieces.add(this);
@@ -43,8 +45,10 @@ public class Piece {
         pieces.remove(this);
     }
 
-    public LinkedList<Integer> squaresAttacking() {
-        return null;
+    public void getSquaresAttacked() {
+    }
+
+    public void getFriendlyProtected() {
     }
 
     public boolean checksKing() {
@@ -61,7 +65,7 @@ public class Piece {
         xPixel = coordinate / 10 * 64;
         yPixel = coordinate % 10 * 64;
         hasMoved = true;
-        squaresAttacked = squaresAttacking();
+        getSquaresAttacked();
     }
 
     public void moveFailed() {
