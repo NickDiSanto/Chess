@@ -11,6 +11,10 @@ import java.util.LinkedList;
 
 public class Board {
 
+    // TODO: Add clock
+    // TODO: Add squaresAttacked options
+    // TODO: If check, make king's square red
+
     public static LinkedList<Piece> pieces = new LinkedList<>();
     public static LinkedList<Integer> squaresAttacked = new LinkedList<>();
     public static Piece selectedPiece = null;
@@ -135,21 +139,31 @@ public class Board {
                     if (selectedPiece.isWhite != whiteTurn)
                         return;
 
+                    selectedPiece.recentCapture = null;
+
                     selectedPiece.move(e.getX() / 64 * 10 + e.getY() / 64);
 
-                    // TODO: replace taken piece when opening up a check
                     if (selectedPiece.coordinate != initialCoord) {
-                        selectedPiece.moveSuccessful();
+                        for (Piece piece : pieces)
+                            piece.updatePiece();
                         for (Piece piece : pieces) {
                             if (piece.checksKing() && piece.isWhite != whiteTurn) {
+                                System.out.println("illegal move");
+                                if (selectedPiece.recentCapture != null) {
+                                    // TODO: Reinstate illegally captured piece
+                                }
                                 selectedPiece.coordinate = initialCoord;
-                                selectedPiece.moveSuccessful();
+                                selectedPiece.updatePiece();
                             }
                         }
                         for (Piece piece : pieces)
                             piece.squaresAttacked = piece.getSquaresAttacked();
 
                         if (selectedPiece.coordinate != initialCoord) {
+                            selectedPiece.updatePiece();
+                            if (Math.abs(selectedPiece.coordinate - initialCoord) != 2 || selectedPiece.pieceType != 'P')
+                                selectedPiece.takeAwayEnPassant();
+                            selectedPiece.hasMoved = true;
                             whiteTurn = !whiteTurn;
 
                             if (isCheckmate()) {
@@ -275,6 +289,7 @@ public class Board {
         if (isCheck()) {
             for (int i = 0; i < pieces.size(); i++) {
                 if (pieces.get(i).isWhite == whiteTurn) {
+                    pieces.get(i).recentCapture = null;
                     for (Integer square : pieces.get(i).squaresAttacked) {
                         int initialCoord = pieces.get(i).coordinate;
                         pieces.get(i).move(square);
@@ -284,7 +299,9 @@ public class Board {
                             if (oppPiece.checksKing() && oppPiece.isWhite != whiteTurn)
                                 pieceChecks = true;
                         }
-                        pieces.get(i).coordinate = initialCoord; // TODO: restore potentially captured piece, like in mouseReleased
+                        if (pieces.get(i).recentCapture != null)
+                            pieces.get(i).recentCapture.coordinate = pieces.get(i).coordinate;
+                        pieces.get(i).coordinate = initialCoord;
                         if (!pieceChecks)
                             return false;
                     }

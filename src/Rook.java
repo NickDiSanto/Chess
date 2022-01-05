@@ -25,45 +25,46 @@ public class Rook extends Piece {
             for (int i = 1; i <= numSquaresBetween; i++) {
                 if (movingSideways && movingBackwards) {
                     if (Board.getPiece((coordinate - 10 * i) / 10 * 64, (coordinate) % 10 * 64) != null) {
-                        moveFailed();
+                        updatePiece();
                         return;
                     }
                 }
                 else if (movingSideways) {
                     if (Board.getPiece((coordinate + 10 * i) / 10 * 64, (coordinate) % 10 * 64) != null) {
-                        moveFailed();
+                        updatePiece();
                         return;
                     }
                 }
                 else if (movingBackwards) {
                     if (Board.getPiece((coordinate) / 10 * 64, (coordinate - i) % 10 * 64) != null) {
-                        moveFailed();
+                        updatePiece();
                         return;
                     }
                 }
                 else {
                     if (Board.getPiece((coordinate) / 10 * 64, (coordinate + i) % 10 * 64) != null) {
-                        moveFailed();
+                        updatePiece();
                         return;
                     }
                 }
             }
 
             if (Board.getPiece(coord / 10 * 64, coord % 10 * 64) != null) {
-                if (Board.getPiece(coord / 10 * 64, coord % 10 * 64).isWhite != isWhite)
+                if (Board.getPiece(coord / 10 * 64, coord % 10 * 64).isWhite != isWhite) {
+                    recentCapture = Board.getPiece(coord / 10 * 64, coord % 10 * 64);
                     Board.getPiece(coord / 10 * 64, coord % 10 * 64).capture();
+                }
                 else {
-                    moveFailed();
+                    updatePiece();
                     return;
                 }
             }
         }
         else {
-            moveFailed();
+            updatePiece();
             return;
         }
         coordinate = coord;
-        takeAwayEnPassant();
     }
 
     @Override

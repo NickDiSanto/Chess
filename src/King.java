@@ -28,20 +28,21 @@ public class King extends Piece {
         else if ((Math.abs(coord - coordinate) == 10 || Math.abs(coord - coordinate) == 1 || Math.abs(coord - coordinate)
                 == 9 || Math.abs(coord - coordinate) == 11) && coord >= 0 && coord <= 77 && coord % 10 <= 7) {
             if (Board.getPiece(coord / 10 * 64, coord % 10 * 64) != null) {
-                if (Board.getPiece(coord / 10 * 64, coord % 10 * 64).isWhite != isWhite)
+                if (Board.getPiece(coord / 10 * 64, coord % 10 * 64).isWhite != isWhite) {
+                    recentCapture = Board.getPiece(coord / 10 * 64, coord % 10 * 64);
                     Board.getPiece(coord / 10 * 64, coord % 10 * 64).capture();
+                }
                 else {
-                    moveFailed();
+                    updatePiece();
                     return;
                 }
             }
         }
         else {
-            moveFailed();
+            updatePiece();
             return;
         }
         coordinate = coord;
-        takeAwayEnPassant();
     }
 
     @Override

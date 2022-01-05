@@ -10,6 +10,7 @@ public class Piece {
     char pieceType;
     LinkedList<Integer> squaresAttacked;
     LinkedList<Piece> pieces;
+    Piece recentCapture;
 
     public Piece(int coordinate, boolean isWhite, boolean hasMoved, boolean canBeEnPassant, char pieceType,
                  LinkedList<Integer> squaresAttacked, LinkedList<Piece> pieces) {
@@ -46,19 +47,13 @@ public class Piece {
         return false;
     }
 
-    public void moveSuccessful() {
+    public void updatePiece() {
         xPixel = coordinate / 10 * 64;
         yPixel = coordinate % 10 * 64;
-        hasMoved = true;
-        getSquaresAttacked();
+        squaresAttacked = getSquaresAttacked();
     }
 
-    public void moveFailed() {
-        xPixel = coordinate / 10 * 64;
-        yPixel = coordinate % 10 * 64;
-    }
-
-    public void takeAwayEnPassant() {
+    public void takeAwayEnPassant() { // FIXME: Shouldn't happen on an undone move
         for (Piece piece : pieces)
             piece.canBeEnPassant = false;
     }

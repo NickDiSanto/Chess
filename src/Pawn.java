@@ -16,7 +16,6 @@ public class Pawn extends Piece {
         if (((coord - coordinate == movementDirection || (coord - coordinate == 2 * movementDirection && !hasMoved
                 && !piecesBetween())) && Board.getPiece(coord / 10 * 64, coord % 10 * 64) == null)
                 && coord >= 0 && coord <= 77 && coord % 10 <= 7) {
-            takeAwayEnPassant();
             canBeEnPassant = Math.abs(coord - coordinate) == 2;
             coordinate = coord;
             return;
@@ -24,18 +23,18 @@ public class Pawn extends Piece {
         else if (coord - coordinate == 11 * movementDirection || coord - coordinate == -9 * movementDirection) {
             if (Board.getPiece(coord / 10 * 64, coord % 10 * 64) != null) {
                 if (Board.getPiece(coord / 10 * 64, coord % 10 * 64).isWhite != isWhite) {
+                    recentCapture = Board.getPiece(coord / 10 * 64, coord % 10 * 64);
                     Board.getPiece(coord / 10 * 64, coord % 10 * 64).capture();
                     coordinate = coord;
-                    takeAwayEnPassant();
                     return;
                 }
             }
             else if (coord - coordinate == -9 * movementDirection) {
                 if (Board.getPiece((coordinate - (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64) != null) {
                     if (Board.getPiece((coordinate - (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64).canBeEnPassant) {
+                        recentCapture = Board.getPiece((coordinate - (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64);
                         Board.getPiece((coordinate - (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64).capture();
                         coordinate = coord;
-                        takeAwayEnPassant();
                         return;
                     }
                 }
@@ -43,15 +42,15 @@ public class Pawn extends Piece {
             else if (coord - coordinate == 11 * movementDirection) {
                 if (Board.getPiece((coordinate + (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64) != null) {
                     if (Board.getPiece((coordinate + (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64).canBeEnPassant) {
+                        recentCapture = Board.getPiece((coordinate + (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64);
                         Board.getPiece((coordinate + (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64).capture();
                         coordinate = coord;
-                        takeAwayEnPassant();
                         return;
                     }
                 }
             }
         }
-        moveFailed();
+        updatePiece();
     }
 
     @Override
