@@ -146,11 +146,12 @@ public class Board {
                     if (selectedPiece.coordinate != initialCoord) {
                         for (Piece piece : pieces)
                             piece.updatePiece();
-                        for (Piece piece : pieces) {
-                            if (piece.checksKing() && piece.isWhite != whiteTurn) {
-                                System.out.println("illegal move");
+                        for (int i = 0; i < pieces.size(); i++) {
+                            if (pieces.get(i).checksKing() && pieces.get(i).isWhite != whiteTurn) {
                                 if (selectedPiece.recentCapture != null) {
-                                    // TODO: Reinstate illegally captured piece
+                                    Piece newPiece = selectedPiece.recentCapture;
+                                    pieces.add(newPiece);
+                                    selectedPiece.recentCapture = null;
                                 }
                                 selectedPiece.coordinate = initialCoord;
                                 selectedPiece.updatePiece();
@@ -167,7 +168,7 @@ public class Board {
                             whiteTurn = !whiteTurn;
 
                             if (isCheckmate()) {
-                                System.out.print("Checkmate! ");
+                                System.out.println("Checkmate!");
                                 if (whiteTurn)
                                     System.out.println("Black wins!");
                                 else
@@ -299,8 +300,11 @@ public class Board {
                             if (oppPiece.checksKing() && oppPiece.isWhite != whiteTurn)
                                 pieceChecks = true;
                         }
-                        if (pieces.get(i).recentCapture != null)
-                            pieces.get(i).recentCapture.coordinate = pieces.get(i).coordinate;
+                        if (pieces.get(i).recentCapture != null) {
+                            Piece newPiece = pieces.get(i).recentCapture;
+                            pieces.add(newPiece);
+                            pieces.get(i).recentCapture = null;
+                        }
                         pieces.get(i).coordinate = initialCoord;
                         if (!pieceChecks)
                             return false;
