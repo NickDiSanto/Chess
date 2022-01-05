@@ -53,7 +53,7 @@ public class Piece {
         squaresAttacked = getSquaresAttacked();
     }
 
-    public void takeAwayEnPassant() { // FIXME: Shouldn't happen on an undone move
+    public void takeAwayEnPassant() {
         for (Piece piece : pieces)
             piece.canBeEnPassant = false;
     }

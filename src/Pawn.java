@@ -64,7 +64,6 @@ public class Pawn extends Piece {
         squares.add(coordinate + 10 + movementDirection);
         squares.add(coordinate - 10 + movementDirection);
 
-        // OPTIMIZE: this could maybe be better, also in king and knight. Maybe check this stuff first before adding, instead of editing after everything is added
         for (int i = squares.size() - 1; i >= 0; i--) {
             if (Board.getPiece(squares.get(i) / 10 * 64, squares.get(i) % 10 * 64) != null) {
                 if (Board.getPiece(squares.get(i) / 10 * 64, squares.get(i) % 10 * 64).isWhite == isWhite)
