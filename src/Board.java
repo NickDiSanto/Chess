@@ -16,7 +16,7 @@ public class Board {
     // TODO: Add squaresAttacked options
     // TODO: If check, make king's square red
     // FIXME: Public vs private? Static or not?
-    // TODO: Check general documentation
+    // TODO: Check general documentation: whitespace, etc
     // TODO: Add comments
     // TODO: Maybe change "Integer" back to int on the for loops? Look it up
 
