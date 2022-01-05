@@ -15,7 +15,10 @@ public class Board {
 
     // TODO: Add squaresAttacked options
     // TODO: If check, make king's square red
-    // FIXME: Bug where black pawns disappear on 5th rank
+    // FIXME: Public vs private? Static or not?
+    // TODO: Check general documentation
+    // TODO: Add comments
+    // TODO: Maybe change "Integer" back to int on the for loops? Look it up
 
     public static LinkedList<Piece> pieces = new LinkedList<>();
     public static LinkedList<Integer> squaresAttacked = new LinkedList<>();
@@ -181,19 +184,17 @@ public class Board {
                             selectedPiece.hasMoved = true;
                             whiteTurn = !whiteTurn;
 
-                            if (isCheck()) {
-                                if (kingTrapped()) {
-                                    System.out.println("Checkmate!");
-                                    if (whiteTurn) {
-                                        System.out.println("Black wins!");
-                                    } else {
-                                        System.out.println("White wins!");
-                                    }
-
-                                    // TODO: END GAME
+                            if (isCheckmate()) {
+                                System.out.println("Checkmate!");
+                                if (whiteTurn) {
+                                    System.out.println("Black wins!");
+                                } else {
+                                    System.out.println("White wins!");
                                 }
+
+                                // TODO: END GAME
                             } else {
-                                if (kingTrapped()) {
+                                if (isStalemate()) {
                                     System.out.println("Stalemate!");
 
                                     // TODO: END GAME
@@ -362,18 +363,56 @@ public class Board {
         return false;
     }
 
-    public static boolean kingTrapped() {
+    public static boolean isCheckmate() {
+        if (isCheck()) {
+            for (int i = 0; i < pieces.size(); i++) {
+                if (pieces.get(i).isWhite == whiteTurn) {
+                    pieces.get(i).recentCapture = null;
+                    for (Integer square : pieces.get(i).squaresAttacked) {
+                        int initialCoordinate = pieces.get(i).coordinate;
+                        pieces.get(i).move(square);
+                        boolean pieceChecks = false;
+                        for (Piece oppPiece : pieces) {
+                            oppPiece.squaresAttacked = oppPiece.getSquaresAttacked();
+                            if (oppPiece.checksKing() && oppPiece.isWhite != whiteTurn) {
+                                pieceChecks = true;
+                            }
+                        }
+                        if (pieces.get(i).recentCapture != null) {
+                            Piece newPiece = pieces.get(i).recentCapture;
+                            pieces.add(newPiece);
+                            pieces.get(i).recentCapture = null;
+                        }
+                        pieces.get(i).coordinate = initialCoordinate;
+                        pieces.get(i).updatePiece();
+
+                        if (!pieceChecks) {
+                            return false;
+                        }
+                    }
+                }
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static boolean isStalemate() {
         for (int i = 0; i < pieces.size(); i++) {
             if (pieces.get(i).isWhite == whiteTurn) {
                 pieces.get(i).recentCapture = null;
                 for (Integer square : pieces.get(i).squaresAttacked) {
                     int initialCoordinate = pieces.get(i).coordinate;
                     pieces.get(i).move(square);
+
                     boolean pieceChecks = false;
                     for (Piece oppPiece : pieces) {
-                        oppPiece.squaresAttacked = oppPiece.getSquaresAttacked();
-                        if (oppPiece.checksKing() && oppPiece.isWhite != whiteTurn) {
-                            pieceChecks = true;
+                        if (oppPiece.isWhite != whiteTurn) {
+                            oppPiece.squaresAttacked = oppPiece.getSquaresAttacked();
+                            if (oppPiece.checksKing()) {
+                                pieceChecks = true;
+                            }
                         }
                     }
                     if (pieces.get(i).recentCapture != null) {
@@ -382,6 +421,8 @@ public class Board {
                         pieces.get(i).recentCapture = null;
                     }
                     pieces.get(i).coordinate = initialCoordinate;
+                    pieces.get(i).updatePiece();
+
                     if (!pieceChecks) {
                         return false;
                     }
