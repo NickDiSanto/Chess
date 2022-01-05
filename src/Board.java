@@ -19,7 +19,7 @@ public class Board {
     public static LinkedList<Integer> squaresAttacked = new LinkedList<>();
     public static Piece selectedPiece = null;
     public static boolean whiteTurn = true;
-    public static int initialCoord;
+    public static int initialCoordinate;
 
     public static void main(String[] args) throws IOException {
         BufferedImage all = ImageIO.read(new File("D:\\chess.png"));
@@ -128,7 +128,7 @@ public class Board {
                 if (selectedPiece.isWhite != whiteTurn)
                     return;
 
-                initialCoord = e.getX() / 64 * 10 + e.getY() / 64;
+                initialCoordinate = e.getX() / 64 * 10 + e.getY() / 64;
             }
 
             @Override
@@ -143,7 +143,7 @@ public class Board {
 
                     selectedPiece.move(e.getX() / 64 * 10 + e.getY() / 64);
 
-                    if (selectedPiece.coordinate != initialCoord) {
+                    if (selectedPiece.coordinate != initialCoordinate) {
                         for (Piece piece : pieces)
                             piece.updatePiece();
                         for (int i = 0; i < pieces.size(); i++) {
@@ -153,16 +153,16 @@ public class Board {
                                     pieces.add(newPiece);
                                     selectedPiece.recentCapture = null;
                                 }
-                                selectedPiece.coordinate = initialCoord;
+                                selectedPiece.coordinate = initialCoordinate;
                                 selectedPiece.updatePiece();
                             }
                         }
                         for (Piece piece : pieces)
                             piece.squaresAttacked = piece.getSquaresAttacked();
 
-                        if (selectedPiece.coordinate != initialCoord) {
+                        if (selectedPiece.coordinate != initialCoordinate) {
                             selectedPiece.updatePiece();
-                            if (Math.abs(selectedPiece.coordinate - initialCoord) != 2 || selectedPiece.pieceType != 'P')
+                            if (Math.abs(selectedPiece.coordinate - initialCoordinate) != 2 || selectedPiece.pieceType != 'P')
                                 selectedPiece.takeAwayEnPassant();
                             selectedPiece.hasMoved = true;
                             whiteTurn = !whiteTurn;
@@ -188,10 +188,10 @@ public class Board {
     }
 
     public static Piece getPiece(int xPixel, int yPixel) {
-        int xCoord = xPixel / 64;
-        int yCoord = yPixel / 64;
+        int xCoordinate = xPixel / 64;
+        int yCoordinate = yPixel / 64;
         for (Piece piece : pieces) {
-            if (piece.coordinate / 10 == xCoord && piece.coordinate % 10 == yCoord)
+            if (piece.coordinate / 10 == xCoordinate && piece.coordinate % 10 == yCoordinate)
                 return piece;
         }
         return null;
@@ -292,7 +292,7 @@ public class Board {
                 if (pieces.get(i).isWhite == whiteTurn) {
                     pieces.get(i).recentCapture = null;
                     for (Integer square : pieces.get(i).squaresAttacked) {
-                        int initialCoord = pieces.get(i).coordinate;
+                        int initialCoordinate = pieces.get(i).coordinate;
                         pieces.get(i).move(square);
                         boolean pieceChecks = false;
                         for (Piece oppPiece : pieces) {
@@ -305,7 +305,7 @@ public class Board {
                             pieces.add(newPiece);
                             pieces.get(i).recentCapture = null;
                         }
-                        pieces.get(i).coordinate = initialCoord;
+                        pieces.get(i).coordinate = initialCoordinate;
                         if (!pieceChecks)
                             return false;
                     }

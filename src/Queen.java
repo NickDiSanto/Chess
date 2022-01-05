@@ -8,9 +8,9 @@ public class Queen extends Piece {
     }
 
     @Override
-    public void move(int coord) {
-        if ((Math.abs(coord - coordinate) % 11 == 0 || Math.abs(coord - coordinate) % 9 == 0 || Math.abs(coord - coordinate)
-                % 10 == 0 || Math.abs(coord - coordinate) < 8) && coord >= 0 && coord <= 77 && coord % 10 <= 7) {
+    public void move(int newCoordinate) {
+        if ((Math.abs(newCoordinate - coordinate) % 11 == 0 || Math.abs(newCoordinate - coordinate) % 9 == 0 || Math.abs(newCoordinate - coordinate)
+                % 10 == 0 || Math.abs(newCoordinate - coordinate) < 8) && newCoordinate >= 0 && newCoordinate <= 77 && newCoordinate % 10 <= 7) {
             int numSquaresBetween;
             boolean movingLeft = false;
             boolean movingLeftUp = false;
@@ -21,30 +21,30 @@ public class Queen extends Piece {
             boolean movingDown = false;
             boolean movingLeftDown = false;
 
-            if (Math.abs(coord - coordinate) % 10 == 0) {
-                numSquaresBetween = Math.abs(coord - coordinate) / 10;
-                if (coord - coordinate > 0)
+            if (Math.abs(newCoordinate - coordinate) % 10 == 0) {
+                numSquaresBetween = Math.abs(newCoordinate - coordinate) / 10;
+                if (newCoordinate - coordinate > 0)
                     movingRight = true;
                 else
                     movingLeft = true;
             }
-            else if (Math.abs(coord - coordinate) % 9 == 0) {
-                numSquaresBetween = Math.abs(coord - coordinate) / 9;
-                if (coord - coordinate > 0)
+            else if (Math.abs(newCoordinate - coordinate) % 9 == 0) {
+                numSquaresBetween = Math.abs(newCoordinate - coordinate) / 9;
+                if (newCoordinate - coordinate > 0)
                     movingRightUp = true;
                 else
                     movingLeftDown = true;
             }
-            else if (Math.abs(coord - coordinate) % 11 == 0) {
-                numSquaresBetween = Math.abs(coord - coordinate) / 11;
-                if (coord - coordinate > 0)
+            else if (Math.abs(newCoordinate - coordinate) % 11 == 0) {
+                numSquaresBetween = Math.abs(newCoordinate - coordinate) / 11;
+                if (newCoordinate - coordinate > 0)
                     movingRightDown = true;
                 else
                     movingLeftUp = true;
             }
             else {
-                numSquaresBetween = Math.abs(coord - coordinate);
-                if (coord - coordinate > 0)
+                numSquaresBetween = Math.abs(newCoordinate - coordinate);
+                if (newCoordinate - coordinate > 0)
                     movingDown = true;
                 else
                     movingUp = true;
@@ -102,10 +102,10 @@ public class Queen extends Piece {
                 }
             }
 
-            if (Board.getPiece(coord / 10 * 64, coord % 10 * 64) != null) {
-                if (Board.getPiece(coord / 10 * 64, coord % 10 * 64).isWhite != isWhite) {
-                    recentCapture = Board.getPiece(coord / 10 * 64, coord % 10 * 64);
-                    Board.getPiece(coord / 10 * 64, coord % 10 * 64).capture();
+            if (Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64) != null) {
+                if (Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64).isWhite != isWhite) {
+                    recentCapture = Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64);
+                    Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64).capture();
                 }
                 else {
                     updatePiece();
@@ -117,7 +117,7 @@ public class Queen extends Piece {
             updatePiece();
             return;
         }
-        coordinate = coord;
+        coordinate = newCoordinate;
     }
 
     @Override

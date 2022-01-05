@@ -8,13 +8,13 @@ public class Knight extends Piece {
     }
 
     @Override
-    public void move(int coord) {
-        if ((Math.abs(coord - coordinate) == 8 || Math.abs(coord - coordinate) == 12 || Math.abs(coord - coordinate)
-                == 19 || Math.abs(coord - coordinate) == 21) && coord >= 0 && coord <= 77 && coord % 10 <= 7) {
-            if (Board.getPiece(coord / 10 * 64, coord % 10 * 64) != null) {
-                if (Board.getPiece(coord / 10 * 64, coord % 10 * 64).isWhite != isWhite) {
-                    recentCapture = Board.getPiece(coord / 10 * 64, coord % 10 * 64);
-                    Board.getPiece(coord / 10 * 64, coord % 10 * 64).capture();
+    public void move(int newCoordinate) {
+        if ((Math.abs(newCoordinate - coordinate) == 8 || Math.abs(newCoordinate - coordinate) == 12 || Math.abs(newCoordinate - coordinate)
+                == 19 || Math.abs(newCoordinate - coordinate) == 21) && newCoordinate >= 0 && newCoordinate <= 77 && newCoordinate % 10 <= 7) {
+            if (Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64) != null) {
+                if (Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64).isWhite != isWhite) {
+                    recentCapture = Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64);
+                    Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64).capture();
                 }
                 else {
                     updatePiece();
@@ -26,7 +26,7 @@ public class Knight extends Piece {
             updatePiece();
             return;
         }
-        coordinate = coord;
+        coordinate = newCoordinate;
     }
 
     @Override

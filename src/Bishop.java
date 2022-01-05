@@ -8,17 +8,17 @@ public class Bishop extends Piece {
     }
 
     @Override
-    public void move(int coord) {
-        if ((Math.abs(coord - coordinate) % 11 == 0 || Math.abs(coord - coordinate) % 9 == 0) && coord >= 0 && coord <= 77 && coord % 10 <= 7) {
-            int numSquaresBetween = Math.abs(coord - coordinate) / 11;
+    public void move(int newCoordinate) {
+        if ((Math.abs(newCoordinate - coordinate) % 11 == 0 || Math.abs(newCoordinate - coordinate) % 9 == 0) && newCoordinate >= 0 && newCoordinate <= 77 && newCoordinate % 10 <= 7) {
+            int numSquaresBetween = Math.abs(newCoordinate - coordinate) / 11;
             boolean movingSideways = false;
             boolean movingBackwards = false;
 
-            if (Math.abs(coord - coordinate) % 11 == 0)
+            if (Math.abs(newCoordinate - coordinate) % 11 == 0)
                 movingSideways = true;
             else
-                numSquaresBetween = Math.abs(coord - coordinate) / 9;
-            if (coord - coordinate < 0)
+                numSquaresBetween = Math.abs(newCoordinate - coordinate) / 9;
+            if (newCoordinate - coordinate < 0)
                 movingBackwards = true;
             numSquaresBetween--;
 
@@ -49,10 +49,10 @@ public class Bishop extends Piece {
                 }
             }
 
-            if (Board.getPiece(coord / 10 * 64, coord % 10 * 64) != null) {
-                if (Board.getPiece(coord / 10 * 64, coord % 10 * 64).isWhite != isWhite) {
-                    recentCapture = Board.getPiece(coord / 10 * 64, coord % 10 * 64);
-                    Board.getPiece(coord / 10 * 64, coord % 10 * 64).capture();
+            if (Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64) != null) {
+                if (Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64).isWhite != isWhite) {
+                    recentCapture = Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64);
+                    Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64).capture();
                 }
                 else {
                     updatePiece();
@@ -64,7 +64,7 @@ public class Bishop extends Piece {
             updatePiece();
             return;
         }
-        coordinate = coord;
+        coordinate = newCoordinate;
     }
 
     @Override

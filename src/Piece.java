@@ -27,7 +27,7 @@ public class Piece {
         pieces.add(this);
     }
 
-    public void move (int coord) {}
+    public void move (int newCoordinate) {}
 
     public void capture() {
         pieces.remove(this);

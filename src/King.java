@@ -8,8 +8,8 @@ public class King extends Piece {
     }
 
     @Override
-    public void move(int coord) {
-        if (Board.canCastleShort() && coord - coordinate == 20) {
+    public void move(int newCoordinate) {
+        if (Board.canCastleShort() && newCoordinate - coordinate == 20) {
             for (Piece piece : pieces) {
                 if (piece.coordinate == 77 && isWhite)
                     piece.coordinate = 57;
@@ -17,7 +17,7 @@ public class King extends Piece {
                     piece.coordinate = 50;
             }
         }
-        else if (Board.canCastleLong() && coordinate - coord == 20) {
+        else if (Board.canCastleLong() && coordinate - newCoordinate == 20) {
             for (Piece piece : pieces) {
                 if (piece.coordinate == 7 && isWhite)
                     piece.coordinate = 37;
@@ -25,12 +25,12 @@ public class King extends Piece {
                     piece.coordinate = 30;
             }
         }
-        else if ((Math.abs(coord - coordinate) == 10 || Math.abs(coord - coordinate) == 1 || Math.abs(coord - coordinate)
-                == 9 || Math.abs(coord - coordinate) == 11) && coord >= 0 && coord <= 77 && coord % 10 <= 7) {
-            if (Board.getPiece(coord / 10 * 64, coord % 10 * 64) != null) {
-                if (Board.getPiece(coord / 10 * 64, coord % 10 * 64).isWhite != isWhite) {
-                    recentCapture = Board.getPiece(coord / 10 * 64, coord % 10 * 64);
-                    Board.getPiece(coord / 10 * 64, coord % 10 * 64).capture();
+        else if ((Math.abs(newCoordinate - coordinate) == 10 || Math.abs(newCoordinate - coordinate) == 1 || Math.abs(newCoordinate - coordinate)
+                == 9 || Math.abs(newCoordinate - coordinate) == 11) && newCoordinate >= 0 && newCoordinate <= 77 && newCoordinate % 10 <= 7) {
+            if (Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64) != null) {
+                if (Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64).isWhite != isWhite) {
+                    recentCapture = Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64);
+                    Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64).capture();
                 }
                 else {
                     updatePiece();
@@ -42,7 +42,7 @@ public class King extends Piece {
             updatePiece();
             return;
         }
-        coordinate = coord;
+        coordinate = newCoordinate;
     }
 
     @Override
