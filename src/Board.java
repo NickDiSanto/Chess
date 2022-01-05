@@ -15,10 +15,11 @@ public class Board {
 
     // TODO: Add squaresAttacked options
     // TODO: If check, make king's square red
+    // TODO: Add sound effects for movement, captures, checkmate, etc
     // FIXME: Public vs private? Static or not?
     // TODO: Check general documentation: whitespace, etc
     // TODO: Add comments
-    // TODO: Maybe change "Integer" back to int on the for loops? Look it up
+    // FIXME: Maybe change "Integer" back to int on the for loops? Look it up
 
     public static LinkedList<Piece> pieces = new LinkedList<>();
     public static LinkedList<Integer> squaresAttacked = new LinkedList<>();
@@ -133,19 +134,22 @@ public class Board {
         frame.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                selectedPiece = getPiece(e.getX(), e.getY());
-                if (selectedPiece.isWhite != whiteTurn) {
-                    return;
+                try {
+                    selectedPiece = getPiece(e.getX(), e.getY());
+                    if (selectedPiece.isWhite != whiteTurn) {
+                        return;
+                    }
+                    initialCoordinate = e.getX() / 64 * 10 + e.getY() / 64;
+                } catch (Exception exception) {
+                    System.out.println("No piece selected.");
+                    System.out.println("Please try again.");
+                    System.out.println();
                 }
-
-                initialCoordinate = e.getX() / 64 * 10 + e.getY() / 64;
             }
 
             @Override
             public void mouseReleased(MouseEvent e) throws IllegalArgumentException {
-                if (selectedPiece == null) {
-                    throw new IllegalArgumentException("No piece selected");
-                } else {
+                try {
                     if (selectedPiece.isWhite != whiteTurn) {
                         return;
                     }
@@ -160,28 +164,32 @@ public class Board {
                         }
                         for (int i = 0; i < pieces.size(); i++) {
                             if (pieces.get(i).checksKing() && pieces.get(i).isWhite != whiteTurn) {
+                                Piece newPiece = null;
                                 if (selectedPiece.recentCapture != null) {
-                                    Piece newPiece = selectedPiece.recentCapture;
+                                    newPiece = selectedPiece.recentCapture;
                                     pieces.add(newPiece);
                                     selectedPiece.recentCapture = null;
                                 }
                                 selectedPiece.coordinate = initialCoordinate;
+                                if (newPiece != null) {
+                                    newPiece.updatePiece();
+                                }
                                 selectedPiece.updatePiece();
                             }
                         }
-                        for (Piece piece : pieces) {
-                            piece.squaresAttacked = piece.getSquaresAttacked();
-                        }
 
                         if (selectedPiece.coordinate != initialCoordinate) {
-                            selectedPiece.updatePiece();
                             if (Math.abs(selectedPiece.coordinate - initialCoordinate) != 2 || selectedPiece.pieceType != 'P') {
                                 selectedPiece.takeAwayEnPassant();
                             }
                             if (selectedPiece.pieceType == 'P' && (selectedPiece.coordinate % 10 == 7 || selectedPiece.coordinate % 10 == 0)) {
-                                pawnPromotion(); // FIXME: Should happen outside mouseReleased
+                                pawnPromotion(); // FIXME: Should happen outside mouseReleased so it can repaint
                             }
                             selectedPiece.hasMoved = true;
+                            for (Piece piece : pieces) {
+                                piece.updatePiece();
+                            }
+
                             whiteTurn = !whiteTurn;
 
                             if (isCheckmate()) {
@@ -203,6 +211,7 @@ public class Board {
                         }
                     }
                     frame.repaint();
+                } catch (Exception ignored) {
                 }
             }
         });
@@ -319,7 +328,6 @@ public class Board {
                             newPiece = new Queen(selectedPiece.coordinate, false, true, false, 'Q', squaresAttacked, pieces);
                         }
                         newPiece.updatePiece();
-                        System.out.println(newPiece.squaresAttacked);
                         break label;
                     case "ROOK":
                         if (selectedPiece.isWhite) {
@@ -328,7 +336,6 @@ public class Board {
                             newPiece = new Rook(selectedPiece.coordinate, false, true, false, 'R', squaresAttacked, pieces);
                         }
                         newPiece.updatePiece();
-                        System.out.println(newPiece.squaresAttacked);
                         break label;
                     case "BISHOP":
                         if (selectedPiece.isWhite) {
@@ -337,7 +344,6 @@ public class Board {
                             newPiece = new Bishop(selectedPiece.coordinate, false, true, false, 'B', squaresAttacked, pieces);
                         }
                         newPiece.updatePiece();
-                        System.out.println(newPiece.squaresAttacked);
                         break label;
                     case "KNIGHT":
                         if (selectedPiece.isWhite) {
@@ -346,7 +352,6 @@ public class Board {
                             newPiece = new Knight(selectedPiece.coordinate, false, true, false, 'N', squaresAttacked, pieces);
                         }
                         newPiece.updatePiece();
-                        System.out.println(newPiece.squaresAttacked);
                         break label;
                 }
                 System.out.println("Invalid piece. Please try again.");
