@@ -15,6 +15,7 @@ public class Board {
 
     // TODO: Add squaresAttacked options
     // TODO: If check, make king's square red
+    // FIXME: Bug where black pawns disappear on 5th rank
 
     public static LinkedList<Piece> pieces = new LinkedList<>();
     public static LinkedList<Integer> squaresAttacked = new LinkedList<>();
@@ -168,13 +169,12 @@ public class Board {
                             piece.squaresAttacked = piece.getSquaresAttacked();
 
                         if (selectedPiece.coordinate != initialCoordinate) {
-                            if (selectedPiece.pieceType == 'P' && (selectedPiece.coordinate % 10 == 7 || selectedPiece.coordinate % 10 == 0)) {
-                                pawnPromotion();
-                            }
-
                             selectedPiece.updatePiece();
                             if (Math.abs(selectedPiece.coordinate - initialCoordinate) != 2 || selectedPiece.pieceType != 'P') {
                                 selectedPiece.takeAwayEnPassant();
+                            }
+                            if (selectedPiece.pieceType == 'P' && (selectedPiece.coordinate % 10 == 7 || selectedPiece.coordinate % 10 == 0)) {
+                                pawnPromotion(); // FIXME: Should happen outside mouseReleased
                             }
                             selectedPiece.hasMoved = true;
                             whiteTurn = !whiteTurn;
@@ -300,23 +300,55 @@ public class Board {
     }
 
     public static void pawnPromotion() {
-        System.out.println("What piece would you like to promote to?");
-        Scanner s = new Scanner(System.in);
-        String piece = s.nextLine().toUpperCase(Locale.ROOT);
-        while (true) {
-            if (piece.equals("QUEEN")) {
-                break;
-            } else if (piece.equals("ROOK")) {
-                break;
-            } else if (piece.equals("BISHOP")) {
-                break;
-            } else if (piece.equals("KNIGHT")) {
-                break;
+        pieces.remove(selectedPiece);
+        Piece newPiece;
+        label:
+            while (true) {
+                System.out.println("What piece would you like to promote to?");
+                Scanner s = new Scanner(System.in);
+                String piece = s.nextLine().toUpperCase(Locale.ROOT);
+
+                switch (piece) {
+                    case "QUEEN":
+                        if (selectedPiece.isWhite) {
+                            newPiece = new Queen(selectedPiece.coordinate, true, true, false, 'Q', squaresAttacked, pieces);
+                        } else {
+                            newPiece = new Queen(selectedPiece.coordinate, false, true, false, 'Q', squaresAttacked, pieces);
+                        }
+                        newPiece.updatePiece();
+                        System.out.println(newPiece.squaresAttacked);
+                        break label;
+                    case "ROOK":
+                        if (selectedPiece.isWhite) {
+                            newPiece = new Rook(selectedPiece.coordinate, true, true, false, 'R', squaresAttacked, pieces);
+                        } else {
+                            newPiece = new Rook(selectedPiece.coordinate, false, true, false, 'R', squaresAttacked, pieces);
+                        }
+                        newPiece.updatePiece();
+                        System.out.println(newPiece.squaresAttacked);
+                        break label;
+                    case "BISHOP":
+                        if (selectedPiece.isWhite) {
+                            newPiece = new Bishop(selectedPiece.coordinate, true, true, false, 'B', squaresAttacked, pieces);
+                        } else {
+                            newPiece = new Bishop(selectedPiece.coordinate, false, true, false, 'B', squaresAttacked, pieces);
+                        }
+                        newPiece.updatePiece();
+                        System.out.println(newPiece.squaresAttacked);
+                        break label;
+                    case "KNIGHT":
+                        if (selectedPiece.isWhite) {
+                            newPiece = new Knight(selectedPiece.coordinate, true, true, false, 'N', squaresAttacked, pieces);
+                        } else {
+                            newPiece = new Knight(selectedPiece.coordinate, false, true, false, 'N', squaresAttacked, pieces);
+                        }
+                        newPiece.updatePiece();
+                        System.out.println(newPiece.squaresAttacked);
+                        break label;
+                }
+                System.out.println("Invalid piece. Please try again.");
+                System.out.println();
             }
-            System.out.println("Invalid piece. Please try again.");
-            System.out.println();
-            System.out.println("What piece would you like to promote to?");
-        }
     }
 
     public static boolean isCheck() {
