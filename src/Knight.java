@@ -15,14 +15,12 @@ public class Knight extends Piece {
                 if (Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64).isWhite != isWhite) {
                     recentCapture = Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64);
                     Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64).capture();
-                }
-                else {
+                } else {
                     updatePiece();
                     return;
                 }
             }
-        }
-        else {
+        } else {
             updatePiece();
             return;
         }
@@ -44,13 +42,15 @@ public class Knight extends Piece {
 
         for (int i = squares.size() - 1; i >= 0; i--) {
             if (Board.getPiece(squares.get(i) / 10 * 64, squares.get(i) % 10 * 64) != null) {
-                if (Board.getPiece(squares.get(i) / 10 * 64, squares.get(i) % 10 * 64).isWhite == isWhite)
+                if (Board.getPiece(squares.get(i) / 10 * 64, squares.get(i) % 10 * 64).isWhite == isWhite) {
                     squares.remove(i);
+                }
             }
         }
         for (int i = squares.size() - 1; i >= 0; i--) {
-            if (squares.get(i) > 77 || squares.get(i) < 0 || squares.get(i) % 10 > 7)
+            if (squares.get(i) > 77 || squares.get(i) < 0 || squares.get(i) % 10 > 7) {
                 squares.remove(i);
+            }
         }
 
         return squares;

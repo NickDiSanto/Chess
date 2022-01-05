@@ -8,10 +8,11 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
+import java.util.Locale;
+import java.util.Scanner;
 
 public class Board {
 
-    // TODO: Add clock
     // TODO: Add squaresAttacked options
     // TODO: If check, make king's square red
 
@@ -76,10 +77,11 @@ public class Board {
                 boolean isWhite = true;
                 for (int y = 0; y < 8; y++) {
                     for (int x = 0; x < 8; x++) {
-                        if (isWhite)
+                        if (isWhite) {
                             g.setColor(new Color(240, 225, 190));
-                        else
+                        } else {
                             g.setColor(new Color(180, 140, 100));
+                        }
                         g.fillRect(x * 64, y * 64, 64, 64);
                         isWhite = !isWhite;
                     }
@@ -87,18 +89,20 @@ public class Board {
                 }
                 for (Piece piece : pieces) {
                     int index = 0;
-                    if (Character.toUpperCase(piece.pieceType) == 'Q')
+                    if (Character.toUpperCase(piece.pieceType) == 'Q') {
                         index = 1;
-                    if (Character.toUpperCase(piece.pieceType) == 'B')
+                    } else if (Character.toUpperCase(piece.pieceType) == 'B') {
                         index = 2;
-                    if (Character.toUpperCase(piece.pieceType) == 'N')
+                    } else if (Character.toUpperCase(piece.pieceType) == 'N') {
                         index = 3;
-                    if (Character.toUpperCase(piece.pieceType) == 'R')
+                    } else if (Character.toUpperCase(piece.pieceType) == 'R') {
                         index = 4;
-                    if (Character.toUpperCase(piece.pieceType) == 'P')
+                    } else if (Character.toUpperCase(piece.pieceType) == 'P') {
                         index = 5;
-                    if (!piece.isWhite)
+                    }
+                    if (!piece.isWhite) {
                         index += 6;
+                    }
                     g.drawImage(images[index], piece.xPixel, piece.yPixel, this);
                 }
             }
@@ -109,8 +113,9 @@ public class Board {
             @Override
             public void mouseDragged(MouseEvent e) {
                 if (selectedPiece != null) {
-                    if (selectedPiece.isWhite != whiteTurn)
+                    if (selectedPiece.isWhite != whiteTurn) {
                         return;
+                    }
                     selectedPiece.xPixel = e.getX() - 32;
                     selectedPiece.yPixel = e.getY() - 32;
                     frame.repaint();
@@ -125,19 +130,21 @@ public class Board {
             @Override
             public void mousePressed(MouseEvent e) {
                 selectedPiece = getPiece(e.getX(), e.getY());
-                if (selectedPiece.isWhite != whiteTurn)
+                if (selectedPiece.isWhite != whiteTurn) {
                     return;
+                }
 
                 initialCoordinate = e.getX() / 64 * 10 + e.getY() / 64;
             }
 
             @Override
             public void mouseReleased(MouseEvent e) throws IllegalArgumentException {
-                if (selectedPiece == null)
+                if (selectedPiece == null) {
                     throw new IllegalArgumentException("No piece selected");
-                else {
-                    if (selectedPiece.isWhite != whiteTurn)
+                } else {
+                    if (selectedPiece.isWhite != whiteTurn) {
                         return;
+                    }
 
                     selectedPiece.recentCapture = null;
 
@@ -161,20 +168,34 @@ public class Board {
                             piece.squaresAttacked = piece.getSquaresAttacked();
 
                         if (selectedPiece.coordinate != initialCoordinate) {
+                            if (selectedPiece.pieceType == 'P' && (selectedPiece.coordinate % 10 == 7 || selectedPiece.coordinate % 10 == 0)) {
+                                pawnPromotion();
+                            }
+
                             selectedPiece.updatePiece();
-                            if (Math.abs(selectedPiece.coordinate - initialCoordinate) != 2 || selectedPiece.pieceType != 'P')
+                            if (Math.abs(selectedPiece.coordinate - initialCoordinate) != 2 || selectedPiece.pieceType != 'P') {
                                 selectedPiece.takeAwayEnPassant();
+                            }
                             selectedPiece.hasMoved = true;
                             whiteTurn = !whiteTurn;
 
-                            if (isCheckmate()) {
-                                System.out.println("Checkmate!");
-                                if (whiteTurn)
-                                    System.out.println("Black wins!");
-                                else
-                                    System.out.println("White wins!");
+                            if (isCheck()) {
+                                if (kingTrapped()) {
+                                    System.out.println("Checkmate!");
+                                    if (whiteTurn) {
+                                        System.out.println("Black wins!");
+                                    } else {
+                                        System.out.println("White wins!");
+                                    }
 
-                                // TODO: END GAME
+                                    // TODO: END GAME
+                                }
+                            } else {
+                                if (kingTrapped()) {
+                                    System.out.println("Stalemate!");
+
+                                    // TODO: END GAME
+                                }
                             }
                         }
                     }
@@ -191,41 +212,44 @@ public class Board {
         int xCoordinate = xPixel / 64;
         int yCoordinate = yPixel / 64;
         for (Piece piece : pieces) {
-            if (piece.coordinate / 10 == xCoordinate && piece.coordinate % 10 == yCoordinate)
+            if (piece.coordinate / 10 == xCoordinate && piece.coordinate % 10 == yCoordinate) {
                 return piece;
+            }
         }
         return null;
     }
 
     public static boolean canCastleShort() {
         if (whiteTurn) {
-            if (Board.getPiece(256, 448) == null || Board.getPiece(448, 448) == null)
+            if (Board.getPiece(256, 448) == null || Board.getPiece(448, 448) == null) {
                 return false;
-            else {
+            } else {
                 if (isCheck() || Board.getPiece(256, 448).hasMoved || Board.getPiece(448, 448).hasMoved
-                        || Board.getPiece(320, 448) != null || Board.getPiece(384, 448) != null)
+                        || Board.getPiece(320, 448) != null || Board.getPiece(384, 448) != null) {
                     return false;
-                else {
+                } else {
                     for (Piece piece : pieces) {
                         if (!piece.isWhite) {
-                            if (piece.squaresAttacked.contains(57) || piece.squaresAttacked.contains(67))
+                            if (piece.squaresAttacked.contains(57) || piece.squaresAttacked.contains(67)) {
                                 return false;
+                            }
                         }
                     }
                 }
             }
         } else {
-            if (Board.getPiece(256, 0) == null || Board.getPiece(448, 0) == null)
+            if (Board.getPiece(256, 0) == null || Board.getPiece(448, 0) == null) {
                 return false;
-            else {
+            } else {
                 if (isCheck() || Board.getPiece(256, 0).hasMoved || Board.getPiece(448, 0).hasMoved
-                        || Board.getPiece(320, 0) != null || Board.getPiece(384, 0) != null)
+                        || Board.getPiece(320, 0) != null || Board.getPiece(384, 0) != null) {
                     return false;
-                else {
+                } else {
                     for (Piece piece : pieces) {
                         if (piece.isWhite) {
-                            if (piece.squaresAttacked.contains(50) || piece.squaresAttacked.contains(60))
+                            if (piece.squaresAttacked.contains(50) || piece.squaresAttacked.contains(60)) {
                                 return false;
+                            }
                         }
                     }
                 }
@@ -236,35 +260,37 @@ public class Board {
 
     public static boolean canCastleLong() {
         if (whiteTurn) {
-            if (Board.getPiece(256, 448) == null || Board.getPiece(0, 448) == null)
+            if (Board.getPiece(256, 448) == null || Board.getPiece(0, 448) == null) {
                 return false;
-            else {
+            } else {
                 if (isCheck() || Board.getPiece(256, 448).hasMoved || Board.getPiece(0, 448).hasMoved
                         || Board.getPiece(192, 448) != null || Board.getPiece(128, 448) != null
-                        || Board.getPiece(64, 448) != null)
+                        || Board.getPiece(64, 448) != null) {
                     return false;
-                else {
+                } else {
                     for (Piece piece : pieces) {
                         if (!piece.isWhite) {
-                            if (piece.squaresAttacked.contains(37) || piece.squaresAttacked.contains(27) || piece.squaresAttacked.contains(17))
+                            if (piece.squaresAttacked.contains(37) || piece.squaresAttacked.contains(27) || piece.squaresAttacked.contains(17)) {
                                 return false;
+                            }
                         }
                     }
                 }
             }
         } else {
-            if (Board.getPiece(256, 0) == null || Board.getPiece(0, 0) == null)
+            if (Board.getPiece(256, 0) == null || Board.getPiece(0, 0) == null) {
                 return false;
-            else {
+            } else {
                 if (isCheck() || Board.getPiece(256, 0).hasMoved || Board.getPiece(0, 0).hasMoved
                         || Board.getPiece(192, 0) != null || Board.getPiece(128, 0) != null ||
-                        Board.getPiece(64, 0) != null)
+                        Board.getPiece(64, 0) != null) {
                     return false;
-                else {
+                } else {
                     for (Piece piece : pieces) {
                         if (piece.isWhite) {
-                            if (piece.squaresAttacked.contains(30) || piece.squaresAttacked.contains(20) || piece.squaresAttacked.contains(10))
+                            if (piece.squaresAttacked.contains(30) || piece.squaresAttacked.contains(20) || piece.squaresAttacked.contains(10)) {
                                 return false;
+                            }
                         }
                     }
                 }
@@ -274,46 +300,60 @@ public class Board {
     }
 
     public static void pawnPromotion() {
-        // TODO: Implement pawnPromotion (maybe should happen in pawn class?)
-        //  - PRIORITY: LOW
+        System.out.println("What piece would you like to promote to?");
+        Scanner s = new Scanner(System.in);
+        String piece = s.nextLine().toUpperCase(Locale.ROOT);
+        while (true) {
+            if (piece.equals("QUEEN")) {
+                break;
+            } else if (piece.equals("ROOK")) {
+                break;
+            } else if (piece.equals("BISHOP")) {
+                break;
+            } else if (piece.equals("KNIGHT")) {
+                break;
+            }
+            System.out.println("Invalid piece. Please try again.");
+            System.out.println();
+            System.out.println("What piece would you like to promote to?");
+        }
     }
 
     public static boolean isCheck() {
         for (Piece piece : pieces) {
-            if (piece.checksKing())
+            if (piece.checksKing()) {
                 return true;
+            }
         }
         return false;
     }
 
-    public static boolean isCheckmate() {
-        if (isCheck()) {
-            for (int i = 0; i < pieces.size(); i++) {
-                if (pieces.get(i).isWhite == whiteTurn) {
-                    pieces.get(i).recentCapture = null;
-                    for (Integer square : pieces.get(i).squaresAttacked) {
-                        int initialCoordinate = pieces.get(i).coordinate;
-                        pieces.get(i).move(square);
-                        boolean pieceChecks = false;
-                        for (Piece oppPiece : pieces) {
-                            oppPiece.squaresAttacked = oppPiece.getSquaresAttacked();
-                            if (oppPiece.checksKing() && oppPiece.isWhite != whiteTurn)
-                                pieceChecks = true;
+    public static boolean kingTrapped() {
+        for (int i = 0; i < pieces.size(); i++) {
+            if (pieces.get(i).isWhite == whiteTurn) {
+                pieces.get(i).recentCapture = null;
+                for (Integer square : pieces.get(i).squaresAttacked) {
+                    int initialCoordinate = pieces.get(i).coordinate;
+                    pieces.get(i).move(square);
+                    boolean pieceChecks = false;
+                    for (Piece oppPiece : pieces) {
+                        oppPiece.squaresAttacked = oppPiece.getSquaresAttacked();
+                        if (oppPiece.checksKing() && oppPiece.isWhite != whiteTurn) {
+                            pieceChecks = true;
                         }
-                        if (pieces.get(i).recentCapture != null) {
-                            Piece newPiece = pieces.get(i).recentCapture;
-                            pieces.add(newPiece);
-                            pieces.get(i).recentCapture = null;
-                        }
-                        pieces.get(i).coordinate = initialCoordinate;
-                        if (!pieceChecks)
-                            return false;
+                    }
+                    if (pieces.get(i).recentCapture != null) {
+                        Piece newPiece = pieces.get(i).recentCapture;
+                        pieces.add(newPiece);
+                        pieces.get(i).recentCapture = null;
+                    }
+                    pieces.get(i).coordinate = initialCoordinate;
+                    if (!pieceChecks) {
+                        return false;
                     }
                 }
             }
-            return true;
         }
-        else
-            return false;
+        return true;
     }
 }

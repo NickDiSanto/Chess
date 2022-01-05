@@ -40,8 +40,9 @@ public class Piece {
     public boolean checksKing() {
         for (Integer square : squaresAttacked) {
             if (Board.getPiece(square / 10 * 64, square % 10 * 64) != null) {
-                if (Board.getPiece(square / 10 * 64, square % 10 * 64).pieceType == 'K')
+                if (Board.getPiece(square / 10 * 64, square % 10 * 64).pieceType == 'K') {
                     return true;
+                }
             }
         }
         return false;

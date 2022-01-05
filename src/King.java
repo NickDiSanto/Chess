@@ -11,34 +11,32 @@ public class King extends Piece {
     public void move(int newCoordinate) {
         if (Board.canCastleShort() && newCoordinate - coordinate == 20) {
             for (Piece piece : pieces) {
-                if (piece.coordinate == 77 && isWhite)
+                if (piece.coordinate == 77 && isWhite) {
                     piece.coordinate = 57;
-                else if (piece.coordinate == 70 && !isWhite)
+                } else if (piece.coordinate == 70 && !isWhite) {
                     piece.coordinate = 50;
+                }
             }
-        }
-        else if (Board.canCastleLong() && coordinate - newCoordinate == 20) {
+        } else if (Board.canCastleLong() && coordinate - newCoordinate == 20) {
             for (Piece piece : pieces) {
-                if (piece.coordinate == 7 && isWhite)
+                if (piece.coordinate == 7 && isWhite) {
                     piece.coordinate = 37;
-                else if (piece.coordinate == 0 && !isWhite)
+                } else if (piece.coordinate == 0 && !isWhite) {
                     piece.coordinate = 30;
+                }
             }
-        }
-        else if ((Math.abs(newCoordinate - coordinate) == 10 || Math.abs(newCoordinate - coordinate) == 1 || Math.abs(newCoordinate - coordinate)
+        } else if ((Math.abs(newCoordinate - coordinate) == 10 || Math.abs(newCoordinate - coordinate) == 1 || Math.abs(newCoordinate - coordinate)
                 == 9 || Math.abs(newCoordinate - coordinate) == 11) && newCoordinate >= 0 && newCoordinate <= 77 && newCoordinate % 10 <= 7) {
             if (Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64) != null) {
                 if (Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64).isWhite != isWhite) {
                     recentCapture = Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64);
                     Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64).capture();
-                }
-                else {
+                } else {
                     updatePiece();
                     return;
                 }
             }
-        }
-        else {
+        } else {
             updatePiece();
             return;
         }
@@ -60,13 +58,15 @@ public class King extends Piece {
 
         for (int i = squares.size() - 1; i >= 0; i--) {
             if (Board.getPiece(squares.get(i) / 10 * 64, squares.get(i) % 10 * 64) != null) {
-                if (Board.getPiece(squares.get(i) / 10 * 64, squares.get(i) % 10 * 64).isWhite == isWhite)
+                if (Board.getPiece(squares.get(i) / 10 * 64, squares.get(i) % 10 * 64).isWhite == isWhite) {
                     squares.remove(i);
+                }
             }
         }
         for (int i = squares.size() - 1; i >= 0; i--) {
-            if (squares.get(i) > 77 || squares.get(i) < 0 || squares.get(i) % 10 > 7)
+            if (squares.get(i) > 77 || squares.get(i) < 0 || squares.get(i) % 10 > 7) {
                 squares.remove(i);
+            }
         }
 
         return squares;

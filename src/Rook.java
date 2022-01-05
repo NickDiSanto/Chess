@@ -18,8 +18,9 @@ public class Rook extends Piece {
                 numSquaresBetween /= 10;
                 movingSideways = true;
             }
-            if (newCoordinate - coordinate < 0)
+            if (newCoordinate - coordinate < 0) {
                 movingBackwards = true;
+            }
             numSquaresBetween--;
 
             for (int i = 1; i <= numSquaresBetween; i++) {
@@ -28,20 +29,17 @@ public class Rook extends Piece {
                         updatePiece();
                         return;
                     }
-                }
-                else if (movingSideways) {
+                } else if (movingSideways) {
                     if (Board.getPiece((coordinate + 10 * i) / 10 * 64, (coordinate) % 10 * 64) != null) {
                         updatePiece();
                         return;
                     }
-                }
-                else if (movingBackwards) {
+                } else if (movingBackwards) {
                     if (Board.getPiece((coordinate) / 10 * 64, (coordinate - i) % 10 * 64) != null) {
                         updatePiece();
                         return;
                     }
-                }
-                else {
+                } else {
                     if (Board.getPiece((coordinate) / 10 * 64, (coordinate + i) % 10 * 64) != null) {
                         updatePiece();
                         return;
@@ -53,14 +51,12 @@ public class Rook extends Piece {
                 if (Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64).isWhite != isWhite) {
                     recentCapture = Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64);
                     Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64).capture();
-                }
-                else {
+                } else {
                     updatePiece();
                     return;
                 }
             }
-        }
-        else {
+        } else {
             updatePiece();
             return;
         }
@@ -72,45 +68,50 @@ public class Rook extends Piece {
         LinkedList<Integer> squares = new LinkedList<>();
 
         for (int i = 1; i < 8 - coordinate / 10; i++) {
-            if (Board.getPiece((coordinate + 10 * i) / 10 * 64, coordinate % 10 * 64) == null)
+            if (Board.getPiece((coordinate + 10 * i) / 10 * 64, coordinate % 10 * 64) == null) {
                 squares.add(coordinate + 10 * i);
-            else {
-                if (Board.getPiece((coordinate + 10 * i) / 10 * 64, coordinate % 10 * 64).isWhite != isWhite)
+            } else {
+                if (Board.getPiece((coordinate + 10 * i) / 10 * 64, coordinate % 10 * 64).isWhite != isWhite) {
                     squares.add(coordinate + 10 * i);
+                }
                 break;
             }
         }
         for (int i = 1; i <= coordinate / 10; i++) {
-            if (Board.getPiece((coordinate - 10 * i) / 10 * 64, coordinate % 10 * 64) == null)
+            if (Board.getPiece((coordinate - 10 * i) / 10 * 64, coordinate % 10 * 64) == null) {
                 squares.add(coordinate - 10 * i);
-            else {
-                if (Board.getPiece((coordinate - 10 * i) / 10 * 64, coordinate % 10 * 64).isWhite != isWhite)
+            } else {
+                if (Board.getPiece((coordinate - 10 * i) / 10 * 64, coordinate % 10 * 64).isWhite != isWhite) {
                     squares.add(coordinate - 10 * i);
+                }
                 break;
             }
         }
         for (int i = 1; i < 8 - coordinate % 10; i++) {
-            if (Board.getPiece(coordinate / 10 * 64, (coordinate + i) % 10 * 64) == null)
+            if (Board.getPiece(coordinate / 10 * 64, (coordinate + i) % 10 * 64) == null) {
                 squares.add(coordinate + i);
-            else {
-                if (Board.getPiece(coordinate / 10 * 64, (coordinate + i) % 10 * 64).isWhite != isWhite)
+            } else {
+                if (Board.getPiece(coordinate / 10 * 64, (coordinate + i) % 10 * 64).isWhite != isWhite) {
                     squares.add(coordinate + i);
+                }
                 break;
             }
         }
         for (int i = 1; i <= coordinate % 10; i++) {
-            if (Board.getPiece(coordinate / 10 * 64, (coordinate - i) % 10 * 64) == null)
+            if (Board.getPiece(coordinate / 10 * 64, (coordinate - i) % 10 * 64) == null) {
                 squares.add(coordinate - i);
-            else {
-                if (Board.getPiece(coordinate / 10 * 64, (coordinate - i) % 10 * 64).isWhite != isWhite)
+            } else {
+                if (Board.getPiece(coordinate / 10 * 64, (coordinate - i) % 10 * 64).isWhite != isWhite) {
                     squares.add(coordinate - i);
+                }
                 break;
             }
         }
 
         for (int i = squares.size() - 1; i >= 0; i--) {
-            if (squares.get(i) > 77 || squares.get(i) < 0 || squares.get(i) % 10 > 7)
+            if (squares.get(i) > 77 || squares.get(i) < 0 || squares.get(i) % 10 > 7) {
                 squares.remove(i);
+            }
         }
 
         return squares;
