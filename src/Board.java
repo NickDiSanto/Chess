@@ -152,8 +152,9 @@ public class Board {
                     selectedPiece.move(e.getX() / 64 * 10 + e.getY() / 64);
 
                     if (selectedPiece.coordinate != initialCoordinate) {
-                        for (Piece piece : pieces)
+                        for (Piece piece : pieces) {
                             piece.updatePiece();
+                        }
                         for (int i = 0; i < pieces.size(); i++) {
                             if (pieces.get(i).checksKing() && pieces.get(i).isWhite != whiteTurn) {
                                 if (selectedPiece.recentCapture != null) {
@@ -165,8 +166,9 @@ public class Board {
                                 selectedPiece.updatePiece();
                             }
                         }
-                        for (Piece piece : pieces)
+                        for (Piece piece : pieces) {
                             piece.squaresAttacked = piece.getSquaresAttacked();
+                        }
 
                         if (selectedPiece.coordinate != initialCoordinate) {
                             selectedPiece.updatePiece();
