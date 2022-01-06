@@ -55,8 +55,8 @@ public class Piece {
     }
 
     public void takeAwayEnPassant() {
-        for (Piece piece : pieces) {
-            piece.canBeEnPassant = false;
+        for (int i = 0; i < pieces.size(); i++) {
+            pieces.get(i).canBeEnPassant = false;
         }
     }
 }

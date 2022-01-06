@@ -159,8 +159,8 @@ public class Board {
                     selectedPiece.move(e.getX() / 64 * 10 + e.getY() / 64);
 
                     if (selectedPiece.coordinate != initialCoordinate) {
-                        for (Piece piece : pieces) {
-                            piece.updatePiece();
+                        for (int i = 0; i < pieces.size(); i++) {
+                            pieces.get(i).updatePiece();
                         }
                         for (int i = 0; i < pieces.size(); i++) {
                             if (pieces.get(i).checksKing() && pieces.get(i).isWhite != whiteTurn) {
@@ -186,8 +186,8 @@ public class Board {
                                 pawnPromotion(); // FIXME: Should happen outside mouseReleased so it can repaint
                             }
                             selectedPiece.hasMoved = true;
-                            for (Piece piece : pieces) {
-                                piece.updatePiece();
+                            for (int i = 0; i < pieces.size(); i++) {
+                                pieces.get(i).updatePiece();
                             }
 
                             whiteTurn = !whiteTurn;
@@ -315,48 +315,48 @@ public class Board {
         pieces.remove(selectedPiece);
         Piece newPiece;
         label:
-            while (true) {
-                System.out.println("What piece would you like to promote to?");
-                Scanner s = new Scanner(System.in);
-                String piece = s.nextLine().toUpperCase(Locale.ROOT);
+        while (true) {
+            System.out.println("What piece would you like to promote to?");
+            Scanner s = new Scanner(System.in);
+            String piece = s.nextLine().toUpperCase(Locale.ROOT);
 
-                switch (piece) {
-                    case "QUEEN":
-                        if (selectedPiece.isWhite) {
-                            newPiece = new Queen(selectedPiece.coordinate, true, true, false, 'Q', squaresAttacked, pieces);
-                        } else {
-                            newPiece = new Queen(selectedPiece.coordinate, false, true, false, 'Q', squaresAttacked, pieces);
-                        }
-                        newPiece.updatePiece();
-                        break label;
-                    case "ROOK":
-                        if (selectedPiece.isWhite) {
-                            newPiece = new Rook(selectedPiece.coordinate, true, true, false, 'R', squaresAttacked, pieces);
-                        } else {
-                            newPiece = new Rook(selectedPiece.coordinate, false, true, false, 'R', squaresAttacked, pieces);
-                        }
-                        newPiece.updatePiece();
-                        break label;
-                    case "BISHOP":
-                        if (selectedPiece.isWhite) {
-                            newPiece = new Bishop(selectedPiece.coordinate, true, true, false, 'B', squaresAttacked, pieces);
-                        } else {
-                            newPiece = new Bishop(selectedPiece.coordinate, false, true, false, 'B', squaresAttacked, pieces);
-                        }
-                        newPiece.updatePiece();
-                        break label;
-                    case "KNIGHT":
-                        if (selectedPiece.isWhite) {
-                            newPiece = new Knight(selectedPiece.coordinate, true, true, false, 'N', squaresAttacked, pieces);
-                        } else {
-                            newPiece = new Knight(selectedPiece.coordinate, false, true, false, 'N', squaresAttacked, pieces);
-                        }
-                        newPiece.updatePiece();
-                        break label;
-                }
-                System.out.println("Invalid piece. Please try again.");
-                System.out.println();
+            switch (piece) {
+                case "QUEEN":
+                    if (selectedPiece.isWhite) {
+                        newPiece = new Queen(selectedPiece.coordinate, true, true, false, 'Q', squaresAttacked, pieces);
+                    } else {
+                        newPiece = new Queen(selectedPiece.coordinate, false, true, false, 'Q', squaresAttacked, pieces);
+                    }
+                    newPiece.updatePiece();
+                    break label;
+                case "ROOK":
+                    if (selectedPiece.isWhite) {
+                        newPiece = new Rook(selectedPiece.coordinate, true, true, false, 'R', squaresAttacked, pieces);
+                    } else {
+                        newPiece = new Rook(selectedPiece.coordinate, false, true, false, 'R', squaresAttacked, pieces);
+                    }
+                    newPiece.updatePiece();
+                    break label;
+                case "BISHOP":
+                    if (selectedPiece.isWhite) {
+                        newPiece = new Bishop(selectedPiece.coordinate, true, true, false, 'B', squaresAttacked, pieces);
+                    } else {
+                        newPiece = new Bishop(selectedPiece.coordinate, false, true, false, 'B', squaresAttacked, pieces);
+                    }
+                    newPiece.updatePiece();
+                    break label;
+                case "KNIGHT":
+                    if (selectedPiece.isWhite) {
+                        newPiece = new Knight(selectedPiece.coordinate, true, true, false, 'N', squaresAttacked, pieces);
+                    } else {
+                        newPiece = new Knight(selectedPiece.coordinate, false, true, false, 'N', squaresAttacked, pieces);
+                    }
+                    newPiece.updatePiece();
+                    break label;
             }
+            System.out.println("Invalid piece. Please try again.");
+            System.out.println();
+        }
     }
 
     public static boolean isCheck() {
@@ -377,9 +377,9 @@ public class Board {
                         int initialCoordinate = pieces.get(i).coordinate;
                         pieces.get(i).move(square);
                         boolean pieceChecks = false;
-                        for (Piece oppPiece : pieces) {
-                            oppPiece.squaresAttacked = oppPiece.getSquaresAttacked();
-                            if (oppPiece.checksKing() && oppPiece.isWhite != whiteTurn) {
+                        for (int j = 0; j < pieces.size(); j++) {
+                            pieces.get(j).squaresAttacked = pieces.get(j).getSquaresAttacked();
+                            if (pieces.get(j).checksKing() && pieces.get(j).isWhite != whiteTurn) {
                                 pieceChecks = true;
                             }
                         }
@@ -412,10 +412,10 @@ public class Board {
                     pieces.get(i).move(square);
 
                     boolean pieceChecks = false;
-                    for (Piece oppPiece : pieces) {
-                        if (oppPiece.isWhite != whiteTurn) {
-                            oppPiece.squaresAttacked = oppPiece.getSquaresAttacked();
-                            if (oppPiece.checksKing()) {
+                    for (int j = 0; j < pieces.size(); j++) {
+                        if (pieces.get(j).isWhite != whiteTurn) {
+                            pieces.get(j).squaresAttacked = pieces.get(j).getSquaresAttacked();
+                            if (pieces.get(j).checksKing()) {
                                 pieceChecks = true;
                             }
                         }

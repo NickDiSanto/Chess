@@ -10,19 +10,19 @@ public class King extends Piece {
     @Override
     public void move(int newCoordinate) {
         if (Board.canCastleShort() && newCoordinate - coordinate == 20) {
-            for (Piece piece : pieces) {
-                if (piece.coordinate == 77 && isWhite) {
-                    piece.coordinate = 57;
-                } else if (piece.coordinate == 70 && !isWhite) {
-                    piece.coordinate = 50;
+            for (int i = 0; i < pieces.size(); i++) {
+                if (pieces.get(i).coordinate == 77 && isWhite) {
+                    pieces.get(i).coordinate = 57;
+                } else if (pieces.get(i).coordinate == 70 && !isWhite) {
+                    pieces.get(i).coordinate = 50;
                 }
             }
         } else if (Board.canCastleLong() && coordinate - newCoordinate == 20) {
-            for (Piece piece : pieces) {
-                if (piece.coordinate == 7 && isWhite) {
-                    piece.coordinate = 37;
-                } else if (piece.coordinate == 0 && !isWhite) {
-                    piece.coordinate = 30;
+            for (int i = 0; i < pieces.size(); i++) {
+                if (pieces.get(i).coordinate == 7 && isWhite) {
+                    pieces.get(i).coordinate = 37;
+                } else if (pieces.get(i).coordinate == 0 && !isWhite) {
+                    pieces.get(i).coordinate = 30;
                 }
             }
         } else if ((Math.abs(newCoordinate - coordinate) == 10 || Math.abs(newCoordinate - coordinate) == 1 || Math.abs(newCoordinate - coordinate)
