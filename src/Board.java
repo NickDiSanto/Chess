@@ -19,7 +19,6 @@ public class Board {
     // FIXME: Public vs private? Static or not?
     // TODO: Check general documentation: whitespace, etc
     // TODO: Add comments
-    // FIXME: Maybe change "Integer" back to int on the for loops? Look it up
 
     public static LinkedList<Piece> pieces = new LinkedList<>();
     public static LinkedList<Integer> squaresAttacked = new LinkedList<>();
@@ -140,7 +139,7 @@ public class Board {
                         return;
                     }
                     initialCoordinate = e.getX() / 64 * 10 + e.getY() / 64;
-                } catch (Exception exception) {
+                } catch (IllegalArgumentException exception) {
                     System.out.println("No piece selected.");
                     System.out.println("Please try again.");
                     System.out.println();
@@ -148,7 +147,7 @@ public class Board {
             }
 
             @Override
-            public void mouseReleased(MouseEvent e) throws IllegalArgumentException {
+            public void mouseReleased(MouseEvent e) {
                 try {
                     if (selectedPiece.isWhite != whiteTurn) {
                         return;
@@ -159,11 +158,17 @@ public class Board {
                     selectedPiece.move(e.getX() / 64 * 10 + e.getY() / 64);
 
                     if (selectedPiece.coordinate != initialCoordinate) {
+                        boolean originalHasMoved = selectedPiece.hasMoved;
+                        selectedPiece.hasMoved = true;
+
                         for (int i = 0; i < pieces.size(); i++) {
                             pieces.get(i).updatePiece();
                         }
+
+                        boolean openedUpCheck = false;
                         for (int i = 0; i < pieces.size(); i++) {
                             if (pieces.get(i).checksKing() && pieces.get(i).isWhite != whiteTurn) {
+                                openedUpCheck = true;
                                 Piece newPiece = null;
                                 if (selectedPiece.recentCapture != null) {
                                     newPiece = selectedPiece.recentCapture;
@@ -171,10 +176,17 @@ public class Board {
                                     selectedPiece.recentCapture = null;
                                 }
                                 selectedPiece.coordinate = initialCoordinate;
+                                selectedPiece.hasMoved = originalHasMoved;
+                                selectedPiece.updatePiece();
                                 if (newPiece != null) {
                                     newPiece.updatePiece();
                                 }
-                                selectedPiece.updatePiece();
+                                break;
+                            }
+                        }
+                        if (openedUpCheck) {
+                            for (int i = 0; i < pieces.size(); i++) {
+                                pieces.get(i).updatePiece();
                             }
                         }
 
@@ -182,36 +194,36 @@ public class Board {
                             if (Math.abs(selectedPiece.coordinate - initialCoordinate) != 2 || selectedPiece.pieceType != 'P') {
                                 selectedPiece.takeAwayEnPassant();
                             }
+
                             if (selectedPiece.pieceType == 'P' && (selectedPiece.coordinate % 10 == 7 || selectedPiece.coordinate % 10 == 0)) {
                                 pawnPromotion(); // FIXME: Should happen outside mouseReleased so it can repaint
                             }
-                            selectedPiece.hasMoved = true;
                             for (int i = 0; i < pieces.size(); i++) {
                                 pieces.get(i).updatePiece();
                             }
 
                             whiteTurn = !whiteTurn;
 
-                            if (isCheckmate()) {
-                                System.out.println("Checkmate!");
-                                if (whiteTurn) {
-                                    System.out.println("Black wins!");
-                                } else {
-                                    System.out.println("White wins!");
-                                }
-
-                                // TODO: END GAME
-                            } else {
-                                if (isStalemate()) {
-                                    System.out.println("Stalemate!");
-
-                                    // TODO: END GAME
-                                }
-                            }
+//                            if (isCheckmate()) {
+//                                System.out.println("Checkmate!");
+//                                if (whiteTurn) {
+//                                    System.out.println("Black wins!");
+//                                } else {
+//                                    System.out.println("White wins!");
+//                                }
+//
+//                                // TODO: END GAME
+//                            } else {
+//                                if (isStalemate()) {
+//                                    System.out.println("Stalemate!");
+//
+//                                    // TODO: END GAME
+//                                }
+//                            }
                         }
                     }
                     frame.repaint();
-                } catch (Exception ignored) {
+                } catch (IllegalArgumentException ignored) {
                 }
             }
         });
@@ -373,7 +385,7 @@ public class Board {
             for (int i = 0; i < pieces.size(); i++) {
                 if (pieces.get(i).isWhite == whiteTurn) {
                     pieces.get(i).recentCapture = null;
-                    for (Integer square : pieces.get(i).squaresAttacked) {
+                    for (int square : pieces.get(i).squaresAttacked) {
                         int initialCoordinate = pieces.get(i).coordinate;
                         pieces.get(i).move(square);
                         boolean pieceChecks = false;
@@ -407,7 +419,7 @@ public class Board {
         for (int i = 0; i < pieces.size(); i++) {
             if (pieces.get(i).isWhite == whiteTurn) {
                 pieces.get(i).recentCapture = null;
-                for (Integer square : pieces.get(i).squaresAttacked) {
+                for (int square : pieces.get(i).squaresAttacked) {
                     int initialCoordinate = pieces.get(i).coordinate;
                     pieces.get(i).move(square);
 
