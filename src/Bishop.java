@@ -3,13 +3,14 @@ import java.util.LinkedList;
 public class Bishop extends Piece {
 
     public Bishop(int coordinate, boolean isWhite, boolean hasMoved, boolean canBeEnPassant, char pieceType,
-                  LinkedList<Integer> squaresAttacked, LinkedList<Piece> pieces) {
-        super(coordinate, isWhite, hasMoved, canBeEnPassant, pieceType, squaresAttacked, pieces);
+                  LinkedList<Integer> squaresAttacked, LinkedList<Integer> possibleMoves, LinkedList<Piece> pieces) {
+        super(coordinate, isWhite, hasMoved, canBeEnPassant, pieceType, squaresAttacked, possibleMoves, pieces);
     }
 
     @Override
     public void move(int newCoordinate) {
-        if ((Math.abs(newCoordinate - coordinate) % 11 == 0 || Math.abs(newCoordinate - coordinate) % 9 == 0) && newCoordinate >= 0 && newCoordinate <= 77 && newCoordinate % 10 <= 7) {
+        if ((Math.abs(newCoordinate - coordinate) % 11 == 0 || Math.abs(newCoordinate - coordinate) % 9 == 0)
+                && newCoordinate >= 0 && newCoordinate <= 77 && newCoordinate % 10 <= 7) {
             int numSquaresBetween = Math.abs(newCoordinate - coordinate) / 11;
             boolean movingSideways = false;
             boolean movingBackwards = false;

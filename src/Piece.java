@@ -9,11 +9,12 @@ public class Piece {
     boolean hasMoved;
     char pieceType;
     LinkedList<Integer> squaresAttacked;
+    LinkedList<Integer> possibleMoves;
     LinkedList<Piece> pieces;
     Piece recentCapture;
 
     public Piece(int coordinate, boolean isWhite, boolean hasMoved, boolean canBeEnPassant, char pieceType,
-                 LinkedList<Integer> squaresAttacked, LinkedList<Piece> pieces) {
+                 LinkedList<Integer> squaresAttacked, LinkedList<Integer> possibleMoves, LinkedList<Piece> pieces) {
         this.coordinate = coordinate;
         xPixel = coordinate / 10 * 64;
         yPixel = coordinate % 10 * 64;
@@ -22,6 +23,7 @@ public class Piece {
         this.canBeEnPassant = canBeEnPassant;
         this.pieceType = pieceType;
         this.squaresAttacked = squaresAttacked;
+        this.possibleMoves = possibleMoves;
         this.pieces = pieces;
 
         pieces.add(this);
@@ -34,6 +36,10 @@ public class Piece {
     }
 
     public LinkedList<Integer> getSquaresAttacked() {
+        return null;
+    }
+
+    public LinkedList<Integer> getPossibleMoves() {
         return null;
     }
 

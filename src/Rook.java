@@ -3,13 +3,14 @@ import java.util.LinkedList;
 public class Rook extends Piece {
 
     public Rook(int coordinate, boolean isWhite, boolean hasMoved, boolean canBeEnPassant, char pieceType,
-                LinkedList<Integer> squaresAttacked, LinkedList<Piece> pieces) {
-        super(coordinate, isWhite, hasMoved, canBeEnPassant, pieceType, squaresAttacked, pieces);
+                LinkedList<Integer> squaresAttacked, LinkedList<Integer> possibleMoves, LinkedList<Piece> pieces) {
+        super(coordinate, isWhite, hasMoved, canBeEnPassant, pieceType, squaresAttacked, possibleMoves, pieces);
     }
 
     @Override
     public void move(int newCoordinate) {
-        if ((Math.abs(newCoordinate - coordinate) % 10 == 0 || Math.abs(newCoordinate - coordinate) < 8) && newCoordinate >= 0 && newCoordinate <= 77 && newCoordinate % 10 <= 7) {
+        if ((Math.abs(newCoordinate - coordinate) % 10 == 0 || Math.abs(newCoordinate - coordinate) < 8)
+                && newCoordinate >= 0 && newCoordinate <= 77 && newCoordinate % 10 <= 7) {
             int numSquaresBetween = Math.abs(newCoordinate - coordinate);
             boolean movingSideways = false;
             boolean movingBackwards = false;

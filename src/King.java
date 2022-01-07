@@ -3,8 +3,8 @@ import java.util.LinkedList;
 public class King extends Piece {
 
     public King(int coordinate, boolean isWhite, boolean hasMoved, boolean canBeEnPassant, char pieceType,
-                LinkedList<Integer> squaresAttacked, LinkedList<Piece> pieces) {
-        super(coordinate, isWhite, hasMoved, canBeEnPassant, pieceType, squaresAttacked, pieces);
+                LinkedList<Integer> squaresAttacked, LinkedList<Integer> possibleMoves, LinkedList<Piece> pieces) {
+        super(coordinate, isWhite, hasMoved, canBeEnPassant, pieceType, squaresAttacked, possibleMoves, pieces);
     }
 
     @Override
@@ -25,8 +25,9 @@ public class King extends Piece {
                     pieces.get(i).coordinate = 30;
                 }
             }
-        } else if ((Math.abs(newCoordinate - coordinate) == 10 || Math.abs(newCoordinate - coordinate) == 1 || Math.abs(newCoordinate - coordinate)
-                == 9 || Math.abs(newCoordinate - coordinate) == 11) && newCoordinate >= 0 && newCoordinate <= 77 && newCoordinate % 10 <= 7) {
+        } else if ((Math.abs(newCoordinate - coordinate) == 10 || Math.abs(newCoordinate - coordinate) == 1
+                || Math.abs(newCoordinate - coordinate) == 9 || Math.abs(newCoordinate - coordinate) == 11)
+                && newCoordinate >= 0 && newCoordinate <= 77 && newCoordinate % 10 <= 7) {
             if (Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64) != null) {
                 if (Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64).isWhite != isWhite) {
                     recentCapture = Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64);

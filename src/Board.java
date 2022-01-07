@@ -22,6 +22,7 @@ public class Board {
 
     public static LinkedList<Piece> pieces = new LinkedList<>();
     public static LinkedList<Integer> squaresAttacked = new LinkedList<>();
+    public static LinkedList<Integer> possibleMoves;
     public static Piece selectedPiece = null;
     public static boolean whiteTurn = true;
     public static int initialCoordinate;
@@ -32,44 +33,77 @@ public class Board {
         int index = 0;
         for (int y = 0; y < 2; y++) {
             for (int x = 0; x < 6; x++) {
-                images[index] = all.getSubimage(x * 200, y * 200, 200, 200).getScaledInstance(64, 64, BufferedImage.SCALE_SMOOTH);
+                images[index] = all.getSubimage(x * 200, y * 200, 200,
+                        200).getScaledInstance(64, 64, BufferedImage.SCALE_SMOOTH);
                 index++;
             }
         }
 
-        Piece blackRook1 = new Rook(0, false, false, false, 'R', squaresAttacked, pieces);
-        Piece blackKnight1 = new Knight(10, false, false, false, 'N', squaresAttacked, pieces);
-        Piece blackBishop1 = new Bishop(20, false, false, false, 'B', squaresAttacked, pieces);
-        Piece blackQueen = new Queen(30, false, false, false, 'Q', squaresAttacked, pieces);
-        Piece blackKing = new King(40, false, false, false, 'K', squaresAttacked, pieces);
-        Piece blackBishop2 = new Bishop(50, false, false, false, 'B', squaresAttacked, pieces);
-        Piece blackKnight2 = new Knight(60, false, false, false, 'N', squaresAttacked, pieces);
-        Piece blackRook2 = new Rook(70, false, false, false, 'R', squaresAttacked, pieces);
-        Piece blackPawn1 = new Pawn(1, false, false, false, 'P', squaresAttacked, pieces);
-        Piece blackPawn2 = new Pawn(11, false, false, false, 'P', squaresAttacked, pieces);
-        Piece blackPawn3 = new Pawn(21, false, false, false, 'P', squaresAttacked, pieces);
-        Piece blackPawn4 = new Pawn(31, false, false, false, 'P', squaresAttacked, pieces);
-        Piece blackPawn5 = new Pawn(41, false, false, false, 'P', squaresAttacked, pieces);
-        Piece blackPawn6 = new Pawn(51, false, false, false, 'P', squaresAttacked, pieces);
-        Piece blackPawn7 = new Pawn(61, false, false, false, 'P', squaresAttacked, pieces);
-        Piece blackPawn8 = new Pawn(71, false, false, false, 'P', squaresAttacked, pieces);
+        Piece blackRook1 = new Rook(0, false, false,
+                false,'R', squaresAttacked, possibleMoves, pieces);
+        Piece blackKnight1 = new Knight(10, false, false,
+                false, 'N', squaresAttacked, possibleMoves, pieces);
+        Piece blackBishop1 = new Bishop(20, false, false,
+                false, 'B', squaresAttacked, possibleMoves, pieces);
+        Piece blackQueen = new Queen(30, false, false,
+                false, 'Q', squaresAttacked, possibleMoves, pieces);
+        Piece blackKing = new King(40, false, false,
+                false, 'K', squaresAttacked, possibleMoves, pieces);
+        Piece blackBishop2 = new Bishop(50, false, false,
+                false, 'B', squaresAttacked, possibleMoves, pieces);
+        Piece blackKnight2 = new Knight(60, false, false,
+                false, 'N', squaresAttacked, possibleMoves, pieces);
+        Piece blackRook2 = new Rook(70, false, false,
+                false, 'R', squaresAttacked, possibleMoves, pieces);
+        Piece blackPawn1 = new Pawn(1, false, false,
+                false, 'P', squaresAttacked, possibleMoves, pieces);
+        Piece blackPawn2 = new Pawn(11, false, false,
+                false, 'P', squaresAttacked, possibleMoves, pieces);
+        Piece blackPawn3 = new Pawn(21, false, false,
+                false, 'P', squaresAttacked, possibleMoves, pieces);
+        Piece blackPawn4 = new Pawn(31, false, false,
+                false, 'P', squaresAttacked, possibleMoves, pieces);
+        Piece blackPawn5 = new Pawn(41, false, false,
+                false, 'P', squaresAttacked, possibleMoves, pieces);
+        Piece blackPawn6 = new Pawn(51, false, false,
+                false, 'P', squaresAttacked, possibleMoves, pieces);
+        Piece blackPawn7 = new Pawn(61, false, false,
+                false, 'P', squaresAttacked, possibleMoves, pieces);
+        Piece blackPawn8 = new Pawn(71, false, false,
+                false, 'P', squaresAttacked, possibleMoves, pieces);
 
-        Piece whiteRook1 = new Rook(7, true, false, false, 'R', squaresAttacked, pieces);
-        Piece whiteKnight1 = new Knight(17, true, false, false, 'N', squaresAttacked, pieces);
-        Piece whiteBishop1 = new Bishop(27, true, false, false, 'B', squaresAttacked, pieces);
-        Piece whiteQueen = new Queen(37, true, false, false, 'Q', squaresAttacked, pieces);
-        Piece whiteKing = new King(47, true, false, false, 'K', squaresAttacked, pieces);
-        Piece whiteBishop2 = new Bishop(57, true, false, false, 'B', squaresAttacked, pieces);
-        Piece whiteKnight2 = new Knight(67, true, false, false, 'N', squaresAttacked, pieces);
-        Piece whiteRook2 = new Rook(77, true, false, false, 'R', squaresAttacked, pieces);
-        Piece whitePawn1 = new Pawn(6, true, false, false, 'P', squaresAttacked, pieces);
-        Piece whitePawn2 = new Pawn(16, true, false, false, 'P', squaresAttacked, pieces);
-        Piece whitePawn3 = new Pawn(26, true, false, false, 'P', squaresAttacked, pieces);
-        Piece whitePawn4 = new Pawn(36, true, false, false, 'P', squaresAttacked, pieces);
-        Piece whitePawn5 = new Pawn(46, true, false, false, 'P', squaresAttacked, pieces);
-        Piece whitePawn6 = new Pawn(56, true, false, false, 'P', squaresAttacked, pieces);
-        Piece whitePawn7 = new Pawn(66, true, false, false, 'P', squaresAttacked, pieces);
-        Piece whitePawn8 = new Pawn(76, true, false, false, 'P', squaresAttacked, pieces);
+        Piece whiteRook1 = new Rook(7, true, false,
+                false, 'R', squaresAttacked, possibleMoves, pieces);
+        Piece whiteKnight1 = new Knight(17, true, false,
+                false, 'N', squaresAttacked, possibleMoves, pieces);
+        Piece whiteBishop1 = new Bishop(27, true, false,
+                false, 'B', squaresAttacked, possibleMoves, pieces);
+        Piece whiteQueen = new Queen(37, true, false,
+                false, 'Q', squaresAttacked, possibleMoves, pieces);
+        Piece whiteKing = new King(47, true, false,
+                false, 'K', squaresAttacked, possibleMoves, pieces);
+        Piece whiteBishop2 = new Bishop(57, true, false,
+                false, 'B', squaresAttacked, possibleMoves, pieces);
+        Piece whiteKnight2 = new Knight(67, true, false,
+                false, 'N', squaresAttacked, possibleMoves, pieces);
+        Piece whiteRook2 = new Rook(77, true, false,
+                false, 'R', squaresAttacked, possibleMoves, pieces);
+        Piece whitePawn1 = new Pawn(6, true, false,
+                false, 'P', squaresAttacked, possibleMoves, pieces);
+        Piece whitePawn2 = new Pawn(16, true, false,
+                false, 'P', squaresAttacked, possibleMoves, pieces);
+        Piece whitePawn3 = new Pawn(26, true, false,
+                false, 'P', squaresAttacked, possibleMoves, pieces);
+        Piece whitePawn4 = new Pawn(36, true, false,
+                false, 'P', squaresAttacked, possibleMoves, pieces);
+        Piece whitePawn5 = new Pawn(46, true, false,
+                false, 'P', squaresAttacked, possibleMoves, pieces);
+        Piece whitePawn6 = new Pawn(56, true, false,
+                false, 'P', squaresAttacked, possibleMoves, pieces);
+        Piece whitePawn7 = new Pawn(66, true, false,
+                false, 'P', squaresAttacked, possibleMoves, pieces);
+        Piece whitePawn8 = new Pawn(76, true, false,
+                false, 'P', squaresAttacked, possibleMoves, pieces);
 
         JFrame frame = new JFrame();
         frame.setBounds(10, 10, 512, 512);
@@ -335,33 +369,41 @@ public class Board {
             switch (piece) {
                 case "QUEEN":
                     if (selectedPiece.isWhite) {
-                        newPiece = new Queen(selectedPiece.coordinate, true, true, false, 'Q', squaresAttacked, pieces);
+                        newPiece = new Queen(selectedPiece.coordinate, true, true,
+                                false,'Q', squaresAttacked, possibleMoves, pieces);
                     } else {
-                        newPiece = new Queen(selectedPiece.coordinate, false, true, false, 'Q', squaresAttacked, pieces);
+                        newPiece = new Queen(selectedPiece.coordinate, false, true,
+                                false, 'Q', squaresAttacked, possibleMoves, pieces);
                     }
                     newPiece.updatePiece();
                     break label;
                 case "ROOK":
                     if (selectedPiece.isWhite) {
-                        newPiece = new Rook(selectedPiece.coordinate, true, true, false, 'R', squaresAttacked, pieces);
+                        newPiece = new Rook(selectedPiece.coordinate, true, true,
+                                false, 'R', squaresAttacked, possibleMoves, pieces);
                     } else {
-                        newPiece = new Rook(selectedPiece.coordinate, false, true, false, 'R', squaresAttacked, pieces);
+                        newPiece = new Rook(selectedPiece.coordinate, false, true,
+                                false, 'R', squaresAttacked, possibleMoves, pieces);
                     }
                     newPiece.updatePiece();
                     break label;
                 case "BISHOP":
                     if (selectedPiece.isWhite) {
-                        newPiece = new Bishop(selectedPiece.coordinate, true, true, false, 'B', squaresAttacked, pieces);
+                        newPiece = new Bishop(selectedPiece.coordinate, true, true,
+                                false, 'B', squaresAttacked, possibleMoves, pieces);
                     } else {
-                        newPiece = new Bishop(selectedPiece.coordinate, false, true, false, 'B', squaresAttacked, pieces);
+                        newPiece = new Bishop(selectedPiece.coordinate, false, true,
+                                false, 'B', squaresAttacked, possibleMoves, pieces);
                     }
                     newPiece.updatePiece();
                     break label;
                 case "KNIGHT":
                     if (selectedPiece.isWhite) {
-                        newPiece = new Knight(selectedPiece.coordinate, true, true, false, 'N', squaresAttacked, pieces);
+                        newPiece = new Knight(selectedPiece.coordinate, true, true,
+                                false, 'N', squaresAttacked, possibleMoves, pieces);
                     } else {
-                        newPiece = new Knight(selectedPiece.coordinate, false, true, false, 'N', squaresAttacked, pieces);
+                        newPiece = new Knight(selectedPiece.coordinate, false, true,
+                                false, 'N', squaresAttacked, possibleMoves, pieces);
                     }
                     newPiece.updatePiece();
                     break label;

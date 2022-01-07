@@ -3,8 +3,8 @@ import java.util.LinkedList;
 public class Knight extends Piece {
 
     public Knight(int coordinate, boolean isWhite, boolean hasMoved, boolean canBeEnPassant, char pieceType,
-                  LinkedList<Integer> squaresAttacked, LinkedList<Piece> pieces) {
-        super(coordinate, isWhite, hasMoved, canBeEnPassant, pieceType, squaresAttacked, pieces);
+                  LinkedList<Integer> squaresAttacked, LinkedList<Integer> possibleMoves, LinkedList<Piece> pieces) {
+        super(coordinate, isWhite, hasMoved, canBeEnPassant, pieceType, squaresAttacked, possibleMoves, pieces);
     }
 
     @Override
