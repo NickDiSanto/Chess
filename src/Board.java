@@ -173,7 +173,7 @@ public class Board {
                         return;
                     }
                     initialCoordinate = e.getX() / 64 * 10 + e.getY() / 64;
-                } catch (IllegalArgumentException exception) {
+                } catch (NullPointerException exception) {
                     System.out.println("No piece selected.");
                     System.out.println("Please try again.");
                     System.out.println();
@@ -190,6 +190,18 @@ public class Board {
                     selectedPiece.recentCapture = null;
 
                     selectedPiece.move(e.getX() / 64 * 10 + e.getY() / 64);
+
+
+
+                    for (int i = 0; i < pieces.size(); i++) {
+                        pieces.get(i).possibleMoves = pieces.get(i).getPossibleMoves();
+                        System.out.println("Type: " + pieces.get(i).pieceType);
+                        System.out.println("White: " + pieces.get(i).isWhite);
+                        System.out.println(pieces.get(i).possibleMoves);
+                    }
+
+
+
 
                     if (selectedPiece.coordinate != initialCoordinate) {
                         boolean originalHasMoved = selectedPiece.hasMoved;
@@ -257,7 +269,7 @@ public class Board {
                         }
                     }
                     frame.repaint();
-                } catch (IllegalArgumentException ignored) {
+                } catch (NullPointerException ignored) {
                 }
             }
         });

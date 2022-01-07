@@ -88,6 +88,85 @@ public class Pawn extends Piece {
 
     @Override
     public LinkedList<Integer> getPossibleMoves() {
-        return super.getPossibleMoves();
+        // FIXME: Capture sometimes is backwards
+
+        LinkedList<Integer> squares = new LinkedList<>();
+
+        int movementDirection = 1;
+        if (isWhite) {
+            movementDirection = -1;
+        }
+
+        for (int square : squaresAttacked) {
+            int initialCoordinate = coordinate;
+            move(square);
+
+            boolean pieceChecks = false;
+            for (int i = 0; i < pieces.size(); i++) {
+                if (pieces.get(i).isWhite != isWhite) {
+                    pieces.get(i).squaresAttacked = pieces.get(i).getSquaresAttacked();
+                    if (pieces.get(i).checksKing()) {
+                        pieceChecks = true;
+                    }
+                }
+            }
+            Piece newPiece = null;
+            if (recentCapture != null) {
+                newPiece = recentCapture;
+                pieces.add(newPiece);
+                recentCapture = null;
+            }
+            coordinate = initialCoordinate;
+            if (newPiece != null) {
+                newPiece.updatePiece();
+            }
+
+            for (int i = 0; i < pieces.size(); i++) {
+                if (pieces.get(i).isWhite != isWhite) {
+                    pieces.get(i).updatePiece();
+                }
+            }
+
+            if (!pieceChecks && (Board.getPiece(square / 10 * 64, square % 10 * 64) != null)) {
+//                    || Board.getPiece(square / 10 * 64, (square - movementDirection) % 10 * 64).canBeEnPassant)) { // FIXME: this is what causes it to not correct to the middle of the square
+                squares.add(square);
+            }
+        }
+
+        int numSquares = 1;
+        if (!hasMoved) {
+            numSquares = 2;
+        }
+
+        for (int i = 1; i <= numSquares; i++) {
+            int initialCoordinate = coordinate;
+            boolean initialEnPassant = canBeEnPassant;
+
+            move(coordinate + (i * movementDirection));
+
+            if (coordinate != initialCoordinate) {
+                boolean pieceChecks = false;
+                for (int j = 0; j < pieces.size(); j++) {
+                    if (pieces.get(j).isWhite != isWhite) {
+                        pieces.get(j).squaresAttacked = pieces.get(j).getSquaresAttacked();
+                        if (pieces.get(j).checksKing()) {
+                            pieceChecks = true;
+                        }
+                    }
+                }
+                coordinate = initialCoordinate;
+                canBeEnPassant = initialEnPassant;
+
+                for (int j = 0; j < pieces.size(); j++) {
+                    pieces.get(j).updatePiece();
+                }
+
+                if (!pieceChecks) {
+                    squares.add(coordinate + (i * movementDirection));
+                }
+            }
+        }
+
+        return squares;
     }
 }
