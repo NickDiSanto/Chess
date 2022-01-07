@@ -3,8 +3,8 @@ import java.util.LinkedList;
 public class Pawn extends Piece {
 
     public Pawn(int coordinate, boolean isWhite, boolean hasMoved, boolean canBeEnPassant, char pieceType,
-                LinkedList<Integer> squaresAttacked, LinkedList<Integer> possibleMoves, LinkedList<Piece> pieces) {
-        super(coordinate, isWhite, hasMoved, canBeEnPassant, pieceType, squaresAttacked, possibleMoves, pieces);
+                LinkedList<Integer> squaresAttacked, LinkedList<Integer> legalMoves, LinkedList<Piece> pieces) {
+        super(coordinate, isWhite, hasMoved, canBeEnPassant, pieceType, squaresAttacked, legalMoves, pieces);
     }
 
     @Override
@@ -87,7 +87,7 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public LinkedList<Integer> getPossibleMoves() {
+    public LinkedList<Integer> getLegalMoves() {
 
         LinkedList<Integer> squares = new LinkedList<>();
 

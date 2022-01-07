@@ -19,7 +19,7 @@ public class Board {
 
     public static LinkedList<Piece> pieces = new LinkedList<>();
     public static LinkedList<Integer> squaresAttacked = new LinkedList<>();
-    public static LinkedList<Integer> possibleMoves;
+    public static LinkedList<Integer> legalMoves;
     public static Piece selectedPiece = null;
     public static boolean whiteTurn = true;
     public static int initialCoordinate;
@@ -37,70 +37,70 @@ public class Board {
         }
 
         Piece blackRook1 = new Rook(0, false, false,
-                false,'R', squaresAttacked, possibleMoves, pieces);
+                false,'R', squaresAttacked, legalMoves, pieces);
         Piece blackKnight1 = new Knight(10, false, false,
-                false, 'N', squaresAttacked, possibleMoves, pieces);
+                false, 'N', squaresAttacked, legalMoves, pieces);
         Piece blackBishop1 = new Bishop(20, false, false,
-                false, 'B', squaresAttacked, possibleMoves, pieces);
+                false, 'B', squaresAttacked, legalMoves, pieces);
         Piece blackQueen = new Queen(30, false, false,
-                false, 'Q', squaresAttacked, possibleMoves, pieces);
+                false, 'Q', squaresAttacked, legalMoves, pieces);
         Piece blackKing = new King(40, false, false,
-                false, 'K', squaresAttacked, possibleMoves, pieces);
+                false, 'K', squaresAttacked, legalMoves, pieces);
         Piece blackBishop2 = new Bishop(50, false, false,
-                false, 'B', squaresAttacked, possibleMoves, pieces);
+                false, 'B', squaresAttacked, legalMoves, pieces);
         Piece blackKnight2 = new Knight(60, false, false,
-                false, 'N', squaresAttacked, possibleMoves, pieces);
+                false, 'N', squaresAttacked, legalMoves, pieces);
         Piece blackRook2 = new Rook(70, false, false,
-                false, 'R', squaresAttacked, possibleMoves, pieces);
+                false, 'R', squaresAttacked, legalMoves, pieces);
         Piece blackPawn1 = new Pawn(1, false, false,
-                false, 'P', squaresAttacked, possibleMoves, pieces);
+                false, 'P', squaresAttacked, legalMoves, pieces);
         Piece blackPawn2 = new Pawn(11, false, false,
-                false, 'P', squaresAttacked, possibleMoves, pieces);
+                false, 'P', squaresAttacked, legalMoves, pieces);
         Piece blackPawn3 = new Pawn(21, false, false,
-                false, 'P', squaresAttacked, possibleMoves, pieces);
+                false, 'P', squaresAttacked, legalMoves, pieces);
         Piece blackPawn4 = new Pawn(31, false, false,
-                false, 'P', squaresAttacked, possibleMoves, pieces);
+                false, 'P', squaresAttacked, legalMoves, pieces);
         Piece blackPawn5 = new Pawn(41, false, false,
-                false, 'P', squaresAttacked, possibleMoves, pieces);
+                false, 'P', squaresAttacked, legalMoves, pieces);
         Piece blackPawn6 = new Pawn(51, false, false,
-                false, 'P', squaresAttacked, possibleMoves, pieces);
+                false, 'P', squaresAttacked, legalMoves, pieces);
         Piece blackPawn7 = new Pawn(61, false, false,
-                false, 'P', squaresAttacked, possibleMoves, pieces);
+                false, 'P', squaresAttacked, legalMoves, pieces);
         Piece blackPawn8 = new Pawn(71, false, false,
-                false, 'P', squaresAttacked, possibleMoves, pieces);
+                false, 'P', squaresAttacked, legalMoves, pieces);
 
         Piece whiteRook1 = new Rook(7, true, false,
-                false, 'R', squaresAttacked, possibleMoves, pieces);
+                false, 'R', squaresAttacked, legalMoves, pieces);
         Piece whiteKnight1 = new Knight(17, true, false,
-                false, 'N', squaresAttacked, possibleMoves, pieces);
+                false, 'N', squaresAttacked, legalMoves, pieces);
         Piece whiteBishop1 = new Bishop(27, true, false,
-                false, 'B', squaresAttacked, possibleMoves, pieces);
+                false, 'B', squaresAttacked, legalMoves, pieces);
         Piece whiteQueen = new Queen(37, true, false,
-                false, 'Q', squaresAttacked, possibleMoves, pieces);
+                false, 'Q', squaresAttacked, legalMoves, pieces);
         Piece whiteKing = new King(47, true, false,
-                false, 'K', squaresAttacked, possibleMoves, pieces);
+                false, 'K', squaresAttacked, legalMoves, pieces);
         Piece whiteBishop2 = new Bishop(57, true, false,
-                false, 'B', squaresAttacked, possibleMoves, pieces);
+                false, 'B', squaresAttacked, legalMoves, pieces);
         Piece whiteKnight2 = new Knight(67, true, false,
-                false, 'N', squaresAttacked, possibleMoves, pieces);
+                false, 'N', squaresAttacked, legalMoves, pieces);
         Piece whiteRook2 = new Rook(77, true, false,
-                false, 'R', squaresAttacked, possibleMoves, pieces);
+                false, 'R', squaresAttacked, legalMoves, pieces);
         Piece whitePawn1 = new Pawn(6, true, false,
-                false, 'P', squaresAttacked, possibleMoves, pieces);
+                false, 'P', squaresAttacked, legalMoves, pieces);
         Piece whitePawn2 = new Pawn(16, true, false,
-                false, 'P', squaresAttacked, possibleMoves, pieces);
+                false, 'P', squaresAttacked, legalMoves, pieces);
         Piece whitePawn3 = new Pawn(26, true, false,
-                false, 'P', squaresAttacked, possibleMoves, pieces);
+                false, 'P', squaresAttacked, legalMoves, pieces);
         Piece whitePawn4 = new Pawn(36, true, false,
-                false, 'P', squaresAttacked, possibleMoves, pieces);
+                false, 'P', squaresAttacked, legalMoves, pieces);
         Piece whitePawn5 = new Pawn(46, true, false,
-                false, 'P', squaresAttacked, possibleMoves, pieces);
+                false, 'P', squaresAttacked, legalMoves, pieces);
         Piece whitePawn6 = new Pawn(56, true, false,
-                false, 'P', squaresAttacked, possibleMoves, pieces);
+                false, 'P', squaresAttacked, legalMoves, pieces);
         Piece whitePawn7 = new Pawn(66, true, false,
-                false, 'P', squaresAttacked, possibleMoves, pieces);
+                false, 'P', squaresAttacked, legalMoves, pieces);
         Piece whitePawn8 = new Pawn(76, true, false,
-                false, 'P', squaresAttacked, possibleMoves, pieces);
+                false, 'P', squaresAttacked, legalMoves, pieces);
 
         JFrame frame = new JFrame();
         frame.setBounds(10, 10, 512, 512);
@@ -123,22 +123,59 @@ public class Board {
                     isWhite = !isWhite;
                 }
                 for (Piece piece : pieces) {
-                    int index = 0;
-                    if (Character.toUpperCase(piece.pieceType) == 'Q') {
-                        index = 1;
-                    } else if (Character.toUpperCase(piece.pieceType) == 'B') {
-                        index = 2;
-                    } else if (Character.toUpperCase(piece.pieceType) == 'N') {
-                        index = 3;
-                    } else if (Character.toUpperCase(piece.pieceType) == 'R') {
-                        index = 4;
-                    } else if (Character.toUpperCase(piece.pieceType) == 'P') {
-                        index = 5;
-                    }
+                    int index = pieceIndices(piece);
+
                     if (!piece.isWhite) {
                         index += 6;
                     }
                     g.drawImage(images[index], piece.xPixel, piece.yPixel, this);
+                }
+                if (selectedPiece != null) {
+                    g.setColor(new Color(130, 130, 130));
+
+                    selectedPiece.legalMoves = selectedPiece.getLegalMoves();
+
+                    // OPTIMIZE: I can probably create a helper method for the index operations
+                    // FIXME: Don't cover up the ENTIRE square
+                    // FIXME: Doesn't highlight on the first move of the game if it's a knight
+
+                    if (selectedPiece.isWhite) {
+                        for (int square : selectedPiece.legalMoves) {
+                            g.fillRect(square / 10 * 64, square % 10 * 64, 64, 64);
+                            if (Board.getPiece(square / 10 * 64, square % 10 * 64) != null) {
+                                Piece piece = Board.getPiece(square / 10 * 64, square % 10 * 64);
+                                int index = pieceIndices(piece) + 6;
+                                g.drawImage(images[index], piece.xPixel, piece.yPixel, this);
+                            }
+                            int index = pieceIndices(selectedPiece);
+                            g.drawImage(images[index], selectedPiece.xPixel, selectedPiece.yPixel, this);
+                        }
+                    } else {
+                        for (int square : selectedPiece.legalMoves) {
+                            g.fillRect(square / 10 * 64, square % 10 * 64, 64, 64);
+
+                            if (Board.getPiece(square / 10 * 64, square % 10 * 64) != null) {
+                                Piece piece = Board.getPiece(square / 10 * 64, square % 10 * 64);
+                                int index = pieceIndices(piece);
+                                g.drawImage(images[index], piece.xPixel, piece.yPixel, this);
+                            }
+                            int index = pieceIndices(selectedPiece) + 6;
+                            g.drawImage(images[index], selectedPiece.xPixel, selectedPiece.yPixel, this);
+                        }
+                    }
+                }
+                if (isCheck()) {
+                    for (Piece piece : pieces) {
+                        if (piece.pieceType == 'K' && piece.isWhite == whiteTurn) {
+                            g.setColor(new Color(255, 0, 0));
+                            g.fillRect(piece.coordinate / 10 * 64, piece.coordinate % 10 * 64, 64, 64);
+                            if (!whiteTurn) {
+                                g.drawImage(images[6], piece.xPixel, piece.yPixel, this);
+                            } else {
+                                g.drawImage(images[0], piece.xPixel, piece.yPixel, this);
+                            }
+                        }
+                    }
                 }
             }
         };
@@ -209,9 +246,10 @@ public class Board {
                                 selectedPiece.coordinate = initialCoordinate;
                                 selectedPiece.hasMoved = originalHasMoved;
                                 selectedPiece.updatePiece();
+
                                 if (newPiece != null) {
                                     newPiece.updatePiece();
-                                    newPiece.possibleMoves = newPiece.getPossibleMoves();
+                                    newPiece.legalMoves = newPiece.getLegalMoves();
                                 }
                                 break;
                             }
@@ -219,7 +257,7 @@ public class Board {
                         if (openedUpCheck) {
                             for (int i = 0; i < pieces.size(); i++) {
                                 pieces.get(i).updatePiece();
-                                pieces.get(i).possibleMoves = pieces.get(i).getPossibleMoves();
+                                pieces.get(i).legalMoves = pieces.get(i).getLegalMoves();
                             }
                         }
                     }
@@ -237,7 +275,7 @@ public class Board {
                         }
                         for (int i = 0; i < pieces.size(); i++) {
                             pieces.get(i).updatePiece();
-                            pieces.get(i).possibleMoves = pieces.get(i).getPossibleMoves();
+                            pieces.get(i).legalMoves = pieces.get(i).getLegalMoves();
                         }
 
                         whiteTurn = !whiteTurn;
@@ -251,14 +289,16 @@ public class Board {
                                     System.out.println("White wins!");
                                 }
 
-                                // TODO: END GAME
+                                // TODO: End game?
                             } else {
                                 System.out.println("Stalemate!");
 
-                                // TODO: END GAME
+                                // TODO: End game?
                             }
                         }
                     }
+
+                    selectedPiece = null;
 
                     frame.repaint();
                 } catch (NullPointerException ignored) {
@@ -268,6 +308,23 @@ public class Board {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+    }
+
+    private static int pieceIndices(Piece piece) {
+        int index = 0;
+        if (Character.toUpperCase(piece.pieceType) == 'Q') {
+            index = 1;
+        } else if (Character.toUpperCase(piece.pieceType) == 'B') {
+            index = 2;
+        } else if (Character.toUpperCase(piece.pieceType) == 'N') {
+            index = 3;
+        } else if (Character.toUpperCase(piece.pieceType) == 'R') {
+            index = 4;
+        } else if (Character.toUpperCase(piece.pieceType) == 'P') {
+            index = 5;
+        }
+
+        return index;
     }
 
     public static Piece getPiece(int xPixel, int yPixel) {
@@ -374,40 +431,40 @@ public class Board {
                 case "QUEEN":
                     if (selectedPiece.isWhite) {
                         newPiece = new Queen(selectedPiece.coordinate, true, true,
-                                false,'Q', squaresAttacked, possibleMoves, pieces);
+                                false,'Q', squaresAttacked, legalMoves, pieces);
                     } else {
                         newPiece = new Queen(selectedPiece.coordinate, false, true,
-                                false, 'Q', squaresAttacked, possibleMoves, pieces);
+                                false, 'Q', squaresAttacked, legalMoves, pieces);
                     }
                     newPiece.updatePiece();
                     break label;
                 case "ROOK":
                     if (selectedPiece.isWhite) {
                         newPiece = new Rook(selectedPiece.coordinate, true, true,
-                                false, 'R', squaresAttacked, possibleMoves, pieces);
+                                false, 'R', squaresAttacked, legalMoves, pieces);
                     } else {
                         newPiece = new Rook(selectedPiece.coordinate, false, true,
-                                false, 'R', squaresAttacked, possibleMoves, pieces);
+                                false, 'R', squaresAttacked, legalMoves, pieces);
                     }
                     newPiece.updatePiece();
                     break label;
                 case "BISHOP":
                     if (selectedPiece.isWhite) {
                         newPiece = new Bishop(selectedPiece.coordinate, true, true,
-                                false, 'B', squaresAttacked, possibleMoves, pieces);
+                                false, 'B', squaresAttacked, legalMoves, pieces);
                     } else {
                         newPiece = new Bishop(selectedPiece.coordinate, false, true,
-                                false, 'B', squaresAttacked, possibleMoves, pieces);
+                                false, 'B', squaresAttacked, legalMoves, pieces);
                     }
                     newPiece.updatePiece();
                     break label;
                 case "KNIGHT":
                     if (selectedPiece.isWhite) {
                         newPiece = new Knight(selectedPiece.coordinate, true, true,
-                                false, 'N', squaresAttacked, possibleMoves, pieces);
+                                false, 'N', squaresAttacked, legalMoves, pieces);
                     } else {
                         newPiece = new Knight(selectedPiece.coordinate, false, true,
-                                false, 'N', squaresAttacked, possibleMoves, pieces);
+                                false, 'N', squaresAttacked, legalMoves, pieces);
                     }
                     newPiece.updatePiece();
                     break label;
@@ -429,7 +486,7 @@ public class Board {
     private static boolean kingTrapped() {
         for (Piece piece : pieces) {
             if (piece.isWhite == whiteTurn) {
-                if (piece.possibleMoves.size() != 0) {
+                if (piece.legalMoves.size() != 0) {
                     return false;
                 }
             }
