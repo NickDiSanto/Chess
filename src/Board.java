@@ -13,7 +13,6 @@ import java.util.Scanner;
 
 public class Board {
 
-    // TODO: Add squaresAttacked options
     // TODO: If check, make king's square red
     // TODO: Add sound effects for movement, captures, checkmate, etc
     // FIXME: Public vs private? Static or not?
@@ -191,18 +190,6 @@ public class Board {
 
                     selectedPiece.move(e.getX() / 64 * 10 + e.getY() / 64);
 
-
-
-//                    for (int i = 0; i < pieces.size(); i++) {
-//                        pieces.get(i).possibleMoves = pieces.get(i).getPossibleMoves();
-//                        System.out.println("Type: " + pieces.get(i).pieceType);
-//                        System.out.println("White: " + pieces.get(i).isWhite);
-//                        System.out.println(pieces.get(i).possibleMoves);
-//                    }
-
-
-
-
                     if (selectedPiece.coordinate != initialCoordinate) {
                         boolean originalHasMoved = selectedPiece.hasMoved;
                         selectedPiece.hasMoved = true;
@@ -257,32 +244,23 @@ public class Board {
 
                         whiteTurn = !whiteTurn;
 
-//                        if (isCheckmate()) {
-//                            System.out.println("Checkmate!");
-//                            if (whiteTurn) {
-//                                System.out.println("Black wins!");
-//                            } else {
-//                                System.out.println("White wins!");
-//                            }
-//
-//                            // TODO: END GAME
-//                        } else {
-//                            if (isStalemate()) {
-//                                System.out.println("Stalemate!");
-//
-//                                // TODO: END GAME
-//                            }
-//                        }
-                    }
+                        if (kingTrapped()) {
+                            if (isCheck()) {
+                                System.out.println("Checkmate!");
+                                if (whiteTurn) {
+                                    System.out.println("Black wins!");
+                                } else {
+                                    System.out.println("White wins!");
+                                }
 
-                    for (int i = 0; i < pieces.size(); i++) {
-                        System.out.println("Type: " + pieces.get(i).pieceType);
-                        System.out.println("White?: " + pieces.get(i).isWhite);
-                        System.out.println("Coord: " + pieces.get(i).coordinate);
-                        System.out.println("Poss: " + pieces.get(i).possibleMoves);
-                        System.out.println();
-                    }
+                                // TODO: END GAME
+                            } else {
+                                System.out.println("Stalemate!");
 
+                                // TODO: END GAME
+                            }
+                        }
+                    }
 
                     frame.repaint();
                 } catch (NullPointerException ignored) {
@@ -450,69 +428,11 @@ public class Board {
         return false;
     }
 
-    public static boolean isCheckmate() {
-        if (isCheck()) {
-            for (int i = 0; i < pieces.size(); i++) {
-                if (pieces.get(i).isWhite == whiteTurn) {
-                    pieces.get(i).recentCapture = null;
-                    for (int square : pieces.get(i).squaresAttacked) {
-                        int initialCoordinate = pieces.get(i).coordinate;
-                        pieces.get(i).move(square);
-                        boolean pieceChecks = false;
-                        for (int j = 0; j < pieces.size(); j++) {
-                            pieces.get(j).squaresAttacked = pieces.get(j).getSquaresAttacked();
-                            if (pieces.get(j).checksKing() && pieces.get(j).isWhite != whiteTurn) {
-                                pieceChecks = true;
-                            }
-                        }
-                        if (pieces.get(i).recentCapture != null) {
-                            Piece newPiece = pieces.get(i).recentCapture;
-                            pieces.add(newPiece);
-                            pieces.get(i).recentCapture = null;
-                        }
-                        pieces.get(i).coordinate = initialCoordinate;
-                        pieces.get(i).updatePiece();
-
-                        if (!pieceChecks) {
-                            return false;
-                        }
-                    }
-                }
-            }
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public static boolean isStalemate() {
-        for (int i = 0; i < pieces.size(); i++) {
-            if (pieces.get(i).isWhite == whiteTurn) {
-                pieces.get(i).recentCapture = null;
-                for (int square : pieces.get(i).squaresAttacked) {
-                    int initialCoordinate = pieces.get(i).coordinate;
-                    pieces.get(i).move(square);
-
-                    boolean pieceChecks = false;
-                    for (int j = 0; j < pieces.size(); j++) {
-                        if (pieces.get(j).isWhite != whiteTurn) {
-                            pieces.get(j).squaresAttacked = pieces.get(j).getSquaresAttacked();
-                            if (pieces.get(j).checksKing()) {
-                                pieceChecks = true;
-                            }
-                        }
-                    }
-                    if (pieces.get(i).recentCapture != null) {
-                        Piece newPiece = pieces.get(i).recentCapture;
-                        pieces.add(newPiece);
-                        pieces.get(i).recentCapture = null;
-                    }
-                    pieces.get(i).coordinate = initialCoordinate;
-                    pieces.get(i).updatePiece();
-
-                    if (!pieceChecks) {
-                        return false;
-                    }
+    public static boolean kingTrapped() {
+        for (Piece piece : pieces) {
+            if (piece.isWhite == whiteTurn) {
+                if (piece.possibleMoves.size() != 0) {
+                    return false;
                 }
             }
         }
