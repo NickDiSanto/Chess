@@ -13,9 +13,7 @@ import java.util.Scanner;
 
 public class Board {
 
-    // TODO: If check, make king's square red
     // TODO: Add sound effects for movement, captures, checkmate, etc
-    // FIXME: Public vs private? Static or not?
     // TODO: Check general documentation: whitespace, etc
     // TODO: Add comments
 
@@ -363,7 +361,7 @@ public class Board {
         return true;
     }
 
-    public static void pawnPromotion() {
+    private static void pawnPromotion() {
         pieces.remove(selectedPiece);
         Piece newPiece;
         label:
@@ -428,7 +426,7 @@ public class Board {
         return false;
     }
 
-    public static boolean kingTrapped() {
+    private static boolean kingTrapped() {
         for (Piece piece : pieces) {
             if (piece.isWhite == whiteTurn) {
                 if (piece.possibleMoves.size() != 0) {
