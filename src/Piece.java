@@ -40,6 +40,7 @@ public class Piece {
     }
 
     public LinkedList<Integer> getPossibleMoves() {
+
         LinkedList<Integer> squares = new LinkedList<>();
 
         for (int square : squaresAttacked) {
@@ -96,11 +97,5 @@ public class Piece {
         xPixel = coordinate / 10 * 64;
         yPixel = coordinate % 10 * 64;
         squaresAttacked = getSquaresAttacked();
-    }
-
-    public void takeAwayEnPassant() {
-        for (int i = 0; i < pieces.size(); i++) {
-            pieces.get(i).canBeEnPassant = false;
-        }
     }
 }

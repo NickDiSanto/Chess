@@ -88,7 +88,6 @@ public class Pawn extends Piece {
 
     @Override
     public LinkedList<Integer> getPossibleMoves() {
-        // FIXME: Capture sometimes is backwards
 
         LinkedList<Integer> squares = new LinkedList<>();
 
@@ -127,9 +126,14 @@ public class Pawn extends Piece {
                 }
             }
 
-            if (!pieceChecks && (Board.getPiece(square / 10 * 64, square % 10 * 64) != null)) {
-//                    || Board.getPiece(square / 10 * 64, (square - movementDirection) % 10 * 64).canBeEnPassant)) { // FIXME: this is what causes it to not correct to the middle of the square
-                squares.add(square);
+            if (!pieceChecks) {
+                if (Board.getPiece(square / 10 * 64, square % 10 * 64) != null) {
+                    squares.add(square);
+                } else if (Board.getPiece(square / 10 * 64, (square - movementDirection) % 10 * 64) != null) {
+                    if (Board.getPiece(square / 10 * 64, (square - movementDirection) % 10 * 64).canBeEnPassant) {
+                        squares.add(square);
+                    }
+                }
             }
         }
 

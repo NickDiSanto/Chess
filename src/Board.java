@@ -193,12 +193,12 @@ public class Board {
 
 
 
-                    for (int i = 0; i < pieces.size(); i++) {
-                        pieces.get(i).possibleMoves = pieces.get(i).getPossibleMoves();
-                        System.out.println("Type: " + pieces.get(i).pieceType);
-                        System.out.println("White: " + pieces.get(i).isWhite);
-                        System.out.println(pieces.get(i).possibleMoves);
-                    }
+//                    for (int i = 0; i < pieces.size(); i++) {
+//                        pieces.get(i).possibleMoves = pieces.get(i).getPossibleMoves();
+//                        System.out.println("Type: " + pieces.get(i).pieceType);
+//                        System.out.println("White: " + pieces.get(i).isWhite);
+//                        System.out.println(pieces.get(i).possibleMoves);
+//                    }
 
 
 
@@ -226,6 +226,7 @@ public class Board {
                                 selectedPiece.updatePiece();
                                 if (newPiece != null) {
                                     newPiece.updatePiece();
+                                    newPiece.possibleMoves = newPiece.getPossibleMoves();
                                 }
                                 break;
                             }
@@ -233,41 +234,56 @@ public class Board {
                         if (openedUpCheck) {
                             for (int i = 0; i < pieces.size(); i++) {
                                 pieces.get(i).updatePiece();
+                                pieces.get(i).possibleMoves = pieces.get(i).getPossibleMoves();
                             }
-                        }
-
-                        if (selectedPiece.coordinate != initialCoordinate) {
-                            if (Math.abs(selectedPiece.coordinate - initialCoordinate) != 2 || selectedPiece.pieceType != 'P') {
-                                selectedPiece.takeAwayEnPassant();
-                            }
-
-                            if (selectedPiece.pieceType == 'P' && (selectedPiece.coordinate % 10 == 7 || selectedPiece.coordinate % 10 == 0)) {
-                                pawnPromotion(); // FIXME: Should happen outside mouseReleased so it can repaint
-                            }
-                            for (int i = 0; i < pieces.size(); i++) {
-                                pieces.get(i).updatePiece();
-                            }
-
-                            whiteTurn = !whiteTurn;
-
-//                            if (isCheckmate()) {
-//                                System.out.println("Checkmate!");
-//                                if (whiteTurn) {
-//                                    System.out.println("Black wins!");
-//                                } else {
-//                                    System.out.println("White wins!");
-//                                }
-//
-//                                // TODO: END GAME
-//                            } else {
-//                                if (isStalemate()) {
-//                                    System.out.println("Stalemate!");
-//
-//                                    // TODO: END GAME
-//                                }
-//                            }
                         }
                     }
+
+                    if (selectedPiece.coordinate != initialCoordinate) {
+                        if (selectedPiece.recentCapture != null) {
+                            selectedPiece.recentCapture = null;
+                        }
+                        if (Math.abs(selectedPiece.coordinate - initialCoordinate) != 2 || selectedPiece.pieceType != 'P') {
+                            selectedPiece.canBeEnPassant = false;
+                        }
+
+                        if (selectedPiece.pieceType == 'P' && (selectedPiece.coordinate % 10 == 7 || selectedPiece.coordinate % 10 == 0)) {
+                            pawnPromotion(); // FIXME: Should happen outside mouseReleased so it can repaint (I think is the problem?)
+                        }
+                        for (int i = 0; i < pieces.size(); i++) {
+                            pieces.get(i).updatePiece();
+                            pieces.get(i).possibleMoves = pieces.get(i).getPossibleMoves();
+                        }
+
+                        whiteTurn = !whiteTurn;
+
+//                        if (isCheckmate()) {
+//                            System.out.println("Checkmate!");
+//                            if (whiteTurn) {
+//                                System.out.println("Black wins!");
+//                            } else {
+//                                System.out.println("White wins!");
+//                            }
+//
+//                            // TODO: END GAME
+//                        } else {
+//                            if (isStalemate()) {
+//                                System.out.println("Stalemate!");
+//
+//                                // TODO: END GAME
+//                            }
+//                        }
+                    }
+
+                    for (int i = 0; i < pieces.size(); i++) {
+                        System.out.println("Type: " + pieces.get(i).pieceType);
+                        System.out.println("White?: " + pieces.get(i).isWhite);
+                        System.out.println("Coord: " + pieces.get(i).coordinate);
+                        System.out.println("Poss: " + pieces.get(i).possibleMoves);
+                        System.out.println();
+                    }
+
+
                     frame.repaint();
                 } catch (NullPointerException ignored) {
                 }
