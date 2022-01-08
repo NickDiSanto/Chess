@@ -24,6 +24,8 @@ public class Board {
     public static Piece selectedPiece = null;
     public static boolean whiteTurn = true;
     public static int initialCoordinate;
+    public static int lastInitialCoordinate = Integer.MAX_VALUE;
+    public static int lastMove = Integer.MAX_VALUE;
 
     public static void main(String[] args) throws IOException {
         BufferedImage all = ImageIO.read(new File("D:\\chess.png"));
@@ -131,7 +133,47 @@ public class Board {
                     }
                     g.drawImage(images[index], piece.xPixel, piece.yPixel, this);
                 }
+
+                g.setColor(new Color(210, 200, 80));
+
+                // OPTIMIZE: the way white vs black is done below might be better for the grey squares
+                if (lastInitialCoordinate != Integer.MAX_VALUE) {
+                    if (Board.getPiece(lastInitialCoordinate / 10 * 64, lastInitialCoordinate % 10 * 64) != null) {
+                        Piece piece = Board.getPiece(lastInitialCoordinate / 10 * 64, lastInitialCoordinate % 10 * 64);
+                        g.fillRect(lastInitialCoordinate / 10 * 64, lastInitialCoordinate % 10 * 64, 64, 64);
+                        int index;
+                        if (piece.isWhite) {
+                            index = pieceIndices(piece);
+                        } else {
+                            index = pieceIndices(piece) + 6;
+                        }
+                        g.drawImage(images[index], piece.xPixel, piece.yPixel, this);
+                    } else {
+                        g.fillRect(lastInitialCoordinate / 10 * 64, lastInitialCoordinate % 10 * 64, 64, 64);
+                    }
+                }
+
+                if (lastMove != Integer.MAX_VALUE) {
+                    if (Board.getPiece(lastMove / 10 * 64, lastMove % 10 * 64) != null) {
+                        Piece piece = Board.getPiece(lastMove / 10 * 64, lastMove % 10 * 64);
+                        g.fillRect(lastMove / 10 * 64, lastMove % 10 * 64, 64, 64);
+                        int index;
+                        if (piece.isWhite) {
+                            index = pieceIndices(piece);
+                        } else {
+                            index = pieceIndices(piece) + 6;
+                        }
+                        g.drawImage(images[index], piece.xPixel, piece.yPixel, this);
+                    } else {
+                        g.fillRect(lastMove / 10 * 64, lastMove % 10 * 64, 64, 64);
+                    }
+                }
+
                 if (selectedPiece != null) {
+                    g.setColor(new Color(110, 130, 70));
+                    g.fillRect(initialCoordinate / 10 * 64, initialCoordinate % 10 * 64, 64, 64);
+
+
                     g.setColor(new Color(90, 90, 90));
 
                     selectedPiece.squaresAttacked = selectedPiece.getSquaresAttacked();
@@ -142,8 +184,8 @@ public class Board {
                     if (selectedPiece.isWhite) {
                         for (int square : selectedPiece.legalMoves) {
                             if (Board.getPiece(square / 10 * 64, square % 10 * 64) != null) {
-                                g.fillRect(square / 10 * 64, square % 10 * 64, 64, 64);
                                 Piece piece = Board.getPiece(square / 10 * 64, square % 10 * 64);
+                                g.fillRect(square / 10 * 64, square % 10 * 64, 64, 64);
                                 int index = pieceIndices(piece) + 6;
                                 g.drawImage(images[index], piece.xPixel, piece.yPixel, this);
                             } else {
@@ -155,8 +197,8 @@ public class Board {
                     } else {
                         for (int square : selectedPiece.legalMoves) {
                             if (Board.getPiece(square / 10 * 64, square % 10 * 64) != null) {
-                                g.fillRect(square / 10 * 64, square % 10 * 64, 64, 64);
                                 Piece piece = Board.getPiece(square / 10 * 64, square % 10 * 64);
+                                g.fillRect(square / 10 * 64, square % 10 * 64, 64, 64);
                                 int index = pieceIndices(piece);
                                 g.drawImage(images[index], piece.xPixel, piece.yPixel, this);
                             } else {
@@ -267,7 +309,10 @@ public class Board {
 
                     if (selectedPiece.coordinate != initialCoordinate) {
                         if (selectedPiece.recentCapture != null) {
+                            playSound("mixkit-wood-hard-hit-2182.wav");
                             selectedPiece.recentCapture = null;
+                        } else {
+                            playSound("mixkit-light-impact-on-the-ground-2070.wav");
                         }
                         if (Math.abs(selectedPiece.coordinate - initialCoordinate) != 2 || selectedPiece.pieceType != 'P') {
                             selectedPiece.canBeEnPassant = false;
@@ -280,6 +325,9 @@ public class Board {
                             pieces.get(i).updatePiece();
                             pieces.get(i).legalMoves = pieces.get(i).getLegalMoves();
                         }
+
+                        lastInitialCoordinate = initialCoordinate;
+                        lastMove = selectedPiece.coordinate;
 
                         whiteTurn = !whiteTurn;
 
@@ -509,6 +557,7 @@ public class Board {
                     System.out.println(piece.pieceType);
                     System.out.println(piece.coordinate);
                     System.out.println(piece.legalMoves);
+                    System.out.println();
                     return false;
                 }
             }
