@@ -146,7 +146,7 @@ public class Board {
                                 int index = pieceIndices(piece) + 6;
                                 g.drawImage(images[index], piece.xPixel, piece.yPixel, this);
                             } else {
-                                g.fillOval(square / 10 * 64 + 24, square % 10 * 64 + 24, 16, 16);
+                                g.fillOval(square / 10 * 64 + 22, square % 10 * 64 + 22, 18, 18);
                             }
                             int index = pieceIndices(selectedPiece);
                             g.drawImage(images[index], selectedPiece.xPixel, selectedPiece.yPixel, this);
@@ -159,7 +159,7 @@ public class Board {
                                 int index = pieceIndices(piece);
                                 g.drawImage(images[index], piece.xPixel, piece.yPixel, this);
                             } else {
-                                g.fillOval(square / 10 * 64 + 24, square % 10 * 64 + 24, 16, 16);
+                                g.fillOval(square / 10 * 64 + 22, square % 10 * 64 + 22, 18, 18);
                             }
                             int index = pieceIndices(selectedPiece) + 6;
                             g.drawImage(images[index], selectedPiece.xPixel, selectedPiece.yPixel, this);
@@ -169,7 +169,7 @@ public class Board {
                 if (isCheck()) {
                     for (Piece piece : pieces) {
                         if (piece.pieceType == 'K' && piece.isWhite == whiteTurn) {
-                            g.setColor(new Color(255, 0, 0));
+                            g.setColor(new Color(255, 50, 50));
                             g.fillRect(piece.coordinate / 10 * 64, piece.coordinate % 10 * 64, 64, 64);
                             if (!whiteTurn) {
                                 g.drawImage(images[6], piece.xPixel, piece.yPixel, this);
