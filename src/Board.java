@@ -131,33 +131,35 @@ public class Board {
                     g.drawImage(images[index], piece.xPixel, piece.yPixel, this);
                 }
                 if (selectedPiece != null) {
-                    g.setColor(new Color(130, 130, 130));
+                    g.setColor(new Color(90, 90, 90));
 
                     selectedPiece.legalMoves = selectedPiece.getLegalMoves();
 
-                    // OPTIMIZE: I can probably create a helper method for the index operations
-                    // FIXME: Don't cover up the ENTIRE square
+                    // FIXME: Pawn is beneath the new filling
                     // FIXME: Doesn't highlight on the first move of the game if it's a knight
 
                     if (selectedPiece.isWhite) {
                         for (int square : selectedPiece.legalMoves) {
-                            g.fillRect(square / 10 * 64, square % 10 * 64, 64, 64);
                             if (Board.getPiece(square / 10 * 64, square % 10 * 64) != null) {
+                                g.fillRect(square / 10 * 64, square % 10 * 64, 64, 64);
                                 Piece piece = Board.getPiece(square / 10 * 64, square % 10 * 64);
                                 int index = pieceIndices(piece) + 6;
                                 g.drawImage(images[index], piece.xPixel, piece.yPixel, this);
+                            } else {
+                                g.fillOval(square / 10 * 64 + 24, square % 10 * 64 + 24, 16, 16);
                             }
                             int index = pieceIndices(selectedPiece);
                             g.drawImage(images[index], selectedPiece.xPixel, selectedPiece.yPixel, this);
                         }
                     } else {
                         for (int square : selectedPiece.legalMoves) {
-                            g.fillRect(square / 10 * 64, square % 10 * 64, 64, 64);
-
                             if (Board.getPiece(square / 10 * 64, square % 10 * 64) != null) {
+                                g.fillRect(square / 10 * 64, square % 10 * 64, 64, 64);
                                 Piece piece = Board.getPiece(square / 10 * 64, square % 10 * 64);
                                 int index = pieceIndices(piece);
                                 g.drawImage(images[index], piece.xPixel, piece.yPixel, this);
+                            } else {
+                                g.fillOval(square / 10 * 64 + 24, square % 10 * 64 + 24, 16, 16);
                             }
                             int index = pieceIndices(selectedPiece) + 6;
                             g.drawImage(images[index], selectedPiece.xPixel, selectedPiece.yPixel, this);
