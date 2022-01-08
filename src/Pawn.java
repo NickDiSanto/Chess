@@ -14,37 +14,39 @@ public class Pawn extends Piece {
             movementDirection = -1;
         }
 
-        if (((newCoordinate - coordinate == movementDirection || (newCoordinate - coordinate == 2 * movementDirection && !hasMoved
-                && !piecesBetween())) && Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64) == null)
-                && newCoordinate >= 0 && newCoordinate <= 77 && newCoordinate % 10 <= 7) {
-            canBeEnPassant = Math.abs(newCoordinate - coordinate) == 2;
-            coordinate = newCoordinate;
-            return;
-        } else if (newCoordinate - coordinate == 11 * movementDirection || newCoordinate - coordinate == -9 * movementDirection) {
-            if (Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64) != null) {
+        int initialCoordinate = coordinate;
+
+        if (Math.abs(newCoordinate - coordinate) == 2 || Math.abs(newCoordinate - coordinate) == 1
+                || Math.abs(newCoordinate - coordinate) == 9 || Math.abs(newCoordinate - coordinate) == 11) {
+            if (((newCoordinate - coordinate == movementDirection || (newCoordinate - coordinate == 2 * movementDirection && !hasMoved
+                    && !piecesBetween())) && Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64) == null)
+                    && newCoordinate >= 0 && newCoordinate <= 77 && newCoordinate % 10 <= 7) {
+                canBeEnPassant = Math.abs(newCoordinate - coordinate) == 2;
+                coordinate = newCoordinate;
+                return;
+            } else if ((newCoordinate - coordinate == 11 * movementDirection || newCoordinate - coordinate == -9 * movementDirection)
+                && Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64) != null) {
                 if (Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64).isWhite != isWhite) {
                     recentCapture = Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64);
                     Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64).capture();
                     coordinate = newCoordinate;
                     return;
                 }
-            } else if (newCoordinate - coordinate == -9 * movementDirection) {
-                if (Board.getPiece((coordinate - (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64) != null) {
-                    if (Board.getPiece((coordinate - (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64).canBeEnPassant) {
-                        recentCapture = Board.getPiece((coordinate - (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64);
-                        Board.getPiece((coordinate - (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64).capture();
-                        coordinate = newCoordinate;
-                        return;
-                    }
+            } else if (newCoordinate - coordinate == -9 * movementDirection
+                    && Board.getPiece((coordinate - (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64) != null) {
+                if (Board.getPiece((coordinate - (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64).canBeEnPassant) {
+                    recentCapture = Board.getPiece((coordinate - (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64);
+                    Board.getPiece((coordinate - (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64).capture();
+                    coordinate = newCoordinate;
+                    return;
                 }
-            } else if (newCoordinate - coordinate == 11 * movementDirection) {
-                if (Board.getPiece((coordinate + (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64) != null) {
-                    if (Board.getPiece((coordinate + (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64).canBeEnPassant) {
-                        recentCapture = Board.getPiece((coordinate + (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64);
-                        Board.getPiece((coordinate + (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64).capture();
-                        coordinate = newCoordinate;
-                        return;
-                    }
+            } else if (newCoordinate - coordinate == 11 * movementDirection
+                    && Board.getPiece((coordinate + (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64) != null) {
+                if (Board.getPiece((coordinate + (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64).canBeEnPassant) {
+                    recentCapture = Board.getPiece((coordinate + (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64);
+                    Board.getPiece((coordinate + (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64).capture();
+                    coordinate = newCoordinate;
+                    return;
                 }
             }
         }
@@ -106,6 +108,7 @@ public class Pawn extends Piece {
                     pieces.get(i).squaresAttacked = pieces.get(i).getSquaresAttacked();
                     if (pieces.get(i).checksKing()) {
                         pieceChecks = true;
+                        break;
                     }
                 }
             }
@@ -162,7 +165,9 @@ public class Pawn extends Piece {
                 canBeEnPassant = initialEnPassant;
 
                 for (int j = 0; j < pieces.size(); j++) {
-                    pieces.get(j).updatePiece();
+                    if (pieces.get(j).isWhite != isWhite) {
+                        pieces.get(j).updatePiece();
+                    }
                 }
 
                 if (!pieceChecks) {

@@ -133,10 +133,10 @@ public class Board {
                 if (selectedPiece != null) {
                     g.setColor(new Color(90, 90, 90));
 
+                    selectedPiece.squaresAttacked = selectedPiece.getSquaresAttacked();
                     selectedPiece.legalMoves = selectedPiece.getLegalMoves();
 
-                    // FIXME: Pawn is beneath the new filling
-                    // FIXME: Doesn't highlight on the first move of the game if it's a knight
+                    // FIXME: Pawn is updated at the end of move(), that's what causes the problem
 
                     if (selectedPiece.isWhite) {
                         for (int square : selectedPiece.legalMoves) {
