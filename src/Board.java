@@ -180,32 +180,27 @@ public class Board {
 
                     // FIXME: Pawn is updated at the end of move() in getLegalMoves(), that's what causes the problem
 
-                    if (selectedPiece.isWhite) {
-                        for (int square : selectedPiece.legalMoves) {
-                            if (Board.getPiece(square / 10 * 64, square % 10 * 64) != null) {
-                                Piece piece = Board.getPiece(square / 10 * 64, square % 10 * 64);
-                                g.fillRect(square / 10 * 64, square % 10 * 64, 64, 64);
-                                int index = pieceIndices(piece) + 6;
-                                g.drawImage(images[index], piece.xPixel, piece.yPixel, this);
+                    for (int square : selectedPiece.legalMoves) {
+                        int index;
+                        if (Board.getPiece(square / 10 * 64, square % 10 * 64) != null) {
+                            Piece piece = Board.getPiece(square / 10 * 64, square % 10 * 64);
+                            g.fillRect(square / 10 * 64, square % 10 * 64, 64, 64);
+                            if (piece.isWhite) {
+                                index = pieceIndices(piece);
                             } else {
-                                g.fillOval(square / 10 * 64 + 22, square % 10 * 64 + 22, 18, 18);
+                                index = pieceIndices(piece) + 6;
                             }
-                            int index = pieceIndices(selectedPiece);
-                            g.drawImage(images[index], selectedPiece.xPixel, selectedPiece.yPixel, this);
+                            g.drawImage(images[index], piece.xPixel, piece.yPixel, this);
+                        } else {
+                            g.fillOval(square / 10 * 64 + 22, square % 10 * 64 + 22, 18, 18);
                         }
-                    } else {
-                        for (int square : selectedPiece.legalMoves) {
-                            if (Board.getPiece(square / 10 * 64, square % 10 * 64) != null) {
-                                Piece piece = Board.getPiece(square / 10 * 64, square % 10 * 64);
-                                g.fillRect(square / 10 * 64, square % 10 * 64, 64, 64);
-                                int index = pieceIndices(piece);
-                                g.drawImage(images[index], piece.xPixel, piece.yPixel, this);
-                            } else {
-                                g.fillOval(square / 10 * 64 + 22, square % 10 * 64 + 22, 18, 18);
-                            }
-                            int index = pieceIndices(selectedPiece) + 6;
-                            g.drawImage(images[index], selectedPiece.xPixel, selectedPiece.yPixel, this);
+
+                        if (selectedPiece.isWhite) {
+                            index = pieceIndices(selectedPiece);
+                        } else {
+                            index = pieceIndices(selectedPiece) + 6;
                         }
+                        g.drawImage(images[index], selectedPiece.xPixel, selectedPiece.yPixel, this);
                     }
                 }
                 if (isCheck()) {

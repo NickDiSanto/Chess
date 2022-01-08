@@ -119,6 +119,8 @@ public class Pawn extends Piece {
     @Override
     public LinkedList<Integer> getLegalMoves() {
 
+        // FIXME: Mate often doesn't work, the pawns still think they have legal moves
+
         LinkedList<Integer> squares = new LinkedList<>();
 
         int movementDirection = 1;
@@ -178,8 +180,6 @@ public class Pawn extends Piece {
             boolean initialEnPassant = canBeEnPassant;
 
             move(coordinate + (i * movementDirection));
-
-            // FIXME: Mate often doesn't work, the pawns still think they have legal moves
 
             if (coordinate != initialCoordinate) {
                 boolean pieceChecks = false;
