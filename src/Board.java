@@ -284,6 +284,7 @@ public class Board {
                         whiteTurn = !whiteTurn;
 
                         if (kingTrapped()) {
+                            System.out.println();
                             if (isCheck()) {
                                 System.out.println("Checkmate!");
                                 if (!whiteTurn) {
@@ -299,6 +300,7 @@ public class Board {
                             } else {
                                 System.out.println("Stalemate!");
                                 playSound("mixkit-arcade-space-shooter-dead-notification-272.wav");
+                                // FIXME: Sound effect doesn't work
 
                                 // TODO: End game?
                             }
@@ -504,6 +506,9 @@ public class Board {
         for (Piece piece : pieces) {
             if (piece.isWhite == whiteTurn) {
                 if (piece.legalMoves.size() != 0) {
+                    System.out.println(piece.pieceType);
+                    System.out.println(piece.coordinate);
+                    System.out.println(piece.legalMoves);
                     return false;
                 }
             }

@@ -67,7 +67,7 @@ public class Pawn extends Piece {
                 coordinate = newCoordinate;
                 return;
             } else if ((newCoordinate - coordinate == 11 * movementDirection || newCoordinate - coordinate == -9 * movementDirection)
-                && Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64) != null) {
+                    && Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64) != null) {
                 if (Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64).isWhite != isWhite) {
                     recentCapture = Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64);
                     Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64).capture();
@@ -193,6 +193,8 @@ public class Pawn extends Piece {
 
             move(coordinate + (i * movementDirection));
 
+            // FIXME: Smothered mate doesn't work, it thinks pawns still have legal moves
+
             if (coordinate != initialCoordinate) {
                 boolean pieceChecks = false;
                 for (int j = 0; j < pieces.size(); j++) {
@@ -200,6 +202,7 @@ public class Pawn extends Piece {
                         pieces.get(j).squaresAttacked = pieces.get(j).getSquaresAttacked();
                         if (pieces.get(j).checksKing()) {
                             pieceChecks = true;
+                            break;
                         }
                     }
                 }
