@@ -14,7 +14,6 @@ import java.util.Scanner;
 
 public class Board {
 
-    // TODO: Add sound effects for movement, captures, checkmate, etc
     // TODO: Check general documentation: whitespace, etc
     // TODO: Add comments
 
