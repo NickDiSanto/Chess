@@ -1,4 +1,5 @@
 import javax.imageio.ImageIO;
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -285,15 +286,19 @@ public class Board {
                         if (kingTrapped()) {
                             if (isCheck()) {
                                 System.out.println("Checkmate!");
-                                if (whiteTurn) {
-                                    System.out.println("Black wins!");
-                                } else {
+                                if (!whiteTurn) {
                                     System.out.println("White wins!");
+                                    playSound("mixkit-animated-small-group-applause-523.wav");
+                                } else {
+                                    System.out.println("Black wins!");
+                                    playSound("mixkit-player-losing-or-failing-2042.wav");
                                 }
 
                                 // TODO: End game?
+
                             } else {
                                 System.out.println("Stalemate!");
+                                playSound("mixkit-arcade-space-shooter-dead-notification-272.wav");
 
                                 // TODO: End game?
                             }
@@ -304,6 +309,8 @@ public class Board {
 
                     frame.repaint();
                 } catch (NullPointerException ignored) {
+                } catch (UnsupportedAudioFileException | LineUnavailableException | IOException unsupportedAudioFileException) {
+                    unsupportedAudioFileException.printStackTrace();
                 }
             }
         });
@@ -439,6 +446,8 @@ public class Board {
                                 false, 'Q', squaresAttacked, legalMoves, pieces);
                     }
                     newPiece.updatePiece();
+                    System.out.println("Successfully promoted to a Queen.");
+                    System.out.println();
                     break label;
                 case "ROOK":
                     if (selectedPiece.isWhite) {
@@ -449,6 +458,8 @@ public class Board {
                                 false, 'R', squaresAttacked, legalMoves, pieces);
                     }
                     newPiece.updatePiece();
+                    System.out.println("Successfully promoted to a Rook.");
+                    System.out.println();
                     break label;
                 case "BISHOP":
                     if (selectedPiece.isWhite) {
@@ -459,6 +470,8 @@ public class Board {
                                 false, 'B', squaresAttacked, legalMoves, pieces);
                     }
                     newPiece.updatePiece();
+                    System.out.println("Successfully promoted to a Bishop.");
+                    System.out.println();
                     break label;
                 case "KNIGHT":
                     if (selectedPiece.isWhite) {
@@ -469,6 +482,8 @@ public class Board {
                                 false, 'N', squaresAttacked, legalMoves, pieces);
                     }
                     newPiece.updatePiece();
+                    System.out.println("Successfully promoted to a Knight.");
+                    System.out.println();
                     break label;
             }
             System.out.println("Invalid piece. Please try again.");
@@ -494,5 +509,13 @@ public class Board {
             }
         }
         return true;
+    }
+
+    static void playSound(String soundFile) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
+        File f = new File("./" + soundFile);
+        AudioInputStream audioIn = AudioSystem.getAudioInputStream(f.toURI().toURL());
+        Clip clip = AudioSystem.getClip();
+        clip.open(audioIn);
+        clip.start();
     }
 }
