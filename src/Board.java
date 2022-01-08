@@ -137,7 +137,7 @@ public class Board {
                     selectedPiece.squaresAttacked = selectedPiece.getSquaresAttacked();
                     selectedPiece.legalMoves = selectedPiece.getLegalMoves();
 
-                    // FIXME: Pawn is updated at the end of move(), that's what causes the problem
+                    // FIXME: Pawn is updated at the end of move() in getLegalMoves(), that's what causes the problem
 
                     if (selectedPiece.isWhite) {
                         for (int square : selectedPiece.legalMoves) {

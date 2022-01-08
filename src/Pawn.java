@@ -14,85 +14,71 @@ public class Pawn extends Piece {
             movementDirection = -1;
         }
 
-
-//        if (Math.abs(newCoordinate - coordinate) == 2 || Math.abs(newCoordinate - coordinate) == 1
-//                || Math.abs(newCoordinate - coordinate) == 9 || Math.abs(newCoordinate - coordinate) == 11) {
-//            if (Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64) != null) {
-//                if (newCoordinate - coordinate == 11 * movementDirection || newCoordinate - coordinate == -9 * movementDirection) {
-//                    if (Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64).isWhite != isWhite) {
-//                        recentCapture = Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64);
-//                        Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64).capture();
-//                    } else {
-//                        updatePiece();
-//                        return;
-//                    }
-//                }
-//            } else if (newCoordinate - coordinate == -9 * movementDirection
-//                    && Board.getPiece((coordinate - (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64) != null) {
-//                if (Board.getPiece((coordinate - (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64).canBeEnPassant) {
-//                    recentCapture = Board.getPiece((coordinate - (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64);
-//                    Board.getPiece((coordinate - (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64).capture();
-//                } else {
-//                    updatePiece();
-//                    return;
-//                }
-//            } else if (newCoordinate - coordinate == 11 * movementDirection
-//                    && Board.getPiece((coordinate + (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64) != null) {
-//                if (Board.getPiece((coordinate + (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64).canBeEnPassant) {
-//                    recentCapture = Board.getPiece((coordinate + (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64);
-//                    Board.getPiece((coordinate + (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64).capture();
-//                } else {
-//                    updatePiece();
-//                    return;
-//                }
-//            }
-//        } else {
-//            updatePiece();
-//            return;
-//        }
-//        canBeEnPassant = Math.abs(newCoordinate - coordinate) == 2;
-//        coordinate = newCoordinate;
-
-
-
-
-
-
-        if (Math.abs(newCoordinate - coordinate) == 2 || Math.abs(newCoordinate - coordinate) == 1
-                || Math.abs(newCoordinate - coordinate) == 9 || Math.abs(newCoordinate - coordinate) == 11) {
-            if (((newCoordinate - coordinate == movementDirection || (newCoordinate - coordinate == 2 * movementDirection && !hasMoved
-                    && !piecesBetween())) && Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64) == null)
-                    && newCoordinate >= 0 && newCoordinate <= 77 && newCoordinate % 10 <= 7) {
-                canBeEnPassant = Math.abs(newCoordinate - coordinate) == 2;
-                coordinate = newCoordinate;
-                return;
-            } else if ((newCoordinate - coordinate == 11 * movementDirection || newCoordinate - coordinate == -9 * movementDirection)
-                    && Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64) != null) {
-                if (Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64).isWhite != isWhite) {
-                    recentCapture = Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64);
-                    Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64).capture();
-                    coordinate = newCoordinate;
+        if (newCoordinate - coordinate == movementDirection || newCoordinate - coordinate == 2 * movementDirection
+                || newCoordinate - coordinate == -9 * movementDirection || newCoordinate - coordinate == 11 * movementDirection) {
+            if (newCoordinate - coordinate == movementDirection) {
+                if (Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64) != null) {
+                    updatePiece();
                     return;
                 }
-            } else if (newCoordinate - coordinate == -9 * movementDirection
-                    && Board.getPiece((coordinate - (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64) != null) {
-                if (Board.getPiece((coordinate - (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64).canBeEnPassant) {
-                    recentCapture = Board.getPiece((coordinate - (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64);
-                    Board.getPiece((coordinate - (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64).capture();
-                    coordinate = newCoordinate;
+            } else if (newCoordinate - coordinate == 2 * movementDirection) {
+                if (hasMoved || piecesBetween() || Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64) != null) {
+                    updatePiece();
                     return;
                 }
-            } else if (newCoordinate - coordinate == 11 * movementDirection
-                    && Board.getPiece((coordinate + (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64) != null) {
-                if (Board.getPiece((coordinate + (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64).canBeEnPassant) {
-                    recentCapture = Board.getPiece((coordinate + (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64);
-                    Board.getPiece((coordinate + (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64).capture();
-                    coordinate = newCoordinate;
-                    return;
+            } else if (newCoordinate - coordinate == -9 * movementDirection) {
+                if (Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64) == null) {
+                    if (Board.getPiece((coordinate - (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64) != null) {
+                        if (Board.getPiece((coordinate - (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64).canBeEnPassant) {
+                            recentCapture = Board.getPiece((coordinate - (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64);
+                            Board.getPiece((coordinate - (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64).capture();
+                        } else {
+                            updatePiece();
+                            return;
+                        }
+                    } else {
+                        updatePiece();
+                        return;
+                    }
+                } else {
+                    if (Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64).isWhite != isWhite) {
+                        recentCapture = Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64);
+                        Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64).capture();
+                    } else {
+                        updatePiece();
+                        return;
+                    }
+                }
+            } else {
+                if (Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64) == null) {
+                    if (Board.getPiece((coordinate + (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64) != null) {
+                        if (Board.getPiece((coordinate + (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64).canBeEnPassant) {
+                            recentCapture = Board.getPiece((coordinate + (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64);
+                            Board.getPiece((coordinate + (10 * movementDirection)) / 10 * 64, coordinate % 10 * 64).capture();
+                        } else {
+                            updatePiece();
+                            return;
+                        }
+                    } else {
+                        updatePiece();
+                        return;
+                    }
+                } else {
+                    if (Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64).isWhite != isWhite) {
+                        recentCapture = Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64);
+                        Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64).capture();
+                    } else {
+                        updatePiece();
+                        return;
+                    }
                 }
             }
+        } else {
+            updatePiece();
+            return;
         }
-        updatePiece();
+        canBeEnPassant = Math.abs(newCoordinate - coordinate) == 2;
+        coordinate = newCoordinate;
     }
 
     private boolean piecesBetween() {
@@ -193,7 +179,7 @@ public class Pawn extends Piece {
 
             move(coordinate + (i * movementDirection));
 
-            // FIXME: Smothered mate doesn't work, it thinks pawns still have legal moves
+            // FIXME: Mate often doesn't work, the pawns still think they have legal moves
 
             if (coordinate != initialCoordinate) {
                 boolean pieceChecks = false;
