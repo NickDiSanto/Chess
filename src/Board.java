@@ -260,96 +260,99 @@ public class Board {
                         return;
                     }
 
+                    int newCoordinate = e.getX() / 64 * 10 + e.getY() / 64;
+
                     selectedPiece.recentCapture = null;
 
-                    selectedPiece.move(e.getX() / 64 * 10 + e.getY() / 64);
+                    if (selectedPiece.legalMoves.contains(newCoordinate)) { // OPTIMIZE: since adding this, there could be lots of consolidation
 
-                    if (selectedPiece.coordinate != initialCoordinate) {
-                        boolean originalHasMoved = selectedPiece.hasMoved;
-                        selectedPiece.hasMoved = true;
+                        selectedPiece.move(newCoordinate);
 
-                        for (int i = 0; i < pieces.size(); i++) {
-                            pieces.get(i).updatePiece();
-                        }
+                        if (selectedPiece.coordinate != initialCoordinate) {
+                            boolean originalHasMoved = selectedPiece.hasMoved;
+                            selectedPiece.hasMoved = true;
 
-                        boolean openedUpCheck = false;
-                        for (int i = 0; i < pieces.size(); i++) {
-                            if (pieces.get(i).checksKing() && pieces.get(i).isWhite != whiteTurn) {
-                                openedUpCheck = true;
-                                Piece newPiece = null;
-                                if (selectedPiece.recentCapture != null) {
-                                    newPiece = selectedPiece.recentCapture;
-                                    pieces.add(newPiece);
-                                    selectedPiece.recentCapture = null;
-                                }
-                                selectedPiece.coordinate = initialCoordinate;
-                                selectedPiece.hasMoved = originalHasMoved;
-                                selectedPiece.updatePiece();
-
-                                if (newPiece != null) {
-                                    newPiece.updatePiece();
-                                    newPiece.legalMoves = newPiece.getLegalMoves();
-                                }
-                                break;
-                            }
-                        }
-                        if (openedUpCheck) {
                             for (int i = 0; i < pieces.size(); i++) {
                                 pieces.get(i).updatePiece();
                                 pieces.get(i).legalMoves = pieces.get(i).getLegalMoves();
                             }
-                        }
-                    }
 
-                    if (selectedPiece.coordinate != initialCoordinate) {
-                        if (selectedPiece.recentCapture != null) {
-                            playSound("mixkit-wood-hard-hit-2182.wav");
-                            selectedPiece.recentCapture = null;
-                        } else {
-                            playSound("mixkit-light-impact-on-the-ground-2070.wav");
-                        }
-                        if (Math.abs(selectedPiece.coordinate - initialCoordinate) != 2 || selectedPiece.pieceType != 'P') {
-                            selectedPiece.canBeEnPassant = false;
-                        }
-
-                        if (selectedPiece.pieceType == 'P' && (selectedPiece.coordinate % 10 == 7 || selectedPiece.coordinate % 10 == 0)) {
-                            pawnPromotion(); // FIXME: Should happen outside mouseReleased so it can repaint (I think is the problem?)
-                        }
-                        for (int i = 0; i < pieces.size(); i++) {
-                            pieces.get(i).updatePiece();
-                            pieces.get(i).legalMoves = pieces.get(i).getLegalMoves();
-                        }
-
-                        lastInitialCoordinate = initialCoordinate;
-                        lastMove = selectedPiece.coordinate;
-
-                        whiteTurn = !whiteTurn;
-
-                        if (kingTrapped()) {
-                            System.out.println();
-                            if (isCheck()) {
-                                System.out.println("Checkmate!");
-                                if (!whiteTurn) {
-                                    System.out.println("White wins!");
-                                    playSound("mixkit-animated-small-group-applause-523.wav");
-                                } else {
-                                    System.out.println("Black wins!");
-                                    playSound("mixkit-player-losing-or-failing-2042.wav");
+                            boolean openedUpCheck = false;
+                            for (int i = 0; i < pieces.size(); i++) {
+                                if (pieces.get(i).isWhite != whiteTurn && pieces.get(i).checksKing()) {
+                                    openedUpCheck = true;
+                                    if (selectedPiece.recentCapture != null) {
+                                        pieces.add(selectedPiece.recentCapture);
+                                        selectedPiece.recentCapture = null;
+                                    }
+                                    selectedPiece.coordinate = initialCoordinate;
+                                    selectedPiece.hasMoved = originalHasMoved;
+                                    selectedPiece.updatePiece();
+                                    break;
                                 }
-
-                                // TODO: End game?
-
-                            } else {
-                                System.out.println("Stalemate!");
-                                playSound("mixkit-arcade-space-shooter-dead-notification-272.wav");
-                                // FIXME: Sound effect doesn't work
-
-                                // TODO: End game?
+                            }
+                            if (openedUpCheck) {
+                                for (int i = 0; i < pieces.size(); i++) {
+                                    pieces.get(i).updatePiece();
+                                    pieces.get(i).legalMoves = pieces.get(i).getLegalMoves();
+                                }
                             }
                         }
-                    }
 
-                    selectedPiece = null;
+                        if (selectedPiece.coordinate != initialCoordinate) {
+                            if (selectedPiece.recentCapture != null) {
+                                playSound("mixkit-wood-hard-hit-2182.wav"); // FIXME: Doesn't work for En Passant, maybe put this in the piece capture() method
+                                selectedPiece.recentCapture = null;
+                            } else {
+                                playSound("mixkit-light-impact-on-the-ground-2070.wav");
+                            }
+                            if (Math.abs(selectedPiece.coordinate - initialCoordinate) != 2 || selectedPiece.pieceType != 'P') {
+                                selectedPiece.canBeEnPassant = false;
+                            }
+
+                            if (selectedPiece.pieceType == 'P' && (selectedPiece.coordinate % 10 == 7 || selectedPiece.coordinate % 10 == 0)) {
+                                pawnPromotion(); // FIXME: Should happen outside mouseReleased so it can repaint (I think is the problem?)
+                            }
+                            for (int i = 0; i < pieces.size(); i++) {
+                                pieces.get(i).updatePiece();
+                                pieces.get(i).legalMoves = pieces.get(i).getLegalMoves();
+                            }
+
+                            lastInitialCoordinate = initialCoordinate;
+                            lastMove = selectedPiece.coordinate;
+
+                            whiteTurn = !whiteTurn;
+
+                            if (kingTrapped()) {
+                                System.out.println();
+                                if (isCheck()) {
+                                    System.out.println("Checkmate!");
+                                    if (!whiteTurn) {
+                                        System.out.println("White wins!");
+                                        playSound("mixkit-animated-small-group-applause-523.wav");
+                                    } else {
+                                        System.out.println("Black wins!");
+                                        playSound("mixkit-player-losing-or-failing-2042.wav");
+                                    }
+                                    System.out.println();
+
+                                    // TODO: End game?
+
+                                } else {
+                                    System.out.println("Stalemate!");
+                                    System.out.println();
+                                    playSound("mixkit-arcade-space-shooter-dead-notification-272.wav");
+                                    // FIXME: Sound effect doesn't work
+
+                                    // TODO: End game?
+                                }
+                            }
+                        }
+                    } else {
+                        selectedPiece.coordinate = initialCoordinate;
+                        selectedPiece.updatePiece();
+                    }
+                        selectedPiece = null;
 
                     frame.repaint();
                 } catch (NullPointerException ignored) {

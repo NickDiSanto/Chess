@@ -47,35 +47,38 @@ public class Piece {
             int initialCoordinate = coordinate;
             move(square);
 
-            boolean pieceChecks = false;
-            for (int i = 0; i < pieces.size(); i++) {
-                if (pieces.get(i).isWhite != isWhite) {
-                    pieces.get(i).squaresAttacked = pieces.get(i).getSquaresAttacked();
-                    if (pieces.get(i).checksKing()) {
-                        pieceChecks = true;
-                        break;
+            if (coordinate != initialCoordinate) {
+
+                boolean pieceChecks = false;
+                for (int i = 0; i < pieces.size(); i++) {
+                    if (pieces.get(i).isWhite != isWhite) {
+                        pieces.get(i).squaresAttacked = pieces.get(i).getSquaresAttacked();
+                        if (pieces.get(i).checksKing()) {
+                            pieceChecks = true;
+                            break;
+                        }
                     }
                 }
-            }
-            Piece newPiece = null;
-            if (recentCapture != null) {
-                newPiece = recentCapture;
-                pieces.add(newPiece);
-                recentCapture = null;
-            }
-            coordinate = initialCoordinate;
-            if (newPiece != null) {
-                newPiece.updatePiece();
-            }
-
-            for (int i = 0; i < pieces.size(); i++) {
-                if (pieces.get(i).isWhite != isWhite) {
-                    pieces.get(i).updatePiece();
+                Piece newPiece = null;
+                if (recentCapture != null) {
+                    newPiece = recentCapture;
+                    pieces.add(newPiece);
+                    recentCapture = null;
                 }
-            }
+                coordinate = initialCoordinate;
+                if (newPiece != null) {
+                    newPiece.updatePiece();
+                }
 
-            if (!pieceChecks) {
-                squares.add(square);
+                for (int i = 0; i < pieces.size(); i++) {
+                    if (pieces.get(i).isWhite != isWhite) {
+                        pieces.get(i).updatePiece();
+                    }
+                }
+
+                if (!pieceChecks) {
+                    squares.add(square);
+                }
             }
         }
 
