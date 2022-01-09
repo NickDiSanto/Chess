@@ -136,7 +136,6 @@ public class Board {
 
                 g.setColor(new Color(210, 200, 80));
 
-                // OPTIMIZE: the way white vs black is done below might be better for the grey squares
                 if (lastInitialCoordinate != Integer.MAX_VALUE) {
                     if (Board.getPiece(lastInitialCoordinate / 10 * 64, lastInitialCoordinate % 10 * 64) != null) {
                         Piece piece = Board.getPiece(lastInitialCoordinate / 10 * 64, lastInitialCoordinate % 10 * 64);
@@ -178,8 +177,6 @@ public class Board {
 
                     selectedPiece.squaresAttacked = selectedPiece.getSquaresAttacked();
                     selectedPiece.legalMoves = selectedPiece.getLegalMoves();
-
-                    // FIXME: Pawn is updated at the end of move() in getLegalMoves(), that's what causes the problem
 
                     for (int square : selectedPiece.legalMoves) {
                         int index;
@@ -273,7 +270,7 @@ public class Board {
                             selectedPiece.hasMoved = true;
 
                             for (int i = 0; i < pieces.size(); i++) {
-                                pieces.get(i).updatePiece();
+                                pieces.get(i).squaresAttacked = pieces.get(i).getSquaresAttacked();
                                 pieces.get(i).legalMoves = pieces.get(i).getLegalMoves();
                             }
 
@@ -293,7 +290,7 @@ public class Board {
                             }
                             if (openedUpCheck) {
                                 for (int i = 0; i < pieces.size(); i++) {
-                                    pieces.get(i).updatePiece();
+                                    pieces.get(i).squaresAttacked = pieces.get(i).getSquaresAttacked();
                                     pieces.get(i).legalMoves = pieces.get(i).getLegalMoves();
                                 }
                             }
@@ -301,7 +298,7 @@ public class Board {
 
                         if (selectedPiece.coordinate != initialCoordinate) {
                             if (selectedPiece.recentCapture != null) {
-                                playSound("mixkit-wood-hard-hit-2182.wav"); // FIXME: Doesn't work for En Passant, maybe put this in the piece capture() method
+                                playSound("mixkit-wood-hard-hit-2182.wav"); // FIXME: Doesn't work for En Passant (might be because of the capturing issue)
                                 selectedPiece.recentCapture = null;
                             } else {
                                 playSound("mixkit-light-impact-on-the-ground-2070.wav");
@@ -311,10 +308,10 @@ public class Board {
                             }
 
                             if (selectedPiece.pieceType == 'P' && (selectedPiece.coordinate % 10 == 7 || selectedPiece.coordinate % 10 == 0)) {
-                                pawnPromotion(); // FIXME: Should happen outside mouseReleased so it can repaint (I think is the problem?)
+                                pawnPromotion(); // FIXME: Should happen outside mouseReleased so it can repaint (I think is the problem? I don't know why frame.repaint() doesn't fix it)
                             }
                             for (int i = 0; i < pieces.size(); i++) {
-                                pieces.get(i).updatePiece();
+                                pieces.get(i).squaresAttacked = pieces.get(i).getSquaresAttacked(); // FIXME: Does this change anything? It was changed from pieces.updatePiece() to this
                                 pieces.get(i).legalMoves = pieces.get(i).getLegalMoves();
                             }
 
@@ -355,6 +352,7 @@ public class Board {
                         selectedPiece = null;
 
                     frame.repaint();
+
                 } catch (NullPointerException ignored) {
                 } catch (UnsupportedAudioFileException | LineUnavailableException | IOException unsupportedAudioFileException) {
                     unsupportedAudioFileException.printStackTrace();

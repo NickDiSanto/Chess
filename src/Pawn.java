@@ -10,7 +10,7 @@ public class Pawn extends Piece {
     @Override
     public void move(int newCoordinate) {
 
-        // FIXME: Mate often doesn't work, the pawns still think they have legal moves
+        // FIXME: Smothered mate doesn't work
 
         int movementDirection = 1;
         if (isWhite) {
@@ -123,6 +123,8 @@ public class Pawn extends Piece {
     public LinkedList<Integer> getLegalMoves() {
 
         LinkedList<Integer> squares = new LinkedList<>();
+
+        recentCapture = null;
 
         int movementDirection = 1;
         if (isWhite) {
