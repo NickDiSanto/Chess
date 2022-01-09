@@ -16,6 +16,7 @@ public class Board {
 
     // TODO: Check general documentation: whitespace, etc
     // TODO: Add comments
+    // FIXME: Sometimes piece doesn't capture, sits on top of opposing piece
 
     public static LinkedList<Piece> pieces = new LinkedList<>();
     public static LinkedList<Integer> squaresAttacked = new LinkedList<>();
@@ -27,7 +28,7 @@ public class Board {
     public static int lastMove = Integer.MAX_VALUE;
 
     public static void main(String[] args) throws IOException {
-        BufferedImage all = ImageIO.read(new File("D:\\chess.png"));
+        BufferedImage all = ImageIO.read(new File("chess.png"));
         Image[] images = new Image[12];
         int index = 0;
         for (int y = 0; y < 2; y++) {
@@ -261,7 +262,6 @@ public class Board {
                     }
 
                     int newCoordinate = e.getX() / 64 * 10 + e.getY() / 64;
-
                     selectedPiece.recentCapture = null;
 
                     if (selectedPiece.legalMoves.contains(newCoordinate)) { // OPTIMIZE: since adding this, there could be lots of consolidation
@@ -551,10 +551,10 @@ public class Board {
         for (Piece piece : pieces) {
             if (piece.isWhite == whiteTurn) {
                 if (piece.legalMoves.size() != 0) {
-                    System.out.println(piece.pieceType);
-                    System.out.println(piece.coordinate);
-                    System.out.println(piece.legalMoves);
-                    System.out.println();
+//                    System.out.println(piece.pieceType);
+//                    System.out.println(piece.coordinate);
+//                    System.out.println(piece.legalMoves);
+//                    System.out.println();
                     return false;
                 }
             }
