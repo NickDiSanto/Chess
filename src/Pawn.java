@@ -10,8 +10,6 @@ public class Pawn extends Piece {
     @Override
     public void move(int newCoordinate) {
 
-        // FIXME: Smothered mate doesn't work
-
         int movementDirection = 1;
         if (isWhite) {
             movementDirection = -1;
@@ -121,6 +119,8 @@ public class Pawn extends Piece {
 
     @Override
     public LinkedList<Integer> getLegalMoves() {
+
+        // FIXME: Some mates don't work, still thinks pawns have legal moves
 
         LinkedList<Integer> squares = new LinkedList<>();
 

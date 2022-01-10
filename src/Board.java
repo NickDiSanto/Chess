@@ -16,7 +16,7 @@ public class Board {
 
     // TODO: Check general documentation: whitespace, etc
     // TODO: Add comments
-    // FIXME: Sometimes piece doesn't capture, sits on top of opposing piece
+    // OPTIMIZE: Check where pieces are refreshed
 
     public static LinkedList<Piece> pieces = new LinkedList<>();
     public static LinkedList<Integer> squaresAttacked = new LinkedList<>();
@@ -261,92 +261,60 @@ public class Board {
                     int newCoordinate = e.getX() / 64 * 10 + e.getY() / 64;
                     selectedPiece.recentCapture = null;
 
-                    if (selectedPiece.legalMoves.contains(newCoordinate)) { // OPTIMIZE: since adding this, there could be lots of consolidation
-
+                    if (selectedPiece.legalMoves.contains(newCoordinate)) {
                         selectedPiece.move(newCoordinate);
 
-                        Piece recentCapture = null;
+//                        Piece recentCapture = null;
+//                        if (selectedPiece.recentCapture != null) {
+//                            recentCapture = selectedPiece.recentCapture;
+//                        }
+
+                        selectedPiece.hasMoved = true;
+
                         if (selectedPiece.recentCapture != null) {
-                            recentCapture = selectedPiece.recentCapture;
+                            playSound("mixkit-wood-hard-hit-2182.wav");
+                        } else {
+                            playSound("mixkit-light-impact-on-the-ground-2070.wav");
+                        }
+                        if (Math.abs(selectedPiece.coordinate - initialCoordinate) != 2 || selectedPiece.pieceType != 'P') {
+                            selectedPiece.canBeEnPassant = false;
                         }
 
-                        if (selectedPiece.coordinate != initialCoordinate) {
-                            boolean originalHasMoved = selectedPiece.hasMoved;
-                            selectedPiece.hasMoved = true;
-
-                            for (int i = 0; i < pieces.size(); i++) {
-                                pieces.get(i).squaresAttacked = pieces.get(i).getSquaresAttacked();
-                                pieces.get(i).legalMoves = pieces.get(i).getLegalMoves();
-                            }
-
-                            boolean openedUpCheck = false;
-                            for (int i = 0; i < pieces.size(); i++) {
-                                if (pieces.get(i).isWhite != whiteTurn && pieces.get(i).checksKing()) {
-                                    openedUpCheck = true;
-                                    if (recentCapture != null) {
-                                        pieces.add(recentCapture);
-                                        recentCapture = null;
-                                    }
-                                    selectedPiece.coordinate = initialCoordinate;
-                                    selectedPiece.hasMoved = originalHasMoved;
-                                    selectedPiece.updatePiece();
-                                    break;
-                                }
-                            }
-                            if (openedUpCheck) {
-                                for (int i = 0; i < pieces.size(); i++) {
-                                    pieces.get(i).squaresAttacked = pieces.get(i).getSquaresAttacked();
-                                    pieces.get(i).legalMoves = pieces.get(i).getLegalMoves();
-                                }
-                            }
+                        if (selectedPiece.pieceType == 'P' && (selectedPiece.coordinate % 10 == 7 || selectedPiece.coordinate % 10 == 0)) {
+                            pawnPromotion(); // FIXME: Should happen outside mouseReleased so it can repaint (I think is the problem? I don't know why frame.repaint() doesn't fix it)
+                        }
+                        for (int i = 0; i < pieces.size(); i++) {
+                            pieces.get(i).squaresAttacked = pieces.get(i).getSquaresAttacked(); // FIXME: Does this change anything? It was changed from pieces.updatePiece() to this
+                            pieces.get(i).legalMoves = pieces.get(i).getLegalMoves();
                         }
 
-                        if (selectedPiece.coordinate != initialCoordinate) {
-                            if (recentCapture != null) {
-                                playSound("mixkit-wood-hard-hit-2182.wav"); // FIXME: Doesn't work for En Passant (might be because of the capturing issue)
-                            } else {
-                                playSound("mixkit-light-impact-on-the-ground-2070.wav");
-                            }
-                            if (Math.abs(selectedPiece.coordinate - initialCoordinate) != 2 || selectedPiece.pieceType != 'P') {
-                                selectedPiece.canBeEnPassant = false;
-                            }
+                        lastInitialCoordinate = initialCoordinate;
+                        lastMove = selectedPiece.coordinate;
 
-                            if (selectedPiece.pieceType == 'P' && (selectedPiece.coordinate % 10 == 7 || selectedPiece.coordinate % 10 == 0)) {
-                                pawnPromotion(); // FIXME: Should happen outside mouseReleased so it can repaint (I think is the problem? I don't know why frame.repaint() doesn't fix it)
-                            }
-                            for (int i = 0; i < pieces.size(); i++) {
-                                pieces.get(i).squaresAttacked = pieces.get(i).getSquaresAttacked(); // FIXME: Does this change anything? It was changed from pieces.updatePiece() to this
-                                pieces.get(i).legalMoves = pieces.get(i).getLegalMoves();
-                            }
+                        whiteTurn = !whiteTurn;
 
-                            lastInitialCoordinate = initialCoordinate;
-                            lastMove = selectedPiece.coordinate;
-
-                            whiteTurn = !whiteTurn;
-
-                            if (kingTrapped()) {
-                                System.out.println();
-                                if (isCheck()) {
-                                    System.out.println("Checkmate!");
-                                    if (!whiteTurn) {
-                                        System.out.println("White wins!");
-                                        playSound("mixkit-animated-small-group-applause-523.wav");
-                                    } else {
-                                        System.out.println("Black wins!");
-                                        playSound("mixkit-player-losing-or-failing-2042.wav");
-                                    }
-                                    System.out.println();
-
-                                    // TODO: End game?
-
+                        if (kingTrapped()) {
+                            System.out.println();
+                            if (isCheck()) {
+                                System.out.println("Checkmate!");
+                                if (!whiteTurn) {
+                                    System.out.println("White wins!");
+                                    playSound("mixkit-animated-small-group-applause-523.wav");
                                 } else {
-                                    System.out.println("Stalemate!");
-                                    System.out.println();
-                                    playSound("mixkit-arcade-space-shooter-dead-notification-272.wav");
-                                    // FIXME: Sound effect doesn't work
-
-                                    // TODO: End game?
+                                    System.out.println("Black wins!");
+                                    playSound("mixkit-player-losing-or-failing-2042.wav");
                                 }
+                                System.out.println();
+
+                                // TODO: End game?
+
+                            } else {
+                                System.out.println("Stalemate!");
+                                System.out.println();
+                                playSound("mixkit-arcade-space-shooter-dead-notification-272.wav");
+                                // FIXME: Sound effect doesn't work
+
+                                // TODO: End game?
                             }
                         }
                     } else {
