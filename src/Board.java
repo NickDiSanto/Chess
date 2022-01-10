@@ -16,8 +16,9 @@ public class Board {
 
     // TODO: Check general documentation: whitespace, etc
     // TODO: Add comments
+    // TODO: Add X button back
     // FIXME: King can go to negative squares? (-19)
-    // OPTIMIZE: Check where pieces are refreshed
+    // OPTIMIZE: Check how many times pieces are refreshed
 
     public static LinkedList<Piece> pieces = new LinkedList<>();
     public static LinkedList<Integer> squaresAttacked = new LinkedList<>();
@@ -149,11 +150,13 @@ public class Board {
                     g.setColor(new Color(110, 130, 70));
                     g.fillRect(initialCoordinate / 10 * 64, initialCoordinate % 10 * 64, 64, 64);
 
+                    selectedPiece.squaresAttacked = selectedPiece.getSquaresAttacked();
+                    selectedPiece.legalMoves = selectedPiece.getLegalMoves();
 
                     g.setColor(new Color(90, 90, 90));
 
-                    selectedPiece.squaresAttacked = selectedPiece.getSquaresAttacked();
-                    selectedPiece.legalMoves = selectedPiece.getLegalMoves();
+//                    selectedPiece.squaresAttacked = selectedPiece.getSquaresAttacked();
+//                    selectedPiece.legalMoves = selectedPiece.getLegalMoves();
 
                     for (int square : selectedPiece.legalMoves) {
                         int index;
@@ -169,14 +172,14 @@ public class Board {
                         } else {
                             g.fillOval(square / 10 * 64 + 22, square % 10 * 64 + 22, 18, 18);
                         }
-
-                        if (selectedPiece.isWhite) {
-                            index = pieceIndices(selectedPiece);
-                        } else {
-                            index = pieceIndices(selectedPiece) + 6;
-                        }
-                        g.drawImage(images[index], selectedPiece.xPixel, selectedPiece.yPixel, this);
                     }
+                    int index;
+                    if (selectedPiece.isWhite) {
+                        index = pieceIndices(selectedPiece);
+                    } else {
+                        index = pieceIndices(selectedPiece) + 6;
+                    }
+                    g.drawImage(images[index], selectedPiece.xPixel, selectedPiece.yPixel, this);
                 }
                 if (isCheck()) {
                     for (Piece piece : pieces) {
@@ -253,7 +256,7 @@ public class Board {
                         }
 
                         if (selectedPiece.pieceType == 'P' && (selectedPiece.coordinate % 10 == 7 || selectedPiece.coordinate % 10 == 0)) {
-                            pawnPromotion(); // FIXME: Should happen outside mouseReleased so it can repaint (I think is the problem? I don't know why frame.repaint() doesn't fix it)
+                            pawnPromotion(); // FIXME: Should happen outside mouseReleased so it can repaint
                         }
                         for (int i = 0; i < pieces.size(); i++) {
                             pieces.get(i).updatePiece();
@@ -265,7 +268,7 @@ public class Board {
 
                         whiteTurn = !whiteTurn;
 
-                        if (kingTrapped()) {
+                        if (kingTrapped()) { // FIXME: Should happen outside mouseReleased so it can repaint
                             System.out.println();
                             if (isCheck()) {
                                 System.out.println("Checkmate!");
@@ -277,15 +280,28 @@ public class Board {
                                     playSound("losingSound.wav");
                                 }
                                 System.out.println();
-
-                                // TODO: End game?
-
                             } else {
                                 System.out.println("Stalemate!");
                                 System.out.println();
                                 playSound("drawSound.wav");
+                            }
 
-                                // TODO: End game?
+                            System.out.println();
+                            System.out.println("Would you like to play again? (Y/N)");
+                            Scanner s = new Scanner(System.in);
+                            String playAgain = s.nextLine();
+                            while (true) {
+                                if (playAgain.toUpperCase(Locale.ROOT).equals("Y")) {
+
+                                    System.exit(0);
+                                } else if (playAgain.toUpperCase(Locale.ROOT).equals("N")) {
+                                    System.out.println();
+                                    System.out.println("Thanks for playing!");
+                                    System.exit(0);
+                                } else {
+                                    System.out.println("Invalid option. Please try again.");
+                                    System.out.println();
+                                }
                             }
                         }
                     } else {

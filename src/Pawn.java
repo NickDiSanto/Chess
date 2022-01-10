@@ -2,6 +2,8 @@ import java.util.LinkedList;
 
 public class Pawn extends Piece {
 
+    public int movementDirection;
+
     public Pawn(int coordinate, boolean isWhite, boolean hasMoved, boolean canBeEnPassant, char pieceType,
                 LinkedList<Integer> squaresAttacked, LinkedList<Integer> legalMoves, LinkedList<Piece> pieces) {
         super(coordinate, isWhite, hasMoved, canBeEnPassant, pieceType, squaresAttacked, legalMoves, pieces);
@@ -10,10 +12,7 @@ public class Pawn extends Piece {
     @Override
     public void move(int newCoordinate) {
 
-        int movementDirection = 1;
-        if (isWhite) {
-            movementDirection = -1;
-        }
+        setMovementDirection();
 
         if (newCoordinate - coordinate == movementDirection || newCoordinate - coordinate == 2 * movementDirection
                 || newCoordinate - coordinate == -9 * movementDirection || newCoordinate - coordinate == 11 * movementDirection) {
@@ -89,14 +88,18 @@ public class Pawn extends Piece {
         return Board.getPiece((coordinate) / 10 * 64, (coordinate + 1) % 10 * 64) != null;
     }
 
+    public void setMovementDirection() {
+        movementDirection = 1;
+        if (isWhite) {
+            movementDirection = -1;
+        }
+    }
+
     @Override
     public LinkedList<Integer> getSquaresAttacked() {
         LinkedList<Integer> squares = new LinkedList<>();
 
-        int movementDirection = 1;
-        if (isWhite) {
-            movementDirection = -1;
-        }
+        setMovementDirection();
 
         squares.add(coordinate + 10 + movementDirection);
         squares.add(coordinate - 10 + movementDirection);
@@ -126,10 +129,7 @@ public class Pawn extends Piece {
 
         recentCapture = null;
 
-        int movementDirection = 1;
-        if (isWhite) {
-            movementDirection = -1;
-        }
+        setMovementDirection();
 
         for (int square : squaresAttacked) {
             int initialCoordinate = coordinate;
