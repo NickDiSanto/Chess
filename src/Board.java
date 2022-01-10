@@ -137,35 +137,11 @@ public class Board {
                 g.setColor(new Color(210, 200, 80));
 
                 if (lastInitialCoordinate != Integer.MAX_VALUE) {
-                    if (Board.getPiece(lastInitialCoordinate / 10 * 64, lastInitialCoordinate % 10 * 64) != null) {
-                        Piece piece = Board.getPiece(lastInitialCoordinate / 10 * 64, lastInitialCoordinate % 10 * 64);
-                        g.fillRect(lastInitialCoordinate / 10 * 64, lastInitialCoordinate % 10 * 64, 64, 64);
-                        int index;
-                        if (piece.isWhite) {
-                            index = pieceIndices(piece);
-                        } else {
-                            index = pieceIndices(piece) + 6;
-                        }
-                        g.drawImage(images[index], piece.xPixel, piece.yPixel, this);
-                    } else {
-                        g.fillRect(lastInitialCoordinate / 10 * 64, lastInitialCoordinate % 10 * 64, 64, 64);
-                    }
+                    highlightSquare(lastInitialCoordinate, g, images, this);
                 }
 
                 if (lastMove != Integer.MAX_VALUE) {
-                    if (Board.getPiece(lastMove / 10 * 64, lastMove % 10 * 64) != null) {
-                        Piece piece = Board.getPiece(lastMove / 10 * 64, lastMove % 10 * 64);
-                        g.fillRect(lastMove / 10 * 64, lastMove % 10 * 64, 64, 64);
-                        int index;
-                        if (piece.isWhite) {
-                            index = pieceIndices(piece);
-                        } else {
-                            index = pieceIndices(piece) + 6;
-                        }
-                        g.drawImage(images[index], piece.xPixel, piece.yPixel, this);
-                    } else {
-                        g.fillRect(lastMove / 10 * 64, lastMove % 10 * 64, 64, 64);
-                    }
+                    highlightSquare(lastMove, g, images, this);
                 }
 
                 if (selectedPiece != null) {
@@ -264,11 +240,6 @@ public class Board {
                     if (selectedPiece.legalMoves.contains(newCoordinate)) {
                         selectedPiece.move(newCoordinate);
 
-//                        Piece recentCapture = null;
-//                        if (selectedPiece.recentCapture != null) {
-//                            recentCapture = selectedPiece.recentCapture;
-//                        }
-
                         selectedPiece.hasMoved = true;
 
                         if (selectedPiece.recentCapture != null) {
@@ -351,6 +322,22 @@ public class Board {
         }
 
         return index;
+    }
+
+    private static void highlightSquare(int lastSquare, Graphics g, Image[] images, JPanel jPanel) {
+        if (Board.getPiece(lastSquare / 10 * 64, lastSquare % 10 * 64) != null) {
+            Piece piece = Board.getPiece(lastSquare / 10 * 64, lastSquare % 10 * 64);
+            g.fillRect(lastSquare / 10 * 64, lastSquare % 10 * 64, 64, 64);
+            int index;
+            if (piece.isWhite) {
+                index = pieceIndices(piece);
+            } else {
+                index = pieceIndices(piece) + 6;
+            }
+            g.drawImage(images[index], piece.xPixel, piece.yPixel, jPanel);
+        } else {
+            g.fillRect(lastSquare / 10 * 64, lastSquare % 10 * 64, 64, 64);
+        }
     }
 
     public static Piece getPiece(int xPixel, int yPixel) {
