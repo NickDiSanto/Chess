@@ -265,6 +265,11 @@ public class Board {
 
                         selectedPiece.move(newCoordinate);
 
+                        Piece recentCapture = null;
+                        if (selectedPiece.recentCapture != null) {
+                            recentCapture = selectedPiece.recentCapture;
+                        }
+
                         if (selectedPiece.coordinate != initialCoordinate) {
                             boolean originalHasMoved = selectedPiece.hasMoved;
                             selectedPiece.hasMoved = true;
@@ -278,9 +283,9 @@ public class Board {
                             for (int i = 0; i < pieces.size(); i++) {
                                 if (pieces.get(i).isWhite != whiteTurn && pieces.get(i).checksKing()) {
                                     openedUpCheck = true;
-                                    if (selectedPiece.recentCapture != null) {
-                                        pieces.add(selectedPiece.recentCapture);
-                                        selectedPiece.recentCapture = null;
+                                    if (recentCapture != null) {
+                                        pieces.add(recentCapture);
+                                        recentCapture = null;
                                     }
                                     selectedPiece.coordinate = initialCoordinate;
                                     selectedPiece.hasMoved = originalHasMoved;
@@ -297,9 +302,8 @@ public class Board {
                         }
 
                         if (selectedPiece.coordinate != initialCoordinate) {
-                            if (selectedPiece.recentCapture != null) {
+                            if (recentCapture != null) {
                                 playSound("mixkit-wood-hard-hit-2182.wav"); // FIXME: Doesn't work for En Passant (might be because of the capturing issue)
-                                selectedPiece.recentCapture = null;
                             } else {
                                 playSound("mixkit-light-impact-on-the-ground-2070.wav");
                             }
@@ -549,10 +553,10 @@ public class Board {
         for (Piece piece : pieces) {
             if (piece.isWhite == whiteTurn) {
                 if (piece.legalMoves.size() != 0) {
-//                    System.out.println(piece.pieceType);
-//                    System.out.println(piece.coordinate);
-//                    System.out.println(piece.legalMoves);
-//                    System.out.println();
+                    System.out.println(piece.pieceType);
+                    System.out.println(piece.coordinate);
+                    System.out.println(piece.legalMoves);
+                    System.out.println();
                     return false;
                 }
             }

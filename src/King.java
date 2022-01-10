@@ -77,12 +77,13 @@ public class King extends Piece {
     public LinkedList<Integer> getLegalMoves() {
         LinkedList<Integer> squares = new LinkedList<>();
 
+        recentCapture = null;
+
         for (int square : squaresAttacked) {
             int initialCoordinate = coordinate;
             move(square);
 
             if (coordinate != initialCoordinate) {
-
                 boolean pieceChecks = false;
                 for (int i = 0; i < pieces.size(); i++) {
                     if (pieces.get(i).isWhite != isWhite) {
@@ -93,20 +94,17 @@ public class King extends Piece {
                         }
                     }
                 }
-                Piece newPiece = null;
-                if (recentCapture != null) {
-                    newPiece = recentCapture;
-                    pieces.add(newPiece);
-                    recentCapture = null;
-                }
                 coordinate = initialCoordinate;
-                if (newPiece != null) {
-                    newPiece.updatePiece();
+
+                if (recentCapture != null) {
+                    recentCapture.updatePiece();
+                    pieces.add(recentCapture);
+                    recentCapture = null;
                 }
 
                 for (int i = 0; i < pieces.size(); i++) {
                     if (pieces.get(i).isWhite != isWhite) {
-                        pieces.get(i).updatePiece();
+                        pieces.get(i).squaresAttacked = pieces.get(i).getSquaresAttacked();
                     }
                 }
 
