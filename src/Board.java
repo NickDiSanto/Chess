@@ -16,6 +16,7 @@ public class Board {
 
     // TODO: Check general documentation: whitespace, etc
     // TODO: Add comments
+    // FIXME: King can go to negative squares? (-19)
     // OPTIMIZE: Check where pieces are refreshed
 
     public static LinkedList<Piece> pieces = new LinkedList<>();
@@ -243,9 +244,9 @@ public class Board {
                         selectedPiece.hasMoved = true;
 
                         if (selectedPiece.recentCapture != null) {
-                            playSound("mixkit-wood-hard-hit-2182.wav");
+                            playSound("captureSound.wav");
                         } else {
-                            playSound("mixkit-light-impact-on-the-ground-2070.wav");
+                            playSound("moveSound.wav");
                         }
                         if (Math.abs(selectedPiece.coordinate - initialCoordinate) != 2 || selectedPiece.pieceType != 'P') {
                             selectedPiece.canBeEnPassant = false;
@@ -255,7 +256,7 @@ public class Board {
                             pawnPromotion(); // FIXME: Should happen outside mouseReleased so it can repaint (I think is the problem? I don't know why frame.repaint() doesn't fix it)
                         }
                         for (int i = 0; i < pieces.size(); i++) {
-                            pieces.get(i).squaresAttacked = pieces.get(i).getSquaresAttacked(); // FIXME: Does this change anything? It was changed from pieces.updatePiece() to this
+                            pieces.get(i).updatePiece();
                             pieces.get(i).legalMoves = pieces.get(i).getLegalMoves();
                         }
 
@@ -270,10 +271,10 @@ public class Board {
                                 System.out.println("Checkmate!");
                                 if (!whiteTurn) {
                                     System.out.println("White wins!");
-                                    playSound("mixkit-animated-small-group-applause-523.wav");
+                                    playSound("winningSound.wav");
                                 } else {
                                     System.out.println("Black wins!");
-                                    playSound("mixkit-player-losing-or-failing-2042.wav");
+                                    playSound("losingSound.wav");
                                 }
                                 System.out.println();
 
@@ -282,8 +283,7 @@ public class Board {
                             } else {
                                 System.out.println("Stalemate!");
                                 System.out.println();
-                                playSound("mixkit-arcade-space-shooter-dead-notification-272.wav");
-                                // FIXME: Sound effect doesn't work
+                                playSound("drawSound.wav");
 
                                 // TODO: End game?
                             }
