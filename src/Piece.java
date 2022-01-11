@@ -40,9 +40,10 @@ public class Piece {
     }
 
     public LinkedList<Integer> getLegalMoves() {
+        return getLegalSquaresAttacked();
+    }
 
-        // OPTIMIZE: Might be able to make a helper method for these
-
+    public LinkedList<Integer> getLegalSquaresAttacked() {
         LinkedList<Integer> squares = new LinkedList<>();
 
         recentCapture = null;

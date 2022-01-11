@@ -75,44 +75,7 @@ public class King extends Piece {
 
     @Override
     public LinkedList<Integer> getLegalMoves() {
-        LinkedList<Integer> squares = new LinkedList<>();
-
-        recentCapture = null;
-
-        for (int square : squaresAttacked) {
-            int initialCoordinate = coordinate;
-            move(square);
-
-            if (coordinate != initialCoordinate) {
-                boolean pieceChecks = false;
-                for (int i = 0; i < pieces.size(); i++) {
-                    if (pieces.get(i).isWhite != isWhite) {
-                        pieces.get(i).squaresAttacked = pieces.get(i).getSquaresAttacked();
-                        if (pieces.get(i).checksKing()) {
-                            pieceChecks = true;
-                            break;
-                        }
-                    }
-                }
-                coordinate = initialCoordinate;
-
-                if (recentCapture != null) {
-                    recentCapture.updatePiece();
-                    pieces.add(recentCapture);
-                    recentCapture = null;
-                }
-
-                for (int i = 0; i < pieces.size(); i++) {
-                    if (pieces.get(i).isWhite != isWhite) {
-                        pieces.get(i).squaresAttacked = pieces.get(i).getSquaresAttacked();
-                    }
-                }
-
-                if (!pieceChecks) {
-                    squares.add(square);
-                }
-            }
-        }
+        LinkedList<Integer> squares = getLegalSquaresAttacked();
 
         if (Board.canCastleShort()) {
             squares.add(coordinate + 20);

@@ -16,8 +16,8 @@ public class Board {
 
     // TODO: Check general documentation: whitespace, etc
     // TODO: Add comments
-    // TODO: Add X button back
     // FIXME: King can go to negative squares? (-19)
+    // FIXME: Some mates don't work, still thinks pawns (and rook?) have legal moves
     // OPTIMIZE: Check how many times pieces are refreshed
 
     public static LinkedList<Piece> pieces = new LinkedList<>();
@@ -29,7 +29,15 @@ public class Board {
     public static int lastInitialCoordinate = Integer.MAX_VALUE;
     public static int lastMove = Integer.MAX_VALUE;
 
-    public static void main(String[] args) throws IOException {
+
+
+//    public static boolean canPromote = false;
+//    public static boolean kingTrapped = false;
+
+
+
+
+    public static void main(String[] args) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
         BufferedImage all = ImageIO.read(new File("chess.png"));
         Image[] images = new Image[12];
         int index = 0;
@@ -114,86 +122,83 @@ public class Board {
         JPanel panel = new JPanel() {
             @Override
             public void paint(Graphics g) {
-                boolean isWhite = true;
-                for (int y = 0; y < 8; y++) {
-                    for (int x = 0; x < 8; x++) {
-                        if (isWhite) {
-                            g.setColor(new Color(240, 225, 190));
-                        } else {
-                            g.setColor(new Color(180, 140, 100));
-                        }
-                        g.fillRect(x * 64, y * 64, 64, 64);
-                        isWhite = !isWhite;
+            boolean isWhite = true;
+            for (int y = 0; y < 8; y++) {
+                for (int x = 0; x < 8; x++) {
+                    if (isWhite) {
+                        g.setColor(new Color(240, 225, 190));
+                    } else {
+                        g.setColor(new Color(180, 140, 100));
                     }
+                    g.fillRect(x * 64, y * 64, 64, 64);
                     isWhite = !isWhite;
                 }
-                for (Piece piece : pieces) {
-                    int index = pieceIndices(piece);
+                isWhite = !isWhite;
+            }
+            for (Piece piece : pieces) {
+                int index = pieceIndices(piece);
 
-                    if (!piece.isWhite) {
-                        index += 6;
-                    }
-                    g.drawImage(images[index], piece.xPixel, piece.yPixel, this);
+                if (!piece.isWhite) {
+                    index += 6;
                 }
+                g.drawImage(images[index], piece.xPixel, piece.yPixel, this);
+            }
 
-                g.setColor(new Color(210, 200, 80));
+            g.setColor(new Color(210, 200, 80));
 
-                if (lastInitialCoordinate != Integer.MAX_VALUE) {
-                    highlightSquare(lastInitialCoordinate, g, images, this);
-                }
+            if (lastInitialCoordinate != Integer.MAX_VALUE) {
+                highlightSquare(lastInitialCoordinate, g, images, this);
+            }
 
-                if (lastMove != Integer.MAX_VALUE) {
-                    highlightSquare(lastMove, g, images, this);
-                }
+            if (lastMove != Integer.MAX_VALUE) {
+                highlightSquare(lastMove, g, images, this);
+            }
 
-                if (selectedPiece != null) {
-                    g.setColor(new Color(110, 130, 70));
-                    g.fillRect(initialCoordinate / 10 * 64, initialCoordinate % 10 * 64, 64, 64);
+            if (selectedPiece != null) {
+                g.setColor(new Color(110, 130, 70));
+                g.fillRect(initialCoordinate / 10 * 64, initialCoordinate % 10 * 64, 64, 64);
 
-                    selectedPiece.squaresAttacked = selectedPiece.getSquaresAttacked();
-                    selectedPiece.legalMoves = selectedPiece.getLegalMoves();
+                selectedPiece.squaresAttacked = selectedPiece.getSquaresAttacked();
+                selectedPiece.legalMoves = selectedPiece.getLegalMoves();
 
-                    g.setColor(new Color(90, 90, 90));
+                g.setColor(new Color(90, 90, 90));
 
-//                    selectedPiece.squaresAttacked = selectedPiece.getSquaresAttacked();
-//                    selectedPiece.legalMoves = selectedPiece.getLegalMoves();
-
-                    for (int square : selectedPiece.legalMoves) {
-                        int index;
-                        if (Board.getPiece(square / 10 * 64, square % 10 * 64) != null) {
-                            Piece piece = Board.getPiece(square / 10 * 64, square % 10 * 64);
-                            g.fillRect(square / 10 * 64, square % 10 * 64, 64, 64);
-                            if (piece.isWhite) {
-                                index = pieceIndices(piece);
-                            } else {
-                                index = pieceIndices(piece) + 6;
-                            }
-                            g.drawImage(images[index], piece.xPixel, piece.yPixel, this);
-                        } else {
-                            g.fillOval(square / 10 * 64 + 22, square % 10 * 64 + 22, 18, 18);
-                        }
-                    }
+                for (int square : selectedPiece.legalMoves) {
                     int index;
-                    if (selectedPiece.isWhite) {
-                        index = pieceIndices(selectedPiece);
+                    if (Board.getPiece(square / 10 * 64, square % 10 * 64) != null) {
+                        Piece piece = Board.getPiece(square / 10 * 64, square % 10 * 64);
+                        g.fillRect(square / 10 * 64, square % 10 * 64, 64, 64);
+                        if (piece.isWhite) {
+                            index = pieceIndices(piece);
+                        } else {
+                            index = pieceIndices(piece) + 6;
+                        }
+                        g.drawImage(images[index], piece.xPixel, piece.yPixel, this);
                     } else {
-                        index = pieceIndices(selectedPiece) + 6;
+                        g.fillOval(square / 10 * 64 + 22, square % 10 * 64 + 22, 18, 18);
                     }
-                    g.drawImage(images[index], selectedPiece.xPixel, selectedPiece.yPixel, this);
                 }
-                if (isCheck()) {
-                    for (Piece piece : pieces) {
-                        if (piece.pieceType == 'K' && piece.isWhite == whiteTurn) {
-                            g.setColor(new Color(255, 50, 50));
-                            g.fillRect(piece.coordinate / 10 * 64, piece.coordinate % 10 * 64, 64, 64);
-                            if (!whiteTurn) {
-                                g.drawImage(images[6], piece.xPixel, piece.yPixel, this);
-                            } else {
-                                g.drawImage(images[0], piece.xPixel, piece.yPixel, this);
-                            }
+                int index;
+                if (selectedPiece.isWhite) {
+                    index = pieceIndices(selectedPiece);
+                } else {
+                    index = pieceIndices(selectedPiece) + 6;
+                }
+                g.drawImage(images[index], selectedPiece.xPixel, selectedPiece.yPixel, this);
+            }
+            if (isCheck()) {
+                for (Piece piece : pieces) {
+                    if (piece.pieceType == 'K' && piece.isWhite == whiteTurn) {
+                        g.setColor(new Color(255, 50, 50));
+                        g.fillRect(piece.coordinate / 10 * 64, piece.coordinate % 10 * 64, 64, 64);
+                        if (!whiteTurn) {
+                            g.drawImage(images[6], piece.xPixel, piece.yPixel, this);
+                        } else {
+                            g.drawImage(images[0], piece.xPixel, piece.yPixel, this);
                         }
                     }
                 }
+            }
             }
         };
 
@@ -256,6 +261,11 @@ public class Board {
                         }
 
                         if (selectedPiece.pieceType == 'P' && (selectedPiece.coordinate % 10 == 7 || selectedPiece.coordinate % 10 == 0)) {
+
+
+//                            canPromote = true;
+
+
                             pawnPromotion(); // FIXME: Should happen outside mouseReleased so it can repaint
                         }
                         for (int i = 0; i < pieces.size(); i++) {
@@ -292,7 +302,7 @@ public class Board {
                             String playAgain = s.nextLine();
                             while (true) {
                                 if (playAgain.toUpperCase(Locale.ROOT).equals("Y")) {
-
+                                    // TODO: Play again
                                     System.exit(0);
                                 } else if (playAgain.toUpperCase(Locale.ROOT).equals("N")) {
                                     System.out.println();
@@ -321,6 +331,52 @@ public class Board {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+
+//        while (true) {
+//            if (lastMove != Integer.MAX_VALUE) {
+//                if (canPromote) {
+//                    pawnPromotion();
+//                }
+//                if (kingTrapped()) { // FIXME: Should happen outside mouseReleased so it can repaint
+//                    System.out.println();
+//                    if (isCheck()) {
+//                        System.out.println("Checkmate!");
+//                        if (!whiteTurn) {
+//                            System.out.println("White wins!");
+//                            playSound("winningSound.wav");
+//                        } else {
+//                            System.out.println("Black wins!");
+//                            playSound("losingSound.wav");
+//                        }
+//                        System.out.println();
+//                    } else {
+//                        System.out.println("Stalemate!");
+//                        System.out.println();
+//                        playSound("drawSound.wav");
+//                    }
+//
+//                    System.out.println();
+//                    System.out.println("Would you like to play again? (Y/N)");
+//                    Scanner s = new Scanner(System.in);
+//                    String playAgain = s.nextLine();
+//                    while (true) {
+//                        if (playAgain.toUpperCase(Locale.ROOT).equals("Y")) {
+//                            // TODO: Play again
+//                            System.exit(0);
+//                        } else if (playAgain.toUpperCase(Locale.ROOT).equals("N")) {
+//                            System.out.println();
+//                            System.out.println("Thanks for playing!");
+//                            System.exit(0);
+//                        } else {
+//                            System.out.println("Invalid option. Please try again.");
+//                            System.out.println();
+//                        }
+//                    }
+//                } else {
+//                    System.out.println("isn't trapped");
+//                }
+//            }
+//        }
     }
 
     private static int pieceIndices(Piece piece) {

@@ -123,56 +123,17 @@ public class Pawn extends Piece {
     @Override
     public LinkedList<Integer> getLegalMoves() {
 
-        // FIXME: Some mates don't work, still thinks pawns have legal moves
+        LinkedList<Integer> squares = getLegalSquaresAttacked();
 
-        LinkedList<Integer> squares = new LinkedList<>();
-
-        recentCapture = null;
-
-        setMovementDirection();
-
-        for (int square : squaresAttacked) {
-            int initialCoordinate = coordinate;
-            move(square);
-
-            if (coordinate != initialCoordinate) {
-                boolean pieceChecks = false;
-                for (int i = 0; i < pieces.size(); i++) {
-                    if (pieces.get(i).isWhite != isWhite) {
-                        pieces.get(i).squaresAttacked = pieces.get(i).getSquaresAttacked();
-                        if (pieces.get(i).checksKing()) {
-                            pieceChecks = true;
-                            break;
-                        }
-                    }
-                }
-                Piece newPiece = null;
-                if (recentCapture != null) {
-                    newPiece = recentCapture;
-                    pieces.add(newPiece);
-                    recentCapture = null;
-                }
-                coordinate = initialCoordinate;
-                if (newPiece != null) {
-                    newPiece.updatePiece();
-                }
-
-                for (int i = 0; i < pieces.size(); i++) {
-                    if (pieces.get(i).isWhite != isWhite) {
-                        pieces.get(i).updatePiece();
-                    }
-                }
-
-                if (!pieceChecks) {
-                    if (Board.getPiece(square / 10 * 64, square % 10 * 64) != null) {
-                        squares.add(square);
-                    } else if (Board.getPiece(square / 10 * 64, (square - movementDirection) % 10 * 64) != null) {
-                        if (Board.getPiece(square / 10 * 64, (square - movementDirection) % 10 * 64).canBeEnPassant) {
-                            squares.add(square);
-                        }
-                    }
+        for (int i = squares.size() - 1; i >= 0; i--) {
+            if (Board.getPiece(squares.get(i) / 10 * 64, squares.get(i) % 10 * 64) != null) {
+                continue;
+            } else if (Board.getPiece(squares.get(i) / 10 * 64, (squares.get(i) - movementDirection) % 10 * 64) != null) {
+                if (Board.getPiece(squares.get(i) / 10 * 64, (squares.get(i) - movementDirection) % 10 * 64).canBeEnPassant) {
+                    continue;
                 }
             }
+            squares.remove(squares.get(i));
         }
 
         int numSquares = 1;
