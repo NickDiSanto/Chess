@@ -22,7 +22,7 @@ public class Board {
 
     public static LinkedList<Piece> pieces = new LinkedList<>();
     public static LinkedList<Integer> squaresAttacked = new LinkedList<>();
-    public static LinkedList<Integer> legalMoves;
+    public static LinkedList<Integer> legalMoves = new LinkedList<>();
     public static Piece selectedPiece = null;
     public static boolean whiteTurn = true;
     public static int initialCoordinate;
@@ -37,7 +37,7 @@ public class Board {
 
 
 
-    public static void main(String[] args) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
+    public static void main(String[] args) throws IOException {
         BufferedImage all = ImageIO.read(new File("chess.png"));
         Image[] images = new Image[12];
         int index = 0;
