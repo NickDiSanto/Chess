@@ -69,7 +69,6 @@ public class King extends Piece {
                 squares.remove(i);
             }
         }
-
         return squares;
     }
 
@@ -83,7 +82,6 @@ public class King extends Piece {
         if (Board.canCastleLong()) {
             squares.add(coordinate - 20);
         }
-
         return squares;
     }
 }

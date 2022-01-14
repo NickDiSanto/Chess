@@ -27,22 +27,26 @@ public class Bishop extends Piece {
 
             for (int i = 1; i <= numSquaresBetween; i++) {
                 if (movingSideways && movingBackwards) {
-                    if (Board.getPiece((coordinate - 10 * i) / 10 * 64, (coordinate - i) % 10 * 64) != null) {
+                    if (Board.getPiece((coordinate - 10 * i) / 10 * 64,
+                            (coordinate - i) % 10 * 64) != null) {
                         updatePiece();
                         return;
                     }
                 } else if (movingSideways) {
-                    if (Board.getPiece((coordinate + 10 * i) / 10 * 64, (coordinate + i) % 10 * 64) != null) {
+                    if (Board.getPiece((coordinate + 10 * i) / 10 * 64,
+                            (coordinate + i) % 10 * 64) != null) {
                         updatePiece();
                         return;
                     }
                 } else if (movingBackwards) {
-                    if (Board.getPiece((coordinate - 10 * i) / 10 * 64, (coordinate + i) % 10 * 64) != null) {
+                    if (Board.getPiece((coordinate - 10 * i) / 10 * 64,
+                            (coordinate + i) % 10 * 64) != null) {
                         updatePiece();
                         return;
                     }
                 } else {
-                    if (Board.getPiece((coordinate + 10 * i) / 10 * 64, (coordinate - i) % 10 * 64) != null) {
+                    if (Board.getPiece((coordinate + 10 * i) / 10 * 64,
+                            (coordinate - i) % 10 * 64) != null) {
                         updatePiece();
                         return;
                     }
@@ -74,7 +78,8 @@ public class Bishop extends Piece {
                 break;
             } else {
                 if (Board.getPiece((coordinate + 10 * i) / 10 * 64, (coordinate + i) % 10 * 64) != null) {
-                    if (Board.getPiece((coordinate + 10 * i) / 10 * 64, (coordinate + i) % 10 * 64).isWhite == isWhite) {
+                    if (Board.getPiece((coordinate + 10 * i) / 10 * 64,
+                            (coordinate + i) % 10 * 64).isWhite == isWhite) {
                         break;
                     }
                     squares.add(coordinate + 11 * i);
@@ -88,7 +93,8 @@ public class Bishop extends Piece {
                 break;
             } else {
                 if (Board.getPiece((coordinate - 10 * i) / 10 * 64, (coordinate + i) % 10 * 64) != null) {
-                    if (Board.getPiece((coordinate - 10 * i) / 10 * 64, (coordinate + i) % 10 * 64).isWhite == isWhite) {
+                    if (Board.getPiece((coordinate - 10 * i) / 10 * 64,
+                            (coordinate + i) % 10 * 64).isWhite == isWhite) {
                         break;
                     }
                     squares.add(coordinate - 9 * i);
@@ -102,7 +108,8 @@ public class Bishop extends Piece {
                 break;
             } else {
                 if (Board.getPiece((coordinate - 10 * i) / 10 * 64, (coordinate - i) % 10 * 64) != null) {
-                    if (Board.getPiece((coordinate - 10 * i) / 10 * 64, (coordinate - i) % 10 * 64).isWhite == isWhite) {
+                    if (Board.getPiece((coordinate - 10 * i) / 10 * 64,
+                            (coordinate - i) % 10 * 64).isWhite == isWhite) {
                         break;
                     }
                     squares.add(coordinate - 11 * i);
@@ -116,7 +123,8 @@ public class Bishop extends Piece {
                 break;
             } else {
                 if (Board.getPiece((coordinate + 10 * i) / 10 * 64, (coordinate - i) % 10 * 64) != null) {
-                    if (Board.getPiece((coordinate + 10 * i) / 10 * 64, (coordinate - i) % 10 * 64).isWhite == isWhite) {
+                    if (Board.getPiece((coordinate + 10 * i) / 10 * 64,
+                            (coordinate - i) % 10 * 64).isWhite == isWhite) {
                         break;
                     }
                     squares.add(coordinate + 9 * i);
@@ -125,7 +133,6 @@ public class Bishop extends Piece {
             }
             squares.add(coordinate + 9 * i);
         }
-
         return squares;
     }
 }

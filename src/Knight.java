@@ -9,8 +9,9 @@ public class Knight extends Piece {
 
     @Override
     public void move(int newCoordinate) {
-        if ((Math.abs(newCoordinate - coordinate) == 8 || Math.abs(newCoordinate - coordinate) == 12 || Math.abs(newCoordinate - coordinate)
-                == 19 || Math.abs(newCoordinate - coordinate) == 21) && newCoordinate >= 0 && newCoordinate <= 77 && newCoordinate % 10 <= 7) {
+        if ((Math.abs(newCoordinate - coordinate) == 8 || Math.abs(newCoordinate - coordinate) == 12
+                || Math.abs(newCoordinate - coordinate) == 19 || Math.abs(newCoordinate - coordinate) == 21)
+                && newCoordinate >= 0 && newCoordinate <= 77 && newCoordinate % 10 <= 7) {
             if (Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64) != null) {
                 if (Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64).isWhite != isWhite) {
                     recentCapture = Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64);
@@ -52,7 +53,6 @@ public class Knight extends Piece {
                 squares.remove(i);
             }
         }
-
         return squares;
     }
 }

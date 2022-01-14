@@ -72,7 +72,8 @@ public class Rook extends Piece {
             if (Board.getPiece((coordinate + 10 * i) / 10 * 64, coordinate % 10 * 64) == null) {
                 squares.add(coordinate + 10 * i);
             } else {
-                if (Board.getPiece((coordinate + 10 * i) / 10 * 64, coordinate % 10 * 64).isWhite != isWhite) {
+                if (Board.getPiece((coordinate + 10 * i) / 10 * 64,
+                        coordinate % 10 * 64).isWhite != isWhite) {
                     squares.add(coordinate + 10 * i);
                 }
                 break;
@@ -82,7 +83,8 @@ public class Rook extends Piece {
             if (Board.getPiece((coordinate - 10 * i) / 10 * 64, coordinate % 10 * 64) == null) {
                 squares.add(coordinate - 10 * i);
             } else {
-                if (Board.getPiece((coordinate - 10 * i) / 10 * 64, coordinate % 10 * 64).isWhite != isWhite) {
+                if (Board.getPiece((coordinate - 10 * i) / 10 * 64,
+                        coordinate % 10 * 64).isWhite != isWhite) {
                     squares.add(coordinate - 10 * i);
                 }
                 break;
@@ -108,13 +110,11 @@ public class Rook extends Piece {
                 break;
             }
         }
-
         for (int i = squares.size() - 1; i >= 0; i--) {
             if (squares.get(i) > 77 || squares.get(i) < 0 || squares.get(i) % 10 > 7) {
                 squares.remove(i);
             }
         }
-
         return squares;
     }
 }

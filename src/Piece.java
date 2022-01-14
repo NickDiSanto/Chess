@@ -45,7 +45,6 @@ public class Piece {
 
     public LinkedList<Integer> getLegalSquaresAttacked() {
         LinkedList<Integer> squares = new LinkedList<>();
-
         recentCapture = null;
 
         for (int square : squaresAttacked) {
@@ -70,7 +69,6 @@ public class Piece {
                     pieces.add(recentCapture);
                     recentCapture = null;
                 }
-
                 for (int i = 0; i < pieces.size(); i++) {
                     if (pieces.get(i).isWhite != isWhite) {
                         pieces.get(i).squaresAttacked = pieces.get(i).getSquaresAttacked();
@@ -82,7 +80,6 @@ public class Piece {
                 }
             }
         }
-
         return squares;
     }
 
