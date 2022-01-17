@@ -240,9 +240,9 @@ public class Board {
                         selectedPiece.hasMoved = true;
 
                         if (selectedPiece.recentCapture != null) {
-                            playSound("captureSound.wav");
+                            playSound("sound_effects/captureSound.wav");
                         } else {
-                            playSound("moveSound.wav");
+                            playSound("sound_effects/moveSound.wav");
                         }
                         if (Math.abs(selectedPiece.coordinate - initialCoordinate) != 2
                                 || selectedPiece.pieceType != 'P') {
@@ -269,16 +269,16 @@ public class Board {
                                 System.out.println("Checkmate!");
                                 if (!whiteTurn) {
                                     System.out.println("White wins!");
-                                    playSound("winningSound.wav");
+                                    playSound("sound_effects/winningSound.wav");
                                 } else {
                                     System.out.println("Black wins!");
-                                    playSound("losingSound.wav");
+                                    playSound("sound_effects/losingSound.wav");
                                 }
                                 System.out.println();
                             } else {
                                 System.out.println("Stalemate!");
                                 System.out.println();
-                                playSound("drawSound.wav");
+                                playSound("sound_effects/drawSound.wav");
                             }
                             System.out.println("Would you like to play again? (Y/N)");
                             Scanner s = new Scanner(System.in);
