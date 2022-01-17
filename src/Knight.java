@@ -13,9 +13,10 @@ public class Knight extends Piece {
                 || Math.abs(newCoordinate - coordinate) == 19 || Math.abs(newCoordinate - coordinate) == 21)
                 && newCoordinate >= 0 && newCoordinate <= 77 && newCoordinate % 10 <= 7) {
             if (Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64) != null) {
-                if (Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64).isWhite != isWhite) {
-                    recentCapture = Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64);
-                    Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64).capture();
+                Piece piece = Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64);
+                if (piece.isWhite != isWhite) {
+                    recentCapture = piece;
+                    piece.capture();
                 } else {
                     updatePiece();
                     return;

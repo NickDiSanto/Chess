@@ -31,12 +31,11 @@ public class Pawn extends Piece {
                 if (Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64) == null) {
                     if (Board.getPiece((coordinate - (10 * movementDirection)) / 10 * 64,
                             coordinate % 10 * 64) != null) {
-                        if (Board.getPiece((coordinate - (10 * movementDirection)) / 10 * 64,
-                                coordinate % 10 * 64).canBeEnPassant) {
-                            recentCapture = Board.getPiece((coordinate - (10 * movementDirection)) / 10 * 64,
-                                    coordinate % 10 * 64);
-                            Board.getPiece((coordinate - (10 * movementDirection)) / 10 * 64,
-                                    coordinate % 10 * 64).capture();
+                        Piece piece = Board.getPiece((coordinate - (10 * movementDirection)) / 10 * 64,
+                                coordinate % 10 * 64);
+                        if (piece.canBeEnPassant) {
+                            recentCapture = piece;
+                            piece.capture();
                         } else {
                             updatePiece();
                             return;
@@ -46,10 +45,10 @@ public class Pawn extends Piece {
                         return;
                     }
                 } else {
-                    if (Board.getPiece(newCoordinate / 10 * 64,
-                            newCoordinate % 10 * 64).isWhite != isWhite) {
-                        recentCapture = Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64);
-                        Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64).capture();
+                    Piece piece = Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64);
+                    if (piece.isWhite != isWhite) {
+                        recentCapture = piece;
+                        piece.capture();
                     } else {
                         updatePiece();
                         return;
@@ -59,12 +58,11 @@ public class Pawn extends Piece {
                 if (Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64) == null) {
                     if (Board.getPiece((coordinate + (10 * movementDirection)) / 10 * 64,
                             coordinate % 10 * 64) != null) {
-                        if (Board.getPiece((coordinate + (10 * movementDirection)) / 10 * 64,
-                                coordinate % 10 * 64).canBeEnPassant) {
-                            recentCapture = Board.getPiece((coordinate + (10 * movementDirection)) / 10 * 64,
-                                    coordinate % 10 * 64);
-                            Board.getPiece((coordinate + (10 * movementDirection)) / 10 * 64,
-                                    coordinate % 10 * 64).capture();
+                        Piece piece = Board.getPiece((coordinate + (10 * movementDirection)) / 10 * 64,
+                                coordinate % 10 * 64);
+                        if (piece.canBeEnPassant) {
+                            recentCapture = piece;
+                            piece.capture();
                         } else {
                             updatePiece();
                             return;
@@ -74,10 +72,10 @@ public class Pawn extends Piece {
                         return;
                     }
                 } else {
-                    if (Board.getPiece(newCoordinate / 10 * 64,
-                            newCoordinate % 10 * 64).isWhite != isWhite) {
-                        recentCapture = Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64);
-                        Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64).capture();
+                    Piece piece = Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64);
+                    if (piece.isWhite != isWhite) {
+                        recentCapture = piece;
+                        piece.capture();
                     } else {
                         updatePiece();
                         return;
@@ -99,7 +97,7 @@ public class Pawn extends Piece {
         return Board.getPiece((coordinate) / 10 * 64, (coordinate + 1) % 10 * 64) != null;
     }
 
-    public void setMovementDirection() {
+    private void setMovementDirection() {
         movementDirection = 1;
         if (isWhite) {
             movementDirection = -1;
@@ -121,6 +119,20 @@ public class Pawn extends Piece {
                 }
             }
         }
+
+        if (Board.getPiece((coordinate - 10) / 10 * 64, coordinate % 10 * 64) != null) {
+            Piece piece = Board.getPiece((coordinate - 10) / 10 * 64, coordinate % 10 * 64);
+            if (piece.isWhite != isWhite && piece.canBeEnPassant) {
+                squares.add(coordinate - 10 + movementDirection);
+            }
+        }
+        if (Board.getPiece((coordinate + 10) / 10 * 64, coordinate % 10 * 64) != null) {
+            Piece piece = Board.getPiece((coordinate + 10) / 10 * 64, coordinate % 10 * 64);
+            if (piece.isWhite != isWhite && piece.canBeEnPassant) {
+                squares.add(coordinate + 10 + movementDirection);
+            }
+        }
+
         for (int i = squares.size() - 1; i >= 0; i--) {
             if (squares.get(i) > 77 || squares.get(i) < 0 || squares.get(i) % 10 > 7) {
                 squares.remove(i);
@@ -132,19 +144,6 @@ public class Pawn extends Piece {
     @Override
     public LinkedList<Integer> getLegalMoves() {
         LinkedList<Integer> squares = getLegalSquaresAttacked();
-
-        for (int i = squares.size() - 1; i >= 0; i--) {
-            if (Board.getPiece(squares.get(i) / 10 * 64, squares.get(i) % 10 * 64) != null) {
-                continue;
-            } else if (Board.getPiece(squares.get(i) / 10 * 64,
-                    (squares.get(i) - movementDirection) % 10 * 64) != null) {
-                if (Board.getPiece(squares.get(i) / 10 * 64,
-                        (squares.get(i) - movementDirection) % 10 * 64).canBeEnPassant) {
-                    continue;
-                }
-            }
-            squares.remove(squares.get(i));
-        }
 
         int numSquares = 1;
         if (!hasMoved) {

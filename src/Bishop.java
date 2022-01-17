@@ -54,9 +54,10 @@ public class Bishop extends Piece {
             }
 
             if (Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64) != null) {
-                if (Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64).isWhite != isWhite) {
-                    recentCapture = Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64);
-                    Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64).capture();
+                Piece piece = Board.getPiece(newCoordinate / 10 * 64, newCoordinate % 10 * 64);
+                if (piece.isWhite != isWhite) {
+                    recentCapture = piece;
+                    piece.capture();
                 } else {
                     updatePiece();
                     return;
