@@ -66,6 +66,9 @@ public class Piece {
 
                 if (recentCapture != null) {
                     recentCapture.updatePiece();
+//                    if (Board.isCheck()) {
+//                        recentCapture.legalMoves = recentCapture.getLegalMoves();
+//                    }
                     pieces.add(recentCapture);
                     recentCapture = null;
                 }

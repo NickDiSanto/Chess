@@ -15,6 +15,7 @@ import java.util.Scanner;
 public class Board {
 
     // TODO: Add comments
+    // FIXME: Pawns still drag behind
     // FIXME: Some mates don't work, still thinks pawns (and rook?) have legal moves
 
     public static LinkedList<Piece> pieces = new LinkedList<>();
@@ -279,7 +280,6 @@ public class Board {
                                 System.out.println();
                                 playSound("drawSound.wav");
                             }
-                            System.out.println();
                             System.out.println("Would you like to play again? (Y/N)");
                             Scanner s = new Scanner(System.in);
                             String playAgain = s.nextLine();
@@ -303,6 +303,27 @@ public class Board {
                     }
                     selectedPiece = null;
                     frame.repaint();
+
+
+
+
+
+                    for (int i = 0; i < pieces.size(); i++) {
+                        if (!pieces.get(i).isWhite) {
+                            System.out.println(pieces.get(i).pieceType);
+                            System.out.println(pieces.get(i).coordinate);
+                            System.out.println(pieces.get(i).legalMoves);
+                            System.out.println();
+                        }
+                    }
+                    System.out.println();
+                    System.out.println();
+                    System.out.println();
+
+
+
+
+
                 } catch (NullPointerException ignored) {
                 } catch (UnsupportedAudioFileException | LineUnavailableException |
                         IOException unsupportedAudioFileException) {
@@ -519,10 +540,10 @@ public class Board {
         for (Piece piece : pieces) {
             if (piece.isWhite == whiteTurn) {
                 if (piece.legalMoves.size() != 0) {
-                    System.out.println(piece.pieceType);
-                    System.out.println(piece.coordinate);
-                    System.out.println(piece.legalMoves);
-                    System.out.println();
+//                    System.out.println(piece.pieceType);
+//                    System.out.println(piece.coordinate);
+//                    System.out.println(piece.legalMoves);
+//                    System.out.println();
                     return false;
                 }
             }
