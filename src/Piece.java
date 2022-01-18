@@ -26,7 +26,7 @@ public class Piece {
     public Piece(int coordinate, boolean isWhite, boolean hasMoved, boolean canBeEnPassant, char pieceType,
                  LinkedList<Integer> squaresAttacked, LinkedList<Integer> legalMoves, LinkedList<Piece> pieces) {
         this.coordinate = coordinate;
-        xPixel = coordinate / 10 * 64;      // converts coordinate to x and y pixels
+        xPixel = coordinate / 10 * 64;
         yPixel = coordinate % 10 * 64;
         this.isWhite = isWhite;
         this.hasMoved = hasMoved;
@@ -36,10 +36,10 @@ public class Piece {
         this.legalMoves = legalMoves;
         this.pieces = pieces;
 
-        pieces.add(this);       // adds to the list of active pieces
+        pieces.add(this);
     }
 
-    // is overridden by each individual piece
+    // is overridden by each individual piece class
     public void move (int newCoordinate) {
     }
 
@@ -53,7 +53,7 @@ public class Piece {
         return null;
     }
 
-    // is overridden by each individual piece, except the pawn and king
+    // returns the legal moves a piece can make (is overridden by the pawn and king class)
     public LinkedList<Integer> getLegalMoves() {
         return getLegalSquaresAttacked();
     }
@@ -62,12 +62,12 @@ public class Piece {
     public LinkedList<Integer> getLegalSquaresAttacked() {
         LinkedList<Integer> squares = new LinkedList<>();
 
-        recentCapture = null;                       // resets recentCapture in case it previously held a value
-        squaresAttacked = getSquaresAttacked();     // updates the squares threatened
+        recentCapture = null;
+        squaresAttacked = getSquaresAttacked();
 
         // tests each square threatened to see if it is a legal move
         for (int square : squaresAttacked) {
-            int initialCoordinate = coordinate;     // stores original coordinate
+            int initialCoordinate = coordinate;
             move(square);
 
             if (coordinate != initialCoordinate) {      // in case of successful move
@@ -81,7 +81,7 @@ public class Piece {
                         }
                     }
                 }
-                coordinate = initialCoordinate;     // restore original coordinate
+                coordinate = initialCoordinate;
 
                 // if the test move captured a piece, restore and update it
                 if (recentCapture != null) {
@@ -90,7 +90,6 @@ public class Piece {
                     recentCapture = null;
                 }
 
-                // update the pieces of the opposing color
                 for (int i = 0; i < pieces.size(); i++) {
                     if (pieces.get(i).isWhite != isWhite) {
                         pieces.get(i).updatePiece();
@@ -119,7 +118,7 @@ public class Piece {
 
     // updates the piece on the board and its squares threatened
     public void updatePiece() {
-        xPixel = coordinate / 10 * 64;      // converts coordinate to x and y pixels
+        xPixel = coordinate / 10 * 64;
         yPixel = coordinate % 10 * 64;
         squaresAttacked = getSquaresAttacked();
     }

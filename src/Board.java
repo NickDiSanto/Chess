@@ -42,7 +42,7 @@ public class Board {
         Image[] images = new Image[12];
         int index = 0;
 
-        // reads individual pieces off of pieces.png
+        // reads each piece off of pieces.png
         for (int y = 0; y < 2; y++) {
             for (int x = 0; x < 6; x++) {
                 images[index] = all.getSubimage(x * 200, y * 200, 200,
@@ -173,7 +173,7 @@ public class Board {
                 // adds grey dots to show where the current legal moves are
                 g.setColor(new Color(90, 90, 90));
                 for (int square : selectedPiece.legalMoves) {
-                    // if there is a piece, highlight the piece's square
+                    // if there is a piece, highlights the piece's square
                     if (Board.getPiece(square / 10 * 64, square % 10 * 64) != null) {
                         Piece piece = Board.getPiece(square / 10 * 64, square % 10 * 64);
                         g.fillRect(square / 10 * 64, square % 10 * 64, 64, 64);
@@ -243,17 +243,15 @@ public class Board {
             public void mousePressed(MouseEvent e) {
                 try {
                     selectedPiece = getPiece(e.getX(), e.getY());
+                    assert selectedPiece != null;
                     if (selectedPiece.isWhite != whiteTurn) {
                         return;
                     }
-                    // sets initialCoordinate to the pixels pressed on
                     initialCoordinate = e.getX() / 64 * 10 + e.getY() / 64;
-
-                    // scans the threats and legal moves of the piece
                     selectedPiece.squaresAttacked = selectedPiece.getSquaresAttacked();
                     selectedPiece.legalMoves = selectedPiece.getLegalMoves();
                 } catch (NullPointerException exception) {
-                    System.out.println("No piece selected.");       // in the case an empty square is selected
+                    System.out.println("No piece selected.");
                     System.out.println("Please try again.");
                     System.out.println();
                 }
@@ -265,15 +263,16 @@ public class Board {
                     if (selectedPiece.isWhite != whiteTurn) {
                         return;
                     }
-                    selectedPiece.recentCapture = null;      //  resets recentCapture in case it previously held a value
+                    selectedPiece.recentCapture = null;
 
-                    // gets the coordinate of the pixels released on
                     int newCoordinate = e.getX() / 64 * 10 + e.getY() / 64;
 
+                    // if the given coordinate is legal, moves the selected piece
                     if (selectedPiece.legalMoves.contains(newCoordinate)) {
-                        selectedPiece.move(newCoordinate);      // moves selected piece
+                        selectedPiece.move(newCoordinate);
                         selectedPiece.hasMoved = true;
 
+                        // plays sound effect, depending on if there was a capture
                         if (selectedPiece.recentCapture != null) {
                             playSound("sound_effects/captureSound.wav");
                         } else {
@@ -292,15 +291,12 @@ public class Board {
                             pawnPromotion(); // FIXME: Should happen outside mouseReleased so it can repaint
                         }
 
-                        // updates the pieces of the selected piece's color
                         for (int i = 0; i < pieces.size(); i++) {
                             if (pieces.get(i).isWhite == selectedPiece.isWhite) {
                                 pieces.get(i).updatePiece();
                                 pieces.get(i).legalMoves = pieces.get(i).getLegalMoves();
                             }
                         }
-
-                        // updates the pieces of the opposite color
                         for (int i = 0; i < pieces.size(); i++) {
                             if (pieces.get(i).isWhite != selectedPiece.isWhite) {
                                 pieces.get(i).updatePiece();
@@ -309,7 +305,7 @@ public class Board {
                             }
                         }
 
-                        // updates the lastInit and lastMove for highlighting
+                        // updates the lastInitialCoordinate and lastMove for highlighting purposes
                         lastInitialCoordinate = initialCoordinate;
                         lastMove = selectedPiece.coordinate;
 
@@ -329,7 +325,6 @@ public class Board {
                                 }
                                 System.out.println();
                             } else {
-                                // in the case that it is not check
                                 System.out.println("Stalemate!");
                                 System.out.println();
                                 playSound("sound_effects/drawSound.wav");
@@ -352,16 +347,17 @@ public class Board {
                                 }
                             }
                         }
+                    // if the given coordinate is not a legal move
                     } else {
                         selectedPiece.coordinate = initialCoordinate;
                         selectedPiece.updatePiece();
                     }
-                    selectedPiece = null;       // resets selectedPiece to null
+                    selectedPiece = null;
                     frame.repaint();
 
-                } catch (NullPointerException ignored) {        // in the case that empty square is selected
+                } catch (NullPointerException ignored) {
                 } catch (UnsupportedAudioFileException | LineUnavailableException |
-                        IOException unsupportedAudioFileException) {   // in the case that the audio file is unavailable
+                        IOException unsupportedAudioFileException) {
                     unsupportedAudioFileException.printStackTrace();
                 }
             }
@@ -405,7 +401,7 @@ public class Board {
 
    // returns the piece at a given coordinate on the board
     public static Piece getPiece(int xPixel, int yPixel) {
-        int xCoordinate = xPixel / 64;      // converts pixels to coordinates
+        int xCoordinate = xPixel / 64;
         int yCoordinate = yPixel / 64;
         for (Piece piece : pieces) {
             if (piece.coordinate / 10 == xCoordinate && piece.coordinate % 10 == yCoordinate) {
@@ -513,7 +509,7 @@ public class Board {
         return true;
     }
 
-    // promotes a pawn when it reaches the end of the board
+    // promotes a pawn when it reaches the end of the board, adding it to the board
     private static void pawnPromotion() {
         // FIXME: Paint pawn onto square?
         pieces.remove(selectedPiece);
@@ -525,7 +521,6 @@ public class Board {
             String piece = s.nextLine().toUpperCase(Locale.ROOT);
             switch (piece) {
                 case "QUEEN":
-                    // replaces pawn with new queen and adds it to the board
                     if (selectedPiece.isWhite) {
                         newPiece = new Queen(selectedPiece.coordinate, true, true,
                                 false,'Q', squaresAttacked, legalMoves, pieces);
@@ -538,7 +533,6 @@ public class Board {
                     System.out.println();
                     break label;
                 case "ROOK":
-                    // replaces pawn with new rook and adds it to the board
                     if (selectedPiece.isWhite) {
                         newPiece = new Rook(selectedPiece.coordinate, true, true,
                                 false, 'R', squaresAttacked, legalMoves, pieces);
@@ -551,7 +545,6 @@ public class Board {
                     System.out.println();
                     break label;
                 case "BISHOP":
-                    // replaces pawn with new bishop and adds it to the board
                     if (selectedPiece.isWhite) {
                         newPiece = new Bishop(selectedPiece.coordinate, true, true,
                                 false, 'B', squaresAttacked, legalMoves, pieces);
@@ -564,7 +557,6 @@ public class Board {
                     System.out.println();
                     break label;
                 case "KNIGHT":
-                    // replaces pawn with new knight and adds it to the board
                     if (selectedPiece.isWhite) {
                         newPiece = new Knight(selectedPiece.coordinate, true, true,
                                 false, 'N', squaresAttacked, legalMoves, pieces);
