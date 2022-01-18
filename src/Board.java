@@ -15,8 +15,7 @@ import java.util.Scanner;
 public class Board {
 
     // TODO: Add comments
-    // FIXME: Pawns still drag behind
-    // FIXME: Some mates don't work, still thinks pawns (and rook?) have legal moves
+    // FIXME: Some mates don't work, still thinks pawns have legal moves
 
     public static LinkedList<Piece> pieces = new LinkedList<>();
     public static LinkedList<Integer> squaresAttacked = new LinkedList<>();
@@ -148,9 +147,6 @@ public class Board {
                 g.setColor(new Color(110, 130, 70));
                 g.fillRect(initialCoordinate / 10 * 64, initialCoordinate % 10 * 64, 64, 64);
 
-                selectedPiece.squaresAttacked = selectedPiece.getSquaresAttacked();
-                selectedPiece.legalMoves = selectedPiece.getLegalMoves();
-
                 g.setColor(new Color(90, 90, 90));
                 for (int square : selectedPiece.legalMoves) {
                     int index;
@@ -219,6 +215,8 @@ public class Board {
                         return;
                     }
                     initialCoordinate = e.getX() / 64 * 10 + e.getY() / 64;
+                    selectedPiece.squaresAttacked = selectedPiece.getSquaresAttacked();
+                    selectedPiece.legalMoves = selectedPiece.getLegalMoves();
                 } catch (NullPointerException exception) {
                     System.out.println("No piece selected.");
                     System.out.println("Please try again.");
@@ -257,7 +255,12 @@ public class Board {
                         for (int i = 0; i < pieces.size(); i++) {
                             pieces.get(i).updatePiece();
                             pieces.get(i).legalMoves = pieces.get(i).getLegalMoves();
-                        }
+                        } // FIXME: Why does refreshing twice help?
+//                        for (int i = 0; i < pieces.size(); i++) {
+//                            pieces.get(i).updatePiece();
+//                            pieces.get(i).legalMoves = pieces.get(i).getLegalMoves();
+//                        }
+
                         lastInitialCoordinate = initialCoordinate;
                         lastMove = selectedPiece.coordinate;
 

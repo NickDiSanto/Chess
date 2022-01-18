@@ -74,7 +74,7 @@ public class Piece {
                 }
                 for (int i = 0; i < pieces.size(); i++) {
                     if (pieces.get(i).isWhite != isWhite) {
-                        pieces.get(i).squaresAttacked = pieces.get(i).getSquaresAttacked();
+                        pieces.get(i).updatePiece();
                     }
                 }
 

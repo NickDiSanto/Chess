@@ -167,7 +167,7 @@ public class Pawn extends Piece {
                 canBeEnPassant = initialEnPassant;
                 for (int j = 0; j < pieces.size(); j++) {
                     if (pieces.get(j).isWhite != isWhite) {
-                        pieces.get(j).updatePiece();
+                        pieces.get(j).squaresAttacked = pieces.get(j).getSquaresAttacked();
                     }
                 }
 
