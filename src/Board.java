@@ -15,7 +15,6 @@ import java.util.Scanner;
 public class Board {
 
     // TODO: Add comments
-    // FIXME: Some mates don't work, still thinks pawns have legal moves
 
     public static LinkedList<Piece> pieces = new LinkedList<>();
     public static LinkedList<Integer> squaresAttacked = new LinkedList<>();
@@ -256,10 +255,10 @@ public class Board {
                             pieces.get(i).updatePiece();
                             pieces.get(i).legalMoves = pieces.get(i).getLegalMoves();
                         } // FIXME: Why does refreshing twice help?
-//                        for (int i = 0; i < pieces.size(); i++) {
-//                            pieces.get(i).updatePiece();
-//                            pieces.get(i).legalMoves = pieces.get(i).getLegalMoves();
-//                        }
+                        for (int i = 0; i < pieces.size(); i++) {
+                            pieces.get(i).updatePiece();
+                            pieces.get(i).legalMoves = pieces.get(i).getLegalMoves();
+                        }
 
                         lastInitialCoordinate = initialCoordinate;
                         lastMove = selectedPiece.coordinate;

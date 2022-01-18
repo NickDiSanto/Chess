@@ -65,11 +65,10 @@ public class Piece {
                 coordinate = initialCoordinate;
 
                 if (recentCapture != null) {
-                    recentCapture.updatePiece();
-//                    if (Board.isCheck()) {
-//                        recentCapture.legalMoves = recentCapture.getLegalMoves();
-//                    }
                     pieces.add(recentCapture);
+                    recentCapture.updatePiece();
+                    // FIXME: getLegalMoves fixes smothered mate, breaks other mates
+//                    recentCapture.legalMoves = recentCapture.getLegalMoves();
                     recentCapture = null;
                 }
                 for (int i = 0; i < pieces.size(); i++) {
