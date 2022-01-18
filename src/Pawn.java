@@ -1,5 +1,16 @@
 import java.util.LinkedList;
 
+/**
+ * The Pawn class is an extension of the Piece class, overriding its methods
+ * to implement its own specific functionality.
+ *
+ * Some unique operations of pawns include only moving forward, pawn promotion,
+ * capturing diagonally, moving two squares on the first move, and en passant.
+ *
+ * @version     18 January 2022
+ * @author      Nick DiSanto
+ */
+
 public class Pawn extends Piece {
 
     public Pawn(int coordinate, boolean isWhite, boolean hasMoved, boolean canBeEnPassant, char pieceType,
