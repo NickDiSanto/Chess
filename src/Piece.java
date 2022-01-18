@@ -47,6 +47,21 @@ public class Piece {
         LinkedList<Integer> squares = new LinkedList<>();
         recentCapture = null;
 
+
+
+
+        squaresAttacked = getSquaresAttacked();
+
+
+
+
+
+
+
+
+
+
+
         for (int square : squaresAttacked) {
             int initialCoordinate = coordinate;
             move(square);
@@ -67,8 +82,6 @@ public class Piece {
                 if (recentCapture != null) {
                     pieces.add(recentCapture);
                     recentCapture.updatePiece();
-                    // FIXME: getLegalMoves fixes smothered mate, breaks other mates
-//                    recentCapture.legalMoves = recentCapture.getLegalMoves();
                     recentCapture = null;
                 }
                 for (int i = 0; i < pieces.size(); i++) {

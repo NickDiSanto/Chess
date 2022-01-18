@@ -24,11 +24,10 @@ public class Board {
     public static int initialCoordinate;
     public static int lastInitialCoordinate = Integer.MAX_VALUE;
     public static int lastMove = Integer.MAX_VALUE;
-//    public static boolean canPromote = false;
 //    public static boolean kingTrapped = false;
 
     public static void main(String[] args) throws IOException {
-        BufferedImage all = ImageIO.read(new File("chess.png"));
+        BufferedImage all = ImageIO.read(new File("pieces.png"));
         Image[] images = new Image[12];
         int index = 0;
         for (int y = 0; y < 2; y++) {
@@ -247,17 +246,21 @@ public class Board {
                         }
                         if (selectedPiece.pieceType == 'P' && (selectedPiece.coordinate % 10 == 7
                                 || selectedPiece.coordinate % 10 == 0)) {
-//                            canPromote = true;
                             pawnPromotion(); // FIXME: Should happen outside mouseReleased so it can repaint
                         }
 
                         for (int i = 0; i < pieces.size(); i++) {
-                            pieces.get(i).updatePiece();
-                            pieces.get(i).legalMoves = pieces.get(i).getLegalMoves();
-                        } // FIXME: Why does refreshing twice help?
+                            if (pieces.get(i).isWhite == selectedPiece.isWhite) {
+                                pieces.get(i).updatePiece();
+                                pieces.get(i).legalMoves = pieces.get(i).getLegalMoves();
+                            }
+                        }
                         for (int i = 0; i < pieces.size(); i++) {
-                            pieces.get(i).updatePiece();
-                            pieces.get(i).legalMoves = pieces.get(i).getLegalMoves();
+                            if (pieces.get(i).isWhite != selectedPiece.isWhite) {
+                                pieces.get(i).updatePiece();
+                                pieces.get(i).legalMoves = pieces.get(i).getLegalMoves();
+                                pieces.get(i).legalMoves = pieces.get(i).getLegalMoves();
+                            }
                         }
 
                         lastInitialCoordinate = initialCoordinate;
@@ -282,10 +285,10 @@ public class Board {
                                 System.out.println();
                                 playSound("sound_effects/drawSound.wav");
                             }
-                            System.out.println("Would you like to play again? (Y/N)");
-                            Scanner s = new Scanner(System.in);
-                            String playAgain = s.nextLine();
                             while (true) {
+                                System.out.println("Would you like to play again? (Y/N)");
+                                Scanner s = new Scanner(System.in);
+                                String playAgain = s.nextLine();
                                 if (playAgain.toUpperCase(Locale.ROOT).equals("Y")) {
                                     // TODO: Play again
                                     System.exit(0);
@@ -305,26 +308,6 @@ public class Board {
                     }
                     selectedPiece = null;
                     frame.repaint();
-
-
-
-
-
-                    for (int i = 0; i < pieces.size(); i++) {
-                        if (!pieces.get(i).isWhite) {
-                            System.out.println(pieces.get(i).pieceType);
-                            System.out.println(pieces.get(i).coordinate);
-                            System.out.println(pieces.get(i).legalMoves);
-                            System.out.println();
-                        }
-                    }
-                    System.out.println();
-                    System.out.println();
-                    System.out.println();
-
-
-
-
 
                 } catch (NullPointerException ignored) {
                 } catch (UnsupportedAudioFileException | LineUnavailableException |
@@ -466,7 +449,7 @@ public class Board {
     }
 
     private static void pawnPromotion() {
-        // TODO: Paint pawn onto square?
+        // FIXME: Paint pawn onto square?
         pieces.remove(selectedPiece);
         Piece newPiece;
         label:
@@ -542,10 +525,6 @@ public class Board {
         for (Piece piece : pieces) {
             if (piece.isWhite == whiteTurn) {
                 if (piece.legalMoves.size() != 0) {
-//                    System.out.println(piece.pieceType);
-//                    System.out.println(piece.coordinate);
-//                    System.out.println(piece.legalMoves);
-//                    System.out.println();
                     return false;
                 }
             }
@@ -553,12 +532,14 @@ public class Board {
         return true;
     }
 
-    static void playSound(String soundFile) throws LineUnavailableException,
+    private static void playSound(String soundFile) throws LineUnavailableException,
             IOException, UnsupportedAudioFileException {
         File f = new File("./" + soundFile);
         AudioInputStream audioIn = AudioSystem.getAudioInputStream(f.toURI().toURL());
         Clip clip = AudioSystem.getClip();
         clip.open(audioIn);
+        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+        gainControl.setValue(-10.0f);
         clip.start();
     }
 }
