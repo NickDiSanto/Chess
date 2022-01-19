@@ -401,6 +401,7 @@ public class Board {
         if (Board.getPiece(lastSquare / 10 * 64, lastSquare % 10 * 64) != null) {
             Piece piece = Board.getPiece(lastSquare / 10 * 64, lastSquare % 10 * 64);
             g.fillRect(lastSquare / 10 * 64, lastSquare % 10 * 64, 64, 64);
+            assert piece != null;
             int index = pieceIndices(piece, piece.isWhite);
             g.drawImage(images[index], piece.xPixel, piece.yPixel, jPanel);
         } else {
