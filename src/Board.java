@@ -13,6 +13,15 @@ import java.util.Locale;
 import java.util.Scanner;
 
 /**
+ *
+ * This Chess project is a robust, yet highly optimized object-oriented attempt at implementing a
+ * full online chess game, with rules in place for both legality and aesthetic.
+ *
+ * AS OF 18 JANUARY 2022:
+ * This project is still subject to optimization and bug fixes.
+ *
+ *
+ *
  * The Board class utilizes the JFrame and JPanel classes to paint the chess board and add pieces.
  * This class highlights notable squares during the game, utilizes the mouseMotionListener interface to
  * detect when pieces are being interacted with, and determines and executes important functions
